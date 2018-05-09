@@ -1,13 +1,15 @@
 package Main;
 
+import java.awt.Component;
+
 import javax.swing.JFrame;
 
 public class Main {
 	
 	private JFrame frame;
 	private GamePanel g;
-	private final static int width;
-	private final static int height;
+	private final static int width = 800;
+	private final static int height = 800;
 	
 	public Main() {
 		frame = new JFrame();
