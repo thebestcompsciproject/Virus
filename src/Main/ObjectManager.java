@@ -8,7 +8,7 @@ public class ObjectManager {
 	private ArrayList<GameObject> objects;
 	
 	private long time = 0;
-	private int spawnTime = 500; //milliseconds to spawn a new triangle on the map;
+	private int spawnTime = 500; //milliseconds to spawn a new triangle on the map
 	int totalTriangles = 0;
 	
 	public ObjectManager() {
@@ -44,7 +44,7 @@ public class ObjectManager {
 	
 	public void manageMap() {
 		if(System.currentTimeMillis() - time >= spawnTime) {
-			addObject(new Triangle(0, 0, 0, 0, null, null, 0)); //edit
+			addObject(new Triangle(0, 0, 0, 0, null, null, 0, null)); //edit
 			totalTriangles++;
 			time = System.currentTimeMillis();
 		}

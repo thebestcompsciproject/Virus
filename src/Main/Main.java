@@ -1,3 +1,4 @@
+//Muruhathasan
 package Main;
 
 import javax.swing.JFrame;
@@ -5,7 +6,7 @@ import javax.swing.JFrame;
 public class Main {
 	
 	JFrame frame;
-	GamePanel g;
+	GamePanel panel;
 	final static int width = 1000;
 	final static int height = 800;
 	
@@ -19,14 +20,14 @@ public class Main {
 		frame.setSize(width, height);
 		frame.setLocation(0,0);
 		frame.setVisible(true);
-		g.start();
+		panel.start();
 	}
 	
 	public Main() {
 		frame = new JFrame();
-		g = new GamePanel();
-		frame.add(g);
-		//frame.addMouseListener(g);
-		//frame.addKeyListener(g);
+		panel= new GamePanel();
+		frame.add(panel);
+		frame.addKeyListener(panel);
+		frame.addMouseListener(panel);
 	}
 }

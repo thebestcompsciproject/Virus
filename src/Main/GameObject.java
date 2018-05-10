@@ -1,5 +1,7 @@
+//Tomar
 package Main;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class GameObject
@@ -7,6 +9,7 @@ public class GameObject
     protected double x;
     protected double y;
     protected double direction;
+    protected Color color;
     
     public GameObject()
     {
@@ -27,6 +30,10 @@ public class GameObject
     {
         return x;  
     }
+    
+    public Color getColor() {
+    		return color;
+    }
 
     public void draw(Graphics g)
     {
@@ -37,8 +44,7 @@ public class GameObject
 		
 	}
 
-	public boolean isAlive() {
-		// TODO Auto-generated method stub
+	public boolean isAlive() { //finish
 		return false;
 	}
 }

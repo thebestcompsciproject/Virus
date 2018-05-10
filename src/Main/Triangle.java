@@ -1,6 +1,9 @@
+//Muruhathasan
 package Main;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Polygon;
 
 public class Triangle extends GameObject{
 
@@ -11,9 +14,9 @@ public class Triangle extends GameObject{
 	private Player player;
 	private int index;
 	
-	private double height = Math.sqrt(3)*side/2;
+	private double height;
 	
-	public Triangle(double xref, double yref, double direction, double side, String type, Player player, int index) {
+	public Triangle(double xref, double yref, double direction, double side, String type, Player player, int index, Color color) {
 		super();
 		this.xref = xref;
 		this.yref = yref;
@@ -24,6 +27,8 @@ public class Triangle extends GameObject{
 		this.index = index;
 		this.x = xref + player.getX();
 		this.y = yref + player.getY();
+		height = player.getHeight();
+		this.color = color;
 	}
 	
 	public void update() {
@@ -35,22 +40,18 @@ public class Triangle extends GameObject{
 		int[] xcord = new int[3];
 		int[] ycord = new int[3];
 		for(int i = 0 ; i<3; i++) {
-			xcord[i] = (int)(x+2*(height/3)*Math.sin(Math.toRadians(direction+i*120)));
-			ycord[i] = (int)(y+2*(height/3)*Math.cos(Math.toRadians(direction+i*120)));
+			xcord[i] = (int)(x+2.0/3*height*Math.sin(Math.toRadians(direction+i*120)));
+			ycord[i] = (int)(y+2.0/3*height*Math.cos(Math.toRadians(direction+i*120)));
 		}
-		g.drawPolygon(xcord, ycord, 3);
-	}
-
-	public double getX() {
-		return x;
-	}
-	
-	public double getY() {
-		return y;
+		Polygon p = new Polygon(xcord, ycord, 3);
+		g.setColor(color);
+		g.fillPolygon(p);
+		g.drawPolygon(p);
 	}
 	
-	public double getDirection() {
-		return direction;
+	public void setCenter(double x, double y) {
+		this.x = x+xref;
+		this.y = y+yref;
 	}
 	
 	public double getSide() {
@@ -65,7 +66,3 @@ public class Triangle extends GameObject{
 		return index;
 	}
 }
-
-
-
-
