@@ -46,6 +46,7 @@ public class Triangle extends GameObject{
 		Polygon p = new Polygon(xcord, ycord, 3);
 		g.setColor(color);
 		g.fillPolygon(p);
+		g.setColor(Color.BLACK);
 		g.drawPolygon(p);
 	}
 	

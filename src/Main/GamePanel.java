@@ -84,16 +84,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			p.removeTriangle();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_W) {
-			p.changeVelocity(0,-0.5);
+			p.changeVelocity(0,-0.25);
 		}
 		if(e.getKeyCode() == KeyEvent.VK_A) {
-			p.changeVelocity(-0.5,0);
+			p.changeVelocity(-0.25,0);
 		}
 		if(e.getKeyCode() == KeyEvent.VK_S) {
-			p.changeVelocity(0,0.5);
+			p.changeVelocity(0,0.25);
 		}
 		if(e.getKeyCode() == KeyEvent.VK_D) {
-			p.changeVelocity(0.5,0);
+			p.changeVelocity(0.25,0);
 		}
 	}
 
