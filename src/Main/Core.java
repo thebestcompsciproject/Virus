@@ -3,14 +3,14 @@ package Main;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-public class Core extends Player{
+public class Core extends GameObject{
 
 	private ArrayList<Triangle> reserve;
 	private ArrayList<Boolean> drawn;
 	private Player player;
 	
-	public Core(double x, double y, double direction, Player player) {
-		super(x, y, direction);
+	public Core(Player player) {
+		super();
 		this.player = player;
 		reserve = new ArrayList<Triangle>();
 		drawn = new ArrayList<Boolean>();
@@ -18,7 +18,7 @@ public class Core extends Player{
 	
 	public void initiateReserve() {
 		double direction = 180;
-		height = player.getHeight();
+		double height = player.getHeight();
 		for(int i = 0; i<6; i++) {
 			Triangle add = new Triangle((2*height/3)*Math.sin(Math.toRadians(i*60)), (2*height/3)*Math.cos(Math.toRadians(i*60)), direction, height, "core", player, i);
 			reserve.add(add);

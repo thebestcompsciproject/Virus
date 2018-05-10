@@ -10,11 +10,15 @@ public class Player extends GameObject{
 	private Core core;
 	
 	double side = 1;
+	double height = (Math.sqrt(3)*side)/2;
 	
 	public Player(double x, double y, double direction) {
+		super();
 		reserve = new ArrayList<Triangle>();
 		drawn = new ArrayList<Boolean>();
-		super(x, y, direction);
+		this.x = x;
+		this.y = y;
+		this.direction = direction;
 		core = new Core(this);
 		constructTriangles();
 		constructDrawn();
@@ -84,6 +88,11 @@ public class Player extends GameObject{
 	
 	public Core getCore() {
 		return core;
+	}
+
+	public double getHeight() {
+		// TODO Auto-generated method stub
+		return height;
 	}
 }
 

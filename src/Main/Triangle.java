@@ -1,4 +1,4 @@
-package GamePractice;
+package Main;
 
 import java.awt.Graphics;
 
@@ -6,17 +6,15 @@ public class Triangle extends GameObject{
 
 	private double xref;
 	private double yref;
-	private double direction;
 	private double side;
 	private String type;
 	private Player player;
 	private int index;
 	
 	private double height = Math.sqrt(3)*side/2;
-	private double x;
-	private double y;
 	
 	public Triangle(double xref, double yref, double direction, double side, String type, Player player, int index) {
+		super();
 		this.xref = xref;
 		this.yref = yref;
 		this.direction = direction;
@@ -24,8 +22,8 @@ public class Triangle extends GameObject{
 		this.type = type;
 		this.player = player;
 		this.index = index;
-		x = xref + player.getX();
-		y = yref + player.getY();
+		this.x = xref + player.getX();
+		this.y = yref + player.getY();
 	}
 	
 	public void update() {

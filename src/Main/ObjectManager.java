@@ -44,7 +44,7 @@ public class ObjectManager {
 	
 	public void manageMap() {
 		if(System.currentTimeMillis() - time >= spawnTime) {
-			addObject(new Triangle());
+			addObject(new Triangle(0, 0, 0, 0, null, null, 0)); //edit
 			totalTriangles++;
 			time = System.currentTimeMillis();
 		}
@@ -55,7 +55,7 @@ public class ObjectManager {
 			for(int j = i+1; j<objects.size(); j++) {
 				GameObject o1 = objects.get(i);
 				GameObject o2 = objects.get(j);
-				int distance = Math.pow(Math.pow(o1.getX() + o2.getX(), 2) + o1.getY() + o2.getY(), 2), 1/2);
+				double distance = Math.sqrt(Math.pow(o1.getX() + o2.getX(), 2) + Math.pow(o1.getY() + o2.getY(), 2));
 				if(o1 instanceof Triangle && o2 instanceof Triangle) {
 					
 				}
