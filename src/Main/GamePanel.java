@@ -78,6 +78,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		
+		int lead = 0; //front
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			p.addTriangle();
 		}
@@ -85,16 +87,40 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			p.removeTriangle();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_W) {
-			p.changeVelocity(0,-0.25);
+			if (lead != 0){
+				p.changeVelocity(0, -0.5);
+			}
+			else {			
+			p.changeVelocity(0,-0.1);
+			lead = 0;
+			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_A) {
-			p.changeVelocity(-0.25,0);
+			if (lead != -90){ //left
+				p.changeVelocity(-.5, 0);
+			}
+			else {
+			p.changeVelocity(-0.1,0);
+			lead = -90;
+			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_S) {
-			p.changeVelocity(0,0.25);
+			if (lead != 180){
+				p.changeVelocity(0,0.50);
+			}
+			else {
+			p.changeVelocity(0,0.1);
+			lead = 180;
+			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_D) {
-			p.changeVelocity(0.25,0);
+			if (lead != 90){
+				p.changeVelocity(0.50, 0);
+			}
+			else {
+			p.changeVelocity(0.1,0);
+			lead = 90;
+			}
 		}
 	}
 
