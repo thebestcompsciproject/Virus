@@ -17,10 +17,20 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 
 	Timer timer;
 	Player p;
+	boolean[] isDown;
 	
 	public GamePanel() {
 		timer = new Timer(5, this);
 		p = new Player(400,400, 0, Color.PINK);
+		initiateIsDown();
+		
+	}
+	
+	public void initiateIsDown() {
+		isDown = new boolean[8];
+		for(int i = 0; i<8; i++) {
+			isDown[i] = false;
+		}
 	}
 	
 	public void start() {
@@ -37,6 +47,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		// TODO Auto-generated method stub
 		repaint();
 		p.update();
+		for(int i = 0; i<8; i++) {
+			if(isDown[i]) {
+				p.updateVelocity(0.01*(i%2)*(2*(i/2)-1),0.01*((i+1)%2)*(2*(i/2)-1));
+			}
+		}
+		
 	}
 
 	@Override
@@ -79,8 +95,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void keyPressed(KeyEvent e) {
 		// TODO Use link below to attempt a smoother moving player
 		//https://stackoverflow.com/questions/15329117/smooth-out-java-paint-animations?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-		
-		int lead = 0; //front
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			p.addTriangle();
 		}
@@ -88,47 +102,36 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			p.removeTriangle();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_W) {
-			if (lead != 0){
-				p.changeVelocity(0, -0.5);
-			}
-			else {			
-			p.changeVelocity(0,-0.1);
-			lead = 0;
-			}
+			isDown[0] = true;
 		}
 		if(e.getKeyCode() == KeyEvent.VK_A) {
-			if (lead != -90){ //left
-				p.changeVelocity(-.5, 0);
-			}
-			else {
-			p.changeVelocity(-0.1,0);
-			lead = -90;
-			}
+			isDown[1] = true;
+
 		}
 		if(e.getKeyCode() == KeyEvent.VK_S) {
-			if (lead != 180){
-				p.changeVelocity(0,0.50);
-			}
-			else {
-			p.changeVelocity(0,0.1);
-			lead = 180;
-			}
+			isDown[2] = true;
+
 		}
 		if(e.getKeyCode() == KeyEvent.VK_D) {
-			if (lead != 90){
-				p.changeVelocity(0.50, 0);
-			}
-			else {
-			p.changeVelocity(0.1,0);
-			lead = 90;
-			}
+			isDown[3] = true;
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(e.getKeyCode() == KeyEvent.VK_W) {
+			isDown[0] = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_A) {
+			isDown[1] = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_S) {
+			isDown[2] = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_D) {
+			isDown[3] = false;
+		}
 	}
 
 }

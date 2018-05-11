@@ -103,7 +103,7 @@ public class Player extends GameObject{
 		}
 	}
 	
-	public void changeVelocity(double x, double y) {
+	public void updateVelocity(double x, double y) {
 		xVel+=x;
 		yVel+=y;
 	}
