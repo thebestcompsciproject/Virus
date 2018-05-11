@@ -77,7 +77,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		// TODO Use link below to attempt a smoother moving player
+		//https://stackoverflow.com/questions/15329117/smooth-out-java-paint-animations?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 		
 		int lead = 0; //front
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
