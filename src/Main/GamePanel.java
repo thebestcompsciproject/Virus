@@ -1,4 +1,4 @@
-//Gurram-Muruhathasan
+//Gurram-Muruhathasan-Fok
 package Main;
 
 import java.awt.Color;
@@ -15,19 +15,19 @@ import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements KeyListener, ActionListener, MouseListener{
 
-	Timer timer;
-	Player p;
-	boolean[] isDown;
+	private Timer timer;
+	private boolean[] isDown;
+	private ObjectManager manager;
 	
 	public GamePanel() {
-		timer = new Timer(5, this);
-		p = new Player(400,400, 0, Color.PINK);
+		timer = new Timer(15, this);
+		manager = new ObjectManager();
 		initiateIsDown();
 		
 	}
 	
 	public void initiateIsDown() {
-		isDown = new boolean[8];
+		isDown = new boolean[11];
 		for(int i = 0; i<8; i++) {
 			isDown[i] = false;
 		}
@@ -39,20 +39,34 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		p.draw(g);
+		manager.draw(g);
+	}
+	
+	public void gameListenerUpdate() {
+		int j = 0;
+		for(int i = 0; i<8; i++) {
+			j = i/4;
+			if(isDown[i]&&manager.getPlayers().get(j).getVelocity()[(i+1)%2]*(2*((i/2)%2)-1)<6.0) {
+				manager.getPlayers().get(j).updateVelocity(0.06*(i%2)*(2*((i/2)%2)-1),0.06*((i+1)%2)*(2*((i/2)%2)-1));
+			}
+		}
+		manager.getPlayers().get(0).updateVelocity(-manager.getPlayers().get(0).getVelocity()[0]*.01, -manager.getPlayers().get(0).getVelocity()[1]*.01);
+		manager.getPlayers().get(1).updateVelocity(-manager.getPlayers().get(1).getVelocity()[0]*.01, -manager.getPlayers().get(1).getVelocity()[1]*.01);
+		if(isDown[8]) {
+			manager.getPlayers().get(0).updateDirection(2.0);
+		}
+		if(isDown[9]) {
+			manager.getPlayers().get(0).updateDirection(-2.0);
+		}
+		//add player 1 shooting
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
-		p.update();
-		for(int i = 0; i<8; i++) {
-			if(isDown[i]) {
-				p.updateVelocity(0.01*(i%2)*(2*(i/2)-1),0.01*((i+1)%2)*(2*(i/2)-1));
-			}
-		}
-		
+		manager.update();
+		gameListenerUpdate();
 	}
 
 	@Override
@@ -81,8 +95,46 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+
+	}
+	
+	public void gameP1Controls(KeyEvent e, boolean state) {
+		if(e.getKeyCode() == KeyEvent.VK_W) {
+			isDown[0] = state;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_A) {
+			isDown[1] = state;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_S) {
+			isDown[2] = state;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_D) {
+			isDown[3] = state;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_T) {
+			isDown[8] = state;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_Y) {
+			isDown[9] = state;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			isDown[10] = state;
+		}
+	}
+	
+	public void gameP2Controls(KeyEvent e, boolean state) {
+		if(e.getKeyCode() == KeyEvent.VK_UP) {
+			isDown[4] = state;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+			isDown[5] = state;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			isDown[6] = state;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			isDown[7] = state;
+		}
 	}
 
 	@Override
@@ -90,48 +142,26 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Use link below to attempt a smoother moving player
-		//https://stackoverflow.com/questions/15329117/smooth-out-java-paint-animations?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			p.addTriangle();
+			manager.getPlayers().get(0).addTriangle();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-			p.removeTriangle();
+			manager.getPlayers().get(0).removeLastTriangle();
 		}
-		if(e.getKeyCode() == KeyEvent.VK_W) {
-			isDown[0] = true;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_A) {
-			isDown[1] = true;
-
-		}
-		if(e.getKeyCode() == KeyEvent.VK_S) {
-			isDown[2] = true;
-
-		}
-		if(e.getKeyCode() == KeyEvent.VK_D) {
-			isDown[3] = true;
-		}
+		
+		gameP1Controls(e, true);
+		gameP2Controls(e, true);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getKeyCode() == KeyEvent.VK_W) {
-			isDown[0] = false;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_A) {
-			isDown[1] = false;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_S) {
-			isDown[2] = false;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_D) {
-			isDown[3] = false;
-		}
+		gameP1Controls(e, false);
+		gameP2Controls(e, false);
 	}
 
 }

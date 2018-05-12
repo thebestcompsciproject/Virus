@@ -10,8 +10,7 @@ public class Player extends GameObject{
 	private ArrayList<Triangle> reserve;
 	private ArrayList<Boolean> drawn;
 	private Core core;
-	private double xVel;
-	private double yVel;
+	private double[] velocity;
 	
 	double side = 40;
 	double height = (Math.sqrt(3)*side)/2;
@@ -24,8 +23,7 @@ public class Player extends GameObject{
 		this.y = y;
 		this.direction = direction;
 		this.color = color;
-		xVel = 0;
-		yVel = 0;
+		velocity = new double[2];
 		core = new Core(this);
 		constructTriangles();
 		constructDrawn();
@@ -42,14 +40,12 @@ public class Player extends GameObject{
 				double x = xref + Math.sin(Math.toRadians(j*60+60))*(height/3);
 				double y = yref + Math.cos(Math.toRadians(j*60+60))*(height/3);
 				for(int k = 0 ; k<(i+1)*2; k++) {
-					//System.out.println("(" + x + ", " + y + ")");
 					reserve.add(new Triangle(x, y, dir, side, "layer", this, index, color));
 					index++;
 					x += Math.sin(Math.toRadians(j*60+120-60*(k%2)))*(2*height/3);
 					y += Math.cos(Math.toRadians(j*60+120-60*(k%2)))*(2*height/3);
 					dir = (dir+180)%360;
 				}
-				//System.out.println("(" + x + ", " + y + ")");
 				reserve.add(new Triangle(x, y, dir, side, "layer", this, index, color));
 				index++;
 				dir = (dir+180)%360;
@@ -58,14 +54,23 @@ public class Player extends GameObject{
 	}
 	
 	public void constructDrawn() {
-		for(int i = 0; i<210; i++) {
+		for(int i = 0; i<18; i++) {
+			drawn.add(true);
+		}
+		for(int i = 0; i<210-18; i++) {
 			drawn.add(false);
 		}
 	}
 	
 	public void update() {
-		x+=xVel;
-		y+=yVel;
+		x+=velocity[0];
+		y+=velocity[1];
+		if(x<0) {
+			setVelocity(-velocity[0],velocity[1]);
+		}
+		if(y<0) {
+			setVelocity(velocity[0],-velocity[1]);
+		}
 		for(int i = 0; i<210; i++) {
 			reserve.get(i).setCenter(x, y);
 		}
@@ -79,6 +84,8 @@ public class Player extends GameObject{
 			if(drawn.get(i))
 				reserve.get(i).draw(g);
 		}
+		
+		g.drawLine((int)x, (int)y, (int)(x+2*Math.sin(Math.toRadians(direction))*side), (int)(y+2*Math.cos(Math.toRadians(direction))*side));
 	}
 	
 	public void addTriangle() {
@@ -94,7 +101,7 @@ public class Player extends GameObject{
 		drawn.set(index, false);
 	}
 	
-	public void removeTriangle() {
+	public void removeLastTriangle() {
 		for(int i = 210-1; i>=0; i--) {
 			if(drawn.get(i)) {
 				drawn.set(i, false);
@@ -104,8 +111,17 @@ public class Player extends GameObject{
 	}
 	
 	public void updateVelocity(double x, double y) {
-		xVel+=x;
-		yVel+=y;
+		velocity[0]+=x;
+		velocity[1]+=y;
+	}
+	
+	public void setVelocity(double x, double y) {
+		velocity[0] = x;
+		velocity[1] = y;
+	}
+	
+	public void updateDirection(double change) {
+		direction = (direction+change)%360;
 	}
 		
 	public ArrayList<Triangle> getReserve(){
@@ -122,5 +138,9 @@ public class Player extends GameObject{
 
 	public double getHeight() {
 		return height;
+	}
+	
+	public double[] getVelocity() {
+		return velocity;
 	}
 }
