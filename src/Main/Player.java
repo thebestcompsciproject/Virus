@@ -7,17 +7,18 @@ import java.util.ArrayList;
 
 public class Player extends GameObject{
 
-	private ArrayList<Triangle> reserve;
+	private ArrayList<PlayerTriangle> reserve;
 	private ArrayList<Boolean> drawn;
 	private Core core;
 	private double[] velocity;
+	private int pIndex;
 	
 	double side = 40;
 	double height = (Math.sqrt(3)*side)/2;
 	
-	public Player(double x, double y, double direction, Color color) {
+	public Player(double x, double y, double direction, Color color, int pIndex) {
 		super();
-		reserve = new ArrayList<Triangle>();
+		reserve = new ArrayList<PlayerTriangle>();
 		drawn = new ArrayList<Boolean>();
 		this.x = x;
 		this.y = y;
@@ -40,13 +41,13 @@ public class Player extends GameObject{
 				double x = xref + Math.sin(Math.toRadians(j*60+60))*(height/3);
 				double y = yref + Math.cos(Math.toRadians(j*60+60))*(height/3);
 				for(int k = 0 ; k<(i+1)*2; k++) {
-					reserve.add(new Triangle(x, y, dir, side, "layer", this, index, color));
+					reserve.add(new PlayerTriangle(x, y, dir, side, "layer", this, index, color));
 					index++;
 					x += Math.sin(Math.toRadians(j*60+120-60*(k%2)))*(2*height/3);
 					y += Math.cos(Math.toRadians(j*60+120-60*(k%2)))*(2*height/3);
 					dir = (dir+180)%360;
 				}
-				reserve.add(new Triangle(x, y, dir, side, "layer", this, index, color));
+				reserve.add(new PlayerTriangle(x, y, dir, side, "layer", this, index, color));
 				index++;
 				dir = (dir+180)%360;
 			}
@@ -124,7 +125,7 @@ public class Player extends GameObject{
 		direction = (direction+change)%360;
 	}
 		
-	public ArrayList<Triangle> getReserve(){
+	public ArrayList<PlayerTriangle> getReserve(){
 		return reserve;
 	}
 	
@@ -142,5 +143,9 @@ public class Player extends GameObject{
 	
 	public double[] getVelocity() {
 		return velocity;
+	}
+	
+	public int getPIndex() {
+		return pIndex;
 	}
 }

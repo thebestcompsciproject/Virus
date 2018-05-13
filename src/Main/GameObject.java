@@ -10,10 +10,11 @@ public class GameObject
     protected double y;
     protected double direction;
     protected Color color;
+    protected boolean isAlive;
     
     public GameObject()
     {
-    		
+    		isAlive = true;
     }
 
     public double getDirection()
@@ -46,18 +47,21 @@ public class GameObject
     public Color getColor() {
     		return color;
     }
+    
+	public boolean isAlive() { //finish
+		return isAlive;
+	}
+	
+	public void kill() {
+		isAlive = false;
+	}
 
-    public void draw(Graphics g)
-    {
+    public void draw(Graphics g) {
 
     }
 
 	public void update() {
 		
-	}
-
-	public boolean isAlive() { //finish
-		return false;
 	}
 }
 

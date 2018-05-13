@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 
-public class Triangle extends GameObject{
+public class PlayerTriangle extends GameObject{
 
 	private double xref;
 	private double yref;
@@ -16,7 +16,7 @@ public class Triangle extends GameObject{
 	
 	private double height;
 	
-	public Triangle(double xref, double yref, double direction, double side, String type, Player player, int index, Color color) {
+	public PlayerTriangle(double xref, double yref, double direction, double side, String type, Player player, int index, Color color) {
 		super();
 		this.xref = xref;
 		this.yref = yref;
@@ -65,5 +65,9 @@ public class Triangle extends GameObject{
 	
 	public int getIndex() {
 		return index;
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 }

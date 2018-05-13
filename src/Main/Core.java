@@ -8,14 +8,14 @@ import java.util.ArrayList;
 
 public class Core extends GameObject{
 
-	private ArrayList<Triangle> reserve;
+	private ArrayList<PlayerTriangle> reserve;
 	private ArrayList<Boolean> drawn;
 	private Player player;
 	
 	public Core(Player player) {
 		super();
 		this.player = player;
-		reserve = new ArrayList<Triangle>();
+		reserve = new ArrayList<PlayerTriangle>();
 		drawn = new ArrayList<Boolean>();
 		initiateReserve();
 		initiateDrawn();
@@ -26,7 +26,7 @@ public class Core extends GameObject{
 		double direction = 180;
 		double height = player.getHeight();
 		for(int i = 0; i<6; i++) {
-			Triangle add = new Triangle((2*height/3)*Math.sin(Math.toRadians(i*60)), (2*height/3)*Math.cos(Math.toRadians(i*60)), direction, height, "core", player, i, color);
+			PlayerTriangle add = new PlayerTriangle((2*height/3)*Math.sin(Math.toRadians(i*60)), (2*height/3)*Math.cos(Math.toRadians(i*60)), direction, height, "core", player, i, color);
 			reserve.add(add);
 			direction = (direction+180)%360;
 		}
@@ -54,7 +54,7 @@ public class Core extends GameObject{
 			drawn.set(index+1, false);
 	}
 	
-	public ArrayList<Triangle> getReserve(){
+	public ArrayList<PlayerTriangle> getReserve(){
 		return reserve;
 	}
 	

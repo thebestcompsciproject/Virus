@@ -44,10 +44,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void gameListenerUpdate() {
 		int j = 0;
+		int sign = 1;
 		for(int i = 0; i<8; i++) {
 			j = i/4;
-			if(isDown[i]&&manager.getPlayers().get(j).getVelocity()[(i+1)%2]*(2*((i/2)%2)-1)<6.0) {
-				manager.getPlayers().get(j).updateVelocity(0.06*(i%2)*(2*((i/2)%2)-1),0.06*((i+1)%2)*(2*((i/2)%2)-1));
+			sign = (2*((i/2)%2)-1);
+			if(isDown[i]&&manager.getPlayers().get(j).getVelocity()[(i+1)%2]*sign<6.0) {
+				manager.getPlayers().get(j).updateVelocity(0.06*(i%2)*sign,0.06*((i+1)%2)*sign);
 			}
 		}
 		manager.getPlayers().get(0).updateVelocity(-manager.getPlayers().get(0).getVelocity()[0]*.01, -manager.getPlayers().get(0).getVelocity()[1]*.01);
