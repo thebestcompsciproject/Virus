@@ -42,6 +42,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		manager.draw(g);
 	}
 	
+	public void resistance() {
+		manager.getPlayers().get(0).updateVelocity(-manager.getPlayers().get(0).getVelocity()[0]*.01, -manager.getPlayers().get(0).getVelocity()[1]*.01);
+		manager.getPlayers().get(1).updateVelocity(-manager.getPlayers().get(1).getVelocity()[0]*.01, -manager.getPlayers().get(1).getVelocity()[1]*.01);
+	}
+	
 	public void gameListenerUpdate() {
 		int j = 0;
 		int sign = 1;
@@ -52,15 +57,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				manager.getPlayers().get(j).updateVelocity(0.06*(i%2)*sign,0.06*((i+1)%2)*sign);
 			}
 		}
-		manager.getPlayers().get(0).updateVelocity(-manager.getPlayers().get(0).getVelocity()[0]*.01, -manager.getPlayers().get(0).getVelocity()[1]*.01);
-		manager.getPlayers().get(1).updateVelocity(-manager.getPlayers().get(1).getVelocity()[0]*.01, -manager.getPlayers().get(1).getVelocity()[1]*.01);
+		resistance();
 		if(isDown[8]) {
 			manager.getPlayers().get(0).updateDirection(2.0);
 		}
 		if(isDown[9]) {
 			manager.getPlayers().get(0).updateDirection(-2.0);
 		}
-		//add player 1 shooting
+		if(isDown[10]) {
+			manager.shootBullet(0);
+		}
 	}
 	
 	@Override
