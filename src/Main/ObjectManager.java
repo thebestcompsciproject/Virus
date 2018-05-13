@@ -103,13 +103,8 @@ public class ObjectManager {
 	public void playerCollision() {
 		double xVel = players.get(0).getVelocity()[0];
 		double yVel = players.get(0).getVelocity()[1];
-		System.out.println(Arrays.toString(players.get(0).getVelocity()) + " || " + Arrays.toString(players.get(1).getVelocity()));
 		players.get(0).setVelocity(players.get(1).getVelocity()[0], players.get(1).getVelocity()[1]);
 		players.get(1).setVelocity(xVel, yVel);
-		System.out.println(Arrays.toString(players.get(0).getVelocity()) + " || " + Arrays.toString(players.get(1).getVelocity()));
-		System.out.println("");
-		//players.get(0).setVelocity(players.get(1).getVelocity()[0], players.get(1).getVelocity()[1]);
-		//players.get(1).setVelocity(-players.get(1).getVelocity()[0], -players.get(1).getVelocity()[1]);
 	}
 	
 	public void checkMap(int i, int j) {
