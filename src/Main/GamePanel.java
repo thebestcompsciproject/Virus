@@ -18,11 +18,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Timer timer;
 	private boolean[] isDown;
 	private ObjectManager manager;
+	private int fps;
+	long fpsTime;
+	int fpsDraw;
 	
 	public GamePanel() {
 		timer = new Timer(15, this);
 		manager = new ObjectManager();
 		initiateIsDown();
+		initiateFps();
 		
 	}
 	
@@ -33,13 +37,32 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
+	public void initiateFps() {
+		fps = 60;
+		fpsTime = 0;
+		fpsDraw = 60;
+	}
+	
 	public void start() {
 		timer.start();
 	}
 	
+	public void drawGameState(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 1000, 800);
+		manager.draw(g);
+	}
+	
 	public void paint(Graphics g) {
 		super.paint(g);
-		manager.draw(g);
+		drawGameState(g);
+		fps++;
+		if(System.currentTimeMillis()-1000 >= fpsTime) {
+			fpsTime = System.currentTimeMillis();
+			fpsDraw = fps;
+			fps = 0;
+		}
+		g.drawString("FPS: " + Integer.toString(fpsDraw), 500, 400);
 	}
 	
 	public void resistance() {

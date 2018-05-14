@@ -40,6 +40,7 @@ public class Core extends GameObject{
 
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
+		g.setColor(Color.BLACK);
 		for(int i = 0; i<6; i++) {
 			if(drawn.get(i))
 				reserve.get(i).draw(g);
