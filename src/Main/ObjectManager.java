@@ -83,17 +83,17 @@ public class ObjectManager {
 		o2.kill();
 	}
 	
-	public void bulletToPlayer(Bullet o1, PlayerTriangle o2) {
+	public void bulletToPlayer(Bullet o1, PlayerTriangle o2, int pIndex) {
 		o1.kill();
 		if(o2.getIndex()>=0)
-			players.get(o2.getPlayer().getPIndex()).removeTriangle(o2.getIndex());
+			players.get(pIndex).removeTriangle(o2.getIndex());
 		else
-			players.get(o2.getPlayer().getPIndex()).getCore().removeTriangle(o2.getIndex()+6);
+			players.get(pIndex).getCore().removeTriangle(o2.getIndex()+6);
 	}
 	
-	public void mapToPlayer(GameObject o1, PlayerTriangle o2) {
+	public void mapToPlayer(GameObject o1, PlayerTriangle o2, int pIndex) {
 		if(o1 instanceof Bullet) {
-			bulletToPlayer((Bullet)o1, o2);
+			bulletToPlayer((Bullet)o1, o2, pIndex);
 		}
 		else {
 			o1.kill();
@@ -118,7 +118,7 @@ public class ObjectManager {
 			o2 = map.get(k);
 			distance = Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2) + Math.pow(o1.getY() - o2.getY(), 2));
 			if(distance<(0.8*players.get(i).getHeight())) {
-				mapToPlayer(o2, (PlayerTriangle) o1);
+				mapToPlayer(o2, (PlayerTriangle) o1, i);
 				break;
 			}
 		}
@@ -134,7 +134,7 @@ public class ObjectManager {
 			o2 = map.get(k);
 			distance = Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2) + Math.pow(o1.getY() - o2.getY(), 2));
 			if(distance<(0.8*players.get(i).getHeight())) {
-				mapToPlayer(o2, (PlayerTriangle) o1);
+				mapToPlayer(o2, (PlayerTriangle) o1, i);
 				break;
 			}
 		}
