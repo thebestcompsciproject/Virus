@@ -23,10 +23,6 @@ public class ObjectManager {
 		addPlayer(new Player(400, 600, 0, Color.MAGENTA, 1));
 	}
 	
-	public void addBullet(int x, int y, int direction) {
-		
-	}
-	
 	public void addPlayer(Player p) {
 		players.add(p);
 	}
@@ -79,7 +75,7 @@ public class ObjectManager {
 	}
 	
 	public void shootBullet(int index) {
-		
+		map.add(new Bullet(50, 50, 0, 20, Color.GRAY, 0.1, 0.1));
 	}
 	
 	public void bulletToBullet(MapTriangle o1, MapTriangle o2) {
@@ -87,17 +83,22 @@ public class ObjectManager {
 		o2.kill();
 	}
 	
-	public void bulletToPlayer(MapTriangle o1, PlayerTriangle o2) {
+	public void bulletToPlayer(Bullet o1, PlayerTriangle o2) {
 		o1.kill();
-		if(o2.getType().equalsIgnoreCase("layer"))
+		if(o2.getIndex()>=0)
 			players.get(o2.getPlayer().getPIndex()).removeTriangle(o2.getIndex());
 		else
-			players.get(o2.getPlayer().getPIndex()).getCore().removeTriangle(o2.getIndex());
+			players.get(o2.getPlayer().getPIndex()).getCore().removeTriangle(o2.getIndex()+6);
 	}
 	
 	public void mapToPlayer(GameObject o1, PlayerTriangle o2) {
-		o1.kill();
-		players.get(o2.getPlayer().getPIndex()).addTriangle();
+		if(o1 instanceof Bullet) {
+			bulletToPlayer((Bullet)o1, o2);
+		}
+		else {
+			o1.kill();
+			players.get(o2.getPlayer().getPIndex()).addTriangle();
+		}
 	}
 	
 	public void playerCollision() {
@@ -107,13 +108,29 @@ public class ObjectManager {
 		players.get(1).setVelocity(xVel, yVel);
 	}
 	
-	public void checkMap(int i, int j) {
+	public void checkMapLayer(int i, int j) {
 		GameObject o1;
 		GameObject o2;
 		double distance;
 		
 		for(int k = 0; k<map.size(); k++) {
 			o1 = players.get(i).getReserve().get(j);
+			o2 = map.get(k);
+			distance = Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2) + Math.pow(o1.getY() - o2.getY(), 2));
+			if(distance<(0.8*players.get(i).getHeight())) {
+				mapToPlayer(o2, (PlayerTriangle) o1);
+				break;
+			}
+		}
+	}
+	
+	public void checkMapCore(int i, int j) {
+		GameObject o1;
+		GameObject o2;
+		double distance;
+		
+		for(int k = 0; k<map.size(); k++) {
+			o1 = players.get(i).getCore().getReserve().get(j);
 			o2 = map.get(k);
 			distance = Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2) + Math.pow(o1.getY() - o2.getY(), 2));
 			if(distance<(0.8*players.get(i).getHeight())) {
@@ -181,7 +198,7 @@ public class ObjectManager {
 				if(checkLayer(0,j)) {
 					break;
 				}
-				checkMap(0,j);
+				checkMapLayer(0,j);
 			}
 		}
 		for(int j = 0; j<6; j++) {
@@ -189,17 +206,17 @@ public class ObjectManager {
 				if(checkCore(0,j)) {
 					break;
 				}
-				checkMap(0,j);
+				checkMapCore(0,j);
 			}
 		}
 		for(int j = 0; j<210; j++) {
 			if(players.get(1).getDrawn().get(j)) {
-				checkMap(1,j);
+				checkMapLayer(1,j);
 			}
 		}
 		for(int j = 0; j<6; j++) {
 			if(players.get(1).getCore().getDrawn().get(j)) {
-				checkMap(1,j);
+				checkMapCore(1,j);
 			}
 		}
 	}

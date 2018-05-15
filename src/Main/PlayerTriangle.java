@@ -10,19 +10,17 @@ public class PlayerTriangle extends GameObject{
 	private double xref;
 	private double yref;
 	private double side;
-	private String type;
 	private Player player;
 	private int index;
 	
 	private double height;
 	
-	public PlayerTriangle(double xref, double yref, double direction, double side, String type, Player player, int index, Color color) {
+	public PlayerTriangle(double xref, double yref, double direction, double side, Player player, int index, Color color) {
 		super();
 		this.xref = xref;
 		this.yref = yref;
 		this.direction = direction;
 		this.side = side;
-		this.type = type;
 		this.player = player;
 		this.index = index;
 		this.x = xref + player.getX();
@@ -57,10 +55,6 @@ public class PlayerTriangle extends GameObject{
 	
 	public double getSide() {
 		return side;
-	}
-	
-	public String getType() {
-		return type;
 	}
 	
 	public int getIndex() {

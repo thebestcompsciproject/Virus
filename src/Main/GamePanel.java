@@ -50,6 +50,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void drawGameState(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1000, 800);
+		g.setColor(new Color(192, 192, 192));
+		for(int i = 0; i<13; i++) {
+			g.drawLine(i*80, 0, i*80, 1000);
+			g.drawLine(0, i*80, 1000, i*80);
+		}
 		manager.draw(g);
 	}
 	

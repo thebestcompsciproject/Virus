@@ -26,7 +26,7 @@ public class Core extends GameObject{
 		double direction = 180;
 		double height = player.getHeight();
 		for(int i = 0; i<6; i++) {
-			PlayerTriangle add = new PlayerTriangle((2*height/3)*Math.sin(Math.toRadians(i*60)), (2*height/3)*Math.cos(Math.toRadians(i*60)), direction, height, "core", player, i, color);
+			PlayerTriangle add = new PlayerTriangle((2*height/3)*Math.sin(Math.toRadians(i*60)), (2*height/3)*Math.cos(Math.toRadians(i*60)), direction, height, player, i-6, color);
 			reserve.add(add);
 			direction = (direction+180)%360;
 		}
