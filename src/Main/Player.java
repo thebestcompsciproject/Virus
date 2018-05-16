@@ -3,6 +3,7 @@ package Main;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Polygon;
 import java.util.ArrayList;
 
 public class Player extends GameObject{
@@ -85,8 +86,24 @@ public class Player extends GameObject{
 			if(drawn.get(i))
 				reserve.get(i).draw(g);
 		}
-		
-		g.drawLine((int)x, (int)y, (int)(x+2*Math.sin(Math.toRadians(direction))*side), (int)(y+2*Math.cos(Math.toRadians(direction))*side));
+		g.setColor(color);
+		int x2 = (int)(x+Math.sin(Math.toRadians(direction))*height*5/6);
+		int y2 = (int)(y+Math.cos(Math.toRadians(direction))*height*5/6);
+		g.drawLine((int)x, (int)y, x2, y2);
+		//g.fillOval(x2-4, y2-4, 8, 8);
+		drawTriangle(g, x2, y2);
+	}
+	
+	public void drawTriangle(Graphics g, double x2, double y2) {
+		int[] xcord = new int[3];
+		int[] ycord = new int[3];
+		for(int i = 0 ; i<3; i++) {
+			xcord[i] = (int)(x2+2.0/3*8*Math.sin(Math.toRadians(direction+i*120)));
+			ycord[i] = (int)(y2+2.0/3*8*Math.cos(Math.toRadians(direction+i*120)));
+		}
+		Polygon p = new Polygon(xcord, ycord, 3);
+		g.setColor(color);
+		g.fillPolygon(p);
 	}
 	
 	public void addTriangle() {

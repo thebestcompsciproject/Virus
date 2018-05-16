@@ -67,7 +67,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			fpsDraw = fps;
 			fps = 0;
 		}
-		g.drawString("FPS: " + Integer.toString(fpsDraw), 500, 400);
+		g.setColor(Color.BLACK);
+		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);
 	}
 	
 	public void resistance() {
