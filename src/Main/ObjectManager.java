@@ -41,6 +41,7 @@ public class ObjectManager {
 		manageMap();
 		checkCollision();
 		purgeObjects();
+		//System.out.println((getAngle()+360)%360);
 	}
 	
 	public void purgeObjects() {
@@ -106,6 +107,7 @@ public class ObjectManager {
 		double yVel = players.get(0).getVelocity()[1];
 		players.get(0).setVelocity(players.get(1).getVelocity()[0], players.get(1).getVelocity()[1]);
 		players.get(1).setVelocity(xVel, yVel);
+		
 	}
 	
 	public void checkMapLayer(int i, int j) {
@@ -133,7 +135,7 @@ public class ObjectManager {
 			o1 = players.get(i).getCore().getReserve().get(j);
 			o2 = map.get(k);
 			distance = Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2) + Math.pow(o1.getY() - o2.getY(), 2));
-			if(distance<(0.8*players.get(i).getHeight())) {
+			if(distance<(players.get(i).getHeight())) {
 				mapToPlayer(o2, (PlayerTriangle) o1, i);
 				break;
 			}

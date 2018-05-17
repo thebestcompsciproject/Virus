@@ -2,11 +2,10 @@ package Main;
 
 import javax.swing.ImageIcon;
 
-public class Button
-{
+public class Button {
 
-	private double xCord;
-	private double yCord;
+	private double x;
+	private double y;
 	private double width;
 	private double height;
 	private String buttonName1;
@@ -16,11 +15,9 @@ public class Button
 	private ImageIcon downButton;
 	
 
-	public Button(String file1, String file2)
-	{
+	public Button(String file1, String file2) {
 		buttonName1 = file1 + ".png";
 		buttonName2 = file2 + ".png";	
-		
 		upButton = new ImageIcon(buttonName1);
 		downButton = new ImageIcon(buttonName2);
 	}
@@ -42,8 +39,7 @@ public class Button
 	 * 
 	 * 	**INCOMPLETE**
 	 */
-	public void constructButton()
-	{
+	public void constructButton() {
 		
 	}
 	
@@ -52,8 +48,7 @@ public class Button
 	 * 
 	 * 	**INCOMPLETE**
 	 */
-	public switchButton()
-	{
+	public void switchButton() {
 		
 	}
 	
