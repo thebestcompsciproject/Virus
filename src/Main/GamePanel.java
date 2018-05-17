@@ -142,6 +142,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			p1.defautlButton();
 		}
 		
+		
 	}
 	
 	
@@ -169,6 +170,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		//manager.shootBullet(1);
+		p1.clickedButton();
 	}
 
 	@Override

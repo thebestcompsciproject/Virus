@@ -73,7 +73,7 @@ public class Button {
 	}
 	
 	public void clickedButton() {
-		drawButton = defaultButton;
+		drawButton = pressButton;
 	}
 	
 }
