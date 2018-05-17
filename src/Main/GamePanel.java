@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.MouseInfo;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -48,13 +49,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	public void drawGameState(Graphics g) {
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 1000, 800);
 		g.setColor(new Color(192, 192, 192));
-		for(int i = 0; i<13; i++) {
+		/*for(int i = 0; i<13; i++) {
 			g.drawLine(i*80, 0, i*80, 1000);
 			g.drawLine(0, i*80, 1000, i*80);
-		}
+		}*/
 		manager.draw(g);
 	}
 	
@@ -76,7 +77,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		manager.getPlayers().get(1).updateVelocity(-manager.getPlayers().get(1).getVelocity()[0]*.01, -manager.getPlayers().get(1).getVelocity()[1]*.01);
 	}
 	
-	public void gameListenerUpdate() {
+	public void gameKeysUpdate() {
 		int j = 0;
 		int sign = 1;
 		for(int i = 0; i<8; i++) {
@@ -86,7 +87,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				manager.getPlayers().get(j).updateVelocity(0.06*(i%2)*sign,0.06*((i+1)%2)*sign);
 			}
 		}
-		resistance();
 		if(isDown[8]) {
 			manager.getPlayers().get(0).updateDirection(2.0);
 		}
@@ -98,12 +98,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
+	public void gameMouseUpdate() {
+		double xM = MouseInfo.getPointerInfo().getLocation().x;
+		double yM = MouseInfo.getPointerInfo().getLocation().y;
+		//getAngle();
+	}
+	
+	public void gameUpdate() {
+		manager.update();
+		gameKeysUpdate();
+		resistance();
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
-		manager.update();
-		gameListenerUpdate();
+		gameUpdate();
 	}
 
 	@Override
@@ -115,7 +126,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		manager.shootBullet(1);
 	}
 
 	@Override

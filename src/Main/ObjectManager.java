@@ -20,7 +20,7 @@ public class ObjectManager {
 		map = new ArrayList<GameObject>();
 		bullets = new ArrayList<MapTriangle>();
 		addPlayer(new Player(400, 400, 0, Color.PINK, 0));
-		addPlayer(new Player(400, 600, 0, Color.MAGENTA, 1));
+		addPlayer(new Player(400, 600, 0, new Color(76, 240, 237), 1));
 	}
 	
 	public void addPlayer(Player p) {
@@ -76,7 +76,10 @@ public class ObjectManager {
 	}
 	
 	public void shootBullet(int index) {
-		map.add(new Bullet(50, 50, 0, 20, Color.GRAY, 0.1, 0.1));
+		PlayerTriangle t = players.get(index).removeLastTriangle();
+		if(t!=null) {
+			map.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
+		}
 	}
 	
 	public void bulletToBullet(MapTriangle o1, MapTriangle o2) {
@@ -85,11 +88,13 @@ public class ObjectManager {
 	}
 	
 	public void bulletToPlayer(Bullet o1, PlayerTriangle o2, int pIndex) {
-		o1.kill();
-		if(o2.getIndex()>=0)
-			players.get(pIndex).removeTriangle(o2.getIndex());
-		else
-			players.get(pIndex).getCore().removeTriangle(o2.getIndex()+6);
+		if(pIndex!=o1.getPIndex()){
+			o1.kill();
+			if(o2.getIndex()>=0)
+				players.get(pIndex).removeTriangle(o2.getIndex());
+			else
+				players.get(pIndex).getCore().removeTriangle(o2.getIndex()+6);
+		}
 	}
 	
 	public void mapToPlayer(GameObject o1, PlayerTriangle o2, int pIndex) {
@@ -107,7 +112,6 @@ public class ObjectManager {
 		double yVel = players.get(0).getVelocity()[1];
 		players.get(0).setVelocity(players.get(1).getVelocity()[0], players.get(1).getVelocity()[1]);
 		players.get(1).setVelocity(xVel, yVel);
-		
 	}
 	
 	public void checkMapLayer(int i, int j) {

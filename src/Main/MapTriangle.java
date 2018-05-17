@@ -10,7 +10,7 @@ public class MapTriangle extends GameObject{
 	protected double side;
 	protected double height;
 	
-	public MapTriangle(int x, int y, int direction, double side, Color color) {
+	public MapTriangle(double x, double y, double direction, double side, Color color) {
 		super();
 		this.x = x;
 		this.y = y;

@@ -119,13 +119,14 @@ public class Player extends GameObject{
 		drawn.set(index, false);
 	}
 	
-	public void removeLastTriangle() {
+	public PlayerTriangle removeLastTriangle() {
 		for(int i = 210-1; i>=0; i--) {
 			if(drawn.get(i)) {
 				drawn.set(i, false);
-				break;
+				return reserve.get(i);
 			}
 		}
+		return null;
 	}
 	
 	public void updateVelocity(double x, double y) {
