@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public BufferedImage defaultPlay;
 	public BufferedImage hoverPlay;
+	public BufferedImage clickedPlay;
 	Button p1;
 	
 	public GamePanel() {
@@ -46,8 +47,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void readImages() {
 		try {
-			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("Play1.png"));
-			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("Play2.png"));
+			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayUnclicked.png"));
+			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayHover.png"));
+			clickedPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayClicked.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,7 +57,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	public void makeButtons() {
-		p1 = new Button(400, 400, 500, 250, defaultPlay, hoverPlay, hoverPlay);
+		p1 = new Button(400, 400, 500, 250, defaultPlay, hoverPlay, clickedPlay);
 	}
 	
 	public void initiateIsDown() {
@@ -132,13 +134,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void gameMouseUpdate() {
 		double xM = MouseInfo.getPointerInfo().getLocation().x;
 		double yM = MouseInfo.getPointerInfo().getLocation().y;
+		
 		if(p1.contains(xM, yM)) {
 			p1.hoverButton();
 		}
 		else {
 			p1.defautlButton();
 		}
+		
 	}
+	
 	
 	public void gameUpdate() {
 		//manager.update();

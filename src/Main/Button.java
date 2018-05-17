@@ -19,7 +19,8 @@ public class Button {
 	private BufferedImage defaultButton;
 	private BufferedImage hoverButton;
 	private BufferedImage pressButton;
-	private BufferedImage drawButton; Button(double x, double y, double width, double height, BufferedImage img1, BufferedImage img2, BufferedImage img3) 
+	private BufferedImage drawButton;
+	Button(double x, double y, double width, double height, BufferedImage img1, BufferedImage img2, BufferedImage img3) 
 	{
 		this.width = width;
 		this.height = height;
@@ -68,6 +69,10 @@ public class Button {
 	}
 	
 	public void defautlButton() {
+		drawButton = defaultButton;
+	}
+	
+	public void clickedButton() {
 		drawButton = defaultButton;
 	}
 	
