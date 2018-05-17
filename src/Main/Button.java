@@ -1,7 +1,13 @@
 //Fok
 package Main;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Button {
 
@@ -9,18 +15,21 @@ public class Button {
 	private double y;
 	private double width;
 	private double height;
-	private String buttonName1;
-	private String buttonName2;
 	
-	private ImageIcon upButton;
-	private ImageIcon downButton;
-	
-
-	public Button(String file1, String file2) {
-		buttonName1 = file1 + ".png";
-		buttonName2 = file2 + ".png";	
-		upButton = new ImageIcon(buttonName1);
-		downButton = new ImageIcon(buttonName2);
+	private BufferedImage defaultButton;
+	private BufferedImage hoverButton;
+	private BufferedImage pressButton;
+	private BufferedImage drawButton; Button(double x, double y, double width, double height, BufferedImage img1, BufferedImage img2, BufferedImage img3) 
+	{
+		this.width = width;
+		this.height = height;
+		this.x = x;
+		this.y = y;
+		
+		defaultButton = img1;
+		hoverButton = img2;
+		pressButton = img3;
+		drawButton = defaultButton;
 	}
 	
 	
@@ -29,9 +38,14 @@ public class Button {
 	 * 
 	 * 	**INCOMPLETE**
 	 */
-	public boolean cursorContains(double x, double y)
+	public boolean contains(double x, double y)
 	{
-		return true;
+		if(x>=this.x&&x<=this.x+width) {
+			if(y>=this.y&&y<this.y+height) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	
@@ -40,8 +54,8 @@ public class Button {
 	 * 
 	 * 	**INCOMPLETE**
 	 */
-	public void constructButton() {
-		
+	public void draw(Graphics g) {
+		 g.drawImage(drawButton, (int)x, (int)y, (int)width, (int)height, null);
 	}
 	
 	/*
@@ -49,8 +63,12 @@ public class Button {
 	 * 
 	 * 	**INCOMPLETE**
 	 */
-	public void switchButton() {
-		
+	public void hoverButton() {
+		drawButton = hoverButton;
+	}
+	
+	public void defautlButton() {
+		drawButton = defaultButton;
 	}
 	
 }

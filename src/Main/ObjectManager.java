@@ -20,7 +20,7 @@ public class ObjectManager {
 		map = new ArrayList<GameObject>();
 		bullets = new ArrayList<MapTriangle>();
 		addPlayer(new Player(400, 400, 0, Color.PINK, 0));
-		addPlayer(new Player(400, 600, 0, new Color(76, 240, 237), 1));
+		addPlayer(new Player(400, 600, 0, Color.MAGENTA, 1));
 	}
 	
 	public void addPlayer(Player p) {

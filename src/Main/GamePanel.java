@@ -9,8 +9,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.awt.MouseInfo;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,16 +23,39 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Timer timer;
 	private boolean[] isDown;
 	private ObjectManager manager;
+	
 	private int fps;
 	long fpsTime;
 	int fpsDraw;
+	
+	private final long reloadTime = 380;
+	private long timeSave = 0;
+	
+	public BufferedImage defaultPlay;
+	public BufferedImage hoverPlay;
+	Button p1;
 	
 	public GamePanel() {
 		timer = new Timer(15, this);
 		manager = new ObjectManager();
 		initiateIsDown();
 		initiateFps();
-		
+		readImages();
+		makeButtons();
+	}
+	
+	public void readImages() {
+		try {
+			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("Play1.png"));
+			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("Play2.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void makeButtons() {
+		p1 = new Button(400, 400, 500, 250, defaultPlay, hoverPlay, hoverPlay);
 	}
 	
 	public void initiateIsDown() {
@@ -49,19 +76,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	public void drawGameState(Graphics g) {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1000, 800);
 		g.setColor(new Color(192, 192, 192));
-		/*for(int i = 0; i<13; i++) {
+		for(int i = 0; i<13; i++) {
 			g.drawLine(i*80, 0, i*80, 1000);
 			g.drawLine(0, i*80, 1000, i*80);
-		}*/
+		}
 		manager.draw(g);
 	}
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		drawGameState(g);
+		/*drawGameState(g);
 		fps++;
 		if(System.currentTimeMillis()-1000 >= fpsTime) {
 			fpsTime = System.currentTimeMillis();
@@ -69,7 +96,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			fps = 0;
 		}
 		g.setColor(Color.BLACK);
-		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);
+		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);*/
+		p1.draw(g);
 	}
 	
 	public void resistance() {
@@ -94,20 +122,29 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			manager.getPlayers().get(0).updateDirection(-2.0);
 		}
 		if(isDown[10]) {
-			manager.shootBullet(0);
+			if(System.currentTimeMillis()-reloadTime>timeSave) {
+				manager.shootBullet(0);
+				timeSave = System.currentTimeMillis();
+			}
 		}
 	}
 	
 	public void gameMouseUpdate() {
 		double xM = MouseInfo.getPointerInfo().getLocation().x;
 		double yM = MouseInfo.getPointerInfo().getLocation().y;
-		//getAngle();
+		if(p1.contains(xM, yM)) {
+			p1.hoverButton();
+		}
+		else {
+			p1.defautlButton();
+		}
 	}
 	
 	public void gameUpdate() {
-		manager.update();
-		gameKeysUpdate();
-		resistance();
+		//manager.update();
+		//gameKeysUpdate();
+		//resistance();
+		gameMouseUpdate();
 	}
 	
 	@Override
@@ -126,7 +163,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		manager.shootBullet(1);
+		//manager.shootBullet(1);
 	}
 
 	@Override
