@@ -34,11 +34,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage defaultPlay;
 	public BufferedImage hoverPlay;
 	public BufferedImage clickedPlay;
+	private boolean buttonStatus;
 	Button p1;
 	
 	public GamePanel() {
 		timer = new Timer(15, this);
 		manager = new ObjectManager();
+		buttonStatus = false;
 		initiateIsDown();
 		initiateFps();
 		readImages();
@@ -134,12 +136,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void gameMouseUpdate() {
 		double xM = MouseInfo.getPointerInfo().getLocation().x;
 		double yM = MouseInfo.getPointerInfo().getLocation().y;
-		
+		if(buttonStatus == false) 
+		{
 		if(p1.contains(xM, yM)) {
 			p1.hoverButton();
 		}
 		else {
 			p1.defautlButton();
+		}
 		}
 		
 		
@@ -171,11 +175,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		// TODO Auto-generated method stub
 		//manager.shootBullet(1);
 		p1.clickedButton();
+		buttonStatus = true;
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
+		buttonStatus = false;
 		
 	}
 
