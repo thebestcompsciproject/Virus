@@ -33,37 +33,23 @@ public class Button {
 		drawButton = defaultButton;
 	}
 	
-	
-	/*
-	 * Check if the cursor is in the area of the button
-	 * 
-	 * 	**INCOMPLETE**
-	 */
-	public boolean contains(double x, double y)
+	public boolean contains(double x1, double y1)
 	{
-		if(x>=this.x&&x<=this.x+width) {
-			if(y>=this.y&&y<this.y+height) {
+		y1-=45;
+		if(x1>=x&&x1<=x+width) {
+			if(y1>=y&&y1<=y+height) {
+				//System.out.println(y + " " + y1 + " " + (y+height));
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	
-	/*
-	 * Constructs the button in the JPanel
-	 * 
-	 * 	**INCOMPLETE**
-	 */
 	public void draw(Graphics g) {
 		 g.drawImage(drawButton, (int)x, (int)y, (int)width, (int)height, null);
+		 g.drawRect((int)400, (int)400, (int)width, (int)height);
 	}
 	
-	/*
-	 * Switches the buttons
-	 * 
-	 * 	**INCOMPLETE**
-	 */
 	public void hoverButton() {
 		drawButton = hoverButton;
 	}

@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void readImages() {
 		try {
-			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayUnclicked.png"));
+			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("Play1.png"));
 			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayHover.png"));
 			clickedPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayClicked.png"));
 		} catch (IOException e) {
@@ -88,11 +88,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			g.drawLine(0, i*80, 1000, i*80);
 		}
 		manager.draw(g);
-	}
-	
-	public void paint(Graphics g) {
-		super.paint(g);
-		/*drawGameState(g);
 		fps++;
 		if(System.currentTimeMillis()-1000 >= fpsTime) {
 			fpsTime = System.currentTimeMillis();
@@ -100,7 +95,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			fps = 0;
 		}
 		g.setColor(Color.BLACK);
-		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);*/
+		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);
+	}
+	
+	public void paint(Graphics g) {
+		super.paint(g);
+		//drawGameState(g);
 		p1.draw(g);
 	}
 	
