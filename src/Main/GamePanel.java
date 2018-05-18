@@ -119,10 +119,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			}
 		}
 		if(isDown[8]) {
-			manager.getPlayers().get(0).updateDirection(2.0);
+			manager.getPlayers().get(0).updateDirection(3.0);
 		}
 		if(isDown[9]) {
-			manager.getPlayers().get(0).updateDirection(-2.0);
+			manager.getPlayers().get(0).updateDirection(-3.0);
 		}
 		if(isDown[10]) {
 			if(System.currentTimeMillis()-reloadTime>timeSave) {
@@ -154,21 +154,20 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		double angle = getAngle(x1, y1, x2, y2);
 		angle = (angle+360)%360;
 		//manager.getPlayers().get(1).setDirection(angle);
-		System.out.println(angle + " " + manager.getPlayers().get(1).getDirection());
 		if(manager.getPlayers().get(1).getDirection()<180) {
 			if(angle>manager.getPlayers().get(1).getDirection()&&angle<(manager.getPlayers().get(1).getDirection()+180)) {
-				manager.getPlayers().get(1).updateDirection(2.0);
+				manager.getPlayers().get(1).updateDirection(3.0);
 			}
 			else {
-				manager.getPlayers().get(1).updateDirection(-2.0);
+				manager.getPlayers().get(1).updateDirection(-3.0);
 			}
 		}
 		else {
 			if(angle>manager.getPlayers().get(1).getDirection()||angle<(manager.getPlayers().get(1).getDirection()+180)%360) {
-				manager.getPlayers().get(1).updateDirection(2.0);
+				manager.getPlayers().get(1).updateDirection(3.0);
 			}
 			else {
-				manager.getPlayers().get(1).updateDirection(-2.0);
+				manager.getPlayers().get(1).updateDirection(-3.0);
 			}
 		}
 	}
