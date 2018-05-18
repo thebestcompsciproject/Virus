@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.awt.MouseInfo;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -34,13 +33,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage defaultPlay;
 	public BufferedImage hoverPlay;
 	public BufferedImage clickedPlay;
-	private boolean buttonStatus;
+	private boolean mouseClicked;
 	Button p1;
 	
 	public GamePanel() {
 		timer = new Timer(15, this);
 		manager = new ObjectManager();
-		buttonStatus = false;
+		mouseClicked = false;
 		initiateIsDown();
 		initiateFps();
 		readImages();
@@ -49,7 +48,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void readImages() {
 		try {
-			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("Play1.png"));
+			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayBlank.png"));
 			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayHover.png"));
 			clickedPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayClicked.png"));
 		} catch (IOException e) {
@@ -100,8 +99,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		//drawGameState(g);
-		p1.draw(g);
+		drawGameState(g);
+		//p1.draw(g);
 	}
 	
 	public void resistance() {
@@ -133,27 +132,59 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
+	public void screenMouseUpdate() {
+		if(!mouseClicked) {
+			double xM = MouseInfo.getPointerInfo().getLocation().x;
+			double yM = MouseInfo.getPointerInfo().getLocation().y;
+		
+			if(p1.contains(xM, yM)) {
+				p1.hoverButton();
+			}
+			else {
+				p1.defautlButton();
+			}
+		}
+	}
+	
 	public void gameMouseUpdate() {
-		double xM = MouseInfo.getPointerInfo().getLocation().x;
-		double yM = MouseInfo.getPointerInfo().getLocation().y;
-		if(buttonStatus == false) 
-		{
-		if(p1.contains(xM, yM)) {
-			p1.hoverButton();
+		double x1 = manager.getPlayers().get(1).getX();
+		double y1 = manager.getPlayers().get(1).getY();
+		double x2 = MouseInfo.getPointerInfo().getLocation().getX();
+		double y2 = MouseInfo.getPointerInfo().getLocation().getY()-45;
+		double angle = getAngle(x1, y1, x2, y2);
+		angle = (angle+360)%360;
+		//manager.getPlayers().get(1).setDirection(angle);
+		System.out.println(angle + " " + manager.getPlayers().get(1).getDirection());
+		if(manager.getPlayers().get(1).getDirection()<180) {
+			if(angle>manager.getPlayers().get(1).getDirection()&&angle<(manager.getPlayers().get(1).getDirection()+180)) {
+				manager.getPlayers().get(1).updateDirection(2.0);
+			}
+			else {
+				manager.getPlayers().get(1).updateDirection(-2.0);
+			}
 		}
 		else {
-			p1.defautlButton();
+			if(angle>manager.getPlayers().get(1).getDirection()||angle<(manager.getPlayers().get(1).getDirection()+180)%360) {
+				manager.getPlayers().get(1).updateDirection(2.0);
+			}
+			else {
+				manager.getPlayers().get(1).updateDirection(-2.0);
+			}
 		}
-		}
-		
-		
+	}
+	
+	public double getAngle(double x1, double y1, double x2, double y2) {
+		double delX = x2 - x1;
+		double delY = y2 - y1;
+		double thetaR = Math.atan2(delX, delY);
+		return thetaR*360/(2*Math.PI);
 	}
 	
 	
 	public void gameUpdate() {
-		//manager.update();
-		//gameKeysUpdate();
-		//resistance();
+		manager.update();
+		gameKeysUpdate();
+		resistance();
 		gameMouseUpdate();
 	}
 	
@@ -162,6 +193,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		// TODO Auto-generated method stub
 		repaint();
 		gameUpdate();
+		//screenMouseUpdate();
 	}
 
 	@Override
@@ -170,19 +202,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 	}
 
+	public void buttonChecks(MouseEvent e) {
+		if(p1.contains(e.getX(), e.getY())) {
+			p1.clickedButton();
+		}
+	}
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		//manager.shootBullet(1);
-		p1.clickedButton();
-		buttonStatus = true;
+		manager.shootBullet(1);
+		//buttonChecks(e);
+		mouseClicked = true;
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		buttonStatus = false;
-		
+		mouseClicked = false;
 	}
 
 	@Override
