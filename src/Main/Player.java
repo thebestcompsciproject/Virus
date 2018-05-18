@@ -140,7 +140,7 @@ public class Player extends GameObject{
 	}
 	
 	public void updateDirection(double change) {
-		direction = (direction+change)%360;
+		direction = (direction+change+360)%360;
 	}
 		
 	public ArrayList<PlayerTriangle> getReserve(){
