@@ -99,8 +99,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		//drawGameState(g);
-		p1.draw(g);
+		drawGameState(g);
+		//p1.draw(g);
 	}
 	
 	public void resistance() {
@@ -191,8 +191,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
-		//gameUpdate();
-		screenMouseUpdate();
+		gameUpdate();
+		//screenMouseUpdate();
 	}
 
 	@Override
@@ -209,8 +209,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		//manager.shootBullet(1);
-		buttonChecks(e);
+		manager.shootBullet(1);
+		//buttonChecks(e);
 		mouseClicked = true;
 	}
 
