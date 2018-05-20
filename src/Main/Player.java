@@ -32,7 +32,7 @@ public class Player extends GameObject{
 		constructDrawn();
 	}
 	
-	public void constructTriangles() {
+	private void constructTriangles() {
 		double dir = 180;
 		int index = 0;
 		
@@ -56,7 +56,7 @@ public class Player extends GameObject{
 		}
 	}
 	
-	public void constructDrawn() {
+	private void constructDrawn() {
 		for(int i = 0; i<18; i++) {
 			drawn.add(true);
 		}
@@ -83,25 +83,28 @@ public class Player extends GameObject{
 	}
 	public void draw(Graphics g) {
 		core.draw(g);
+		
 		for(int i = 0; i<210; i++) {
 			if(drawn.get(i))
 				reserve.get(i).draw(g);
 		}
+		
 		g.setColor(color);
 		int x2 = (int)(x+Math.sin(Math.toRadians(direction))*height*5/6);
 		int y2 = (int)(y+Math.cos(Math.toRadians(direction))*height*5/6);
 		g.drawLine((int)x, (int)y, x2, y2);
-		//g.fillOval(x2-4, y2-4, 8, 8);
 		drawTriangle(g, x2, y2);
 	}
 	
 	public void drawTriangle(Graphics g, double x2, double y2) {
 		int[] xcord = new int[3];
 		int[] ycord = new int[3];
+		
 		for(int i = 0 ; i<3; i++) {
 			xcord[i] = (int)(x2+2.0/3*8*Math.sin(Math.toRadians(direction+i*120)));
 			ycord[i] = (int)(y2+2.0/3*8*Math.cos(Math.toRadians(direction+i*120)));
 		}
+		
 		Polygon p = new Polygon(xcord, ycord, 3);
 		g.setColor(color);
 		g.fillPolygon(p);

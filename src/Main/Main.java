@@ -21,7 +21,7 @@ public class Main implements ActionListener{
 		main.Jsetup();
 	}
 	
-	void Jsetup() {
+	private void Jsetup() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(width, height);
 		frame.setLocation(0,0);

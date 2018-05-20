@@ -22,14 +22,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Timer timer;
 	private boolean[] isDown;
 	private ObjectManager manager;
+	
 	private int width;
 	private int height;
 	private int frameX;
 	private int frameY;
 	
 	private int fps;
-	long fpsTime;
-	int fpsDraw;
+	private long fpsTime;
+	private int fpsDraw;
 	
 	private final int reloadTime = 250;
 	private long timeSave1 = 0;
@@ -38,8 +39,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage defaultPlay;
 	public BufferedImage hoverPlay;
 	public BufferedImage clickedPlay;
+	
 	private boolean mouseClicked;
-	Button p1;
+	
+	private Button p1;
 	
 	public GamePanel(int width, int height) {
 		timer = new Timer(15, this);
@@ -63,7 +66,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		manager.updateInfo(width, height, frameX, frameY);
 	}
 	
-	public void readImages() {
+	private void readImages() {
 		try {
 			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayBlank.png"));
 			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayHover.png"));
@@ -74,18 +77,18 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	public void makeButtons() {
+	private void makeButtons() {
 		p1 = new Button(400, 400, 500, 250, defaultPlay, hoverPlay, clickedPlay);
 	}
 	
-	public void initiateIsDown() {
+	private void initiateIsDown() {
 		isDown = new boolean[11];
 		for(int i = 0; i<8; i++) {
 			isDown[i] = false;
 		}
 	}
 	
-	public void initiateFps() {
+	private void initiateFps() {
 		fps = 60;
 		fpsTime = 0;
 		fpsDraw = 60;
@@ -95,7 +98,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		timer.start();
 	}
 	
-	public void drawGameState(Graphics g) {
+	private void drawGameState(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
 		g.setColor(new Color(192, 192, 192));
@@ -124,14 +127,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		//p1.draw(g);
 	}
 	
-	public void resistance() {
+	private void resistance() {
 		manager.getPlayers().get(0).updateVelocity(-manager.getPlayers().get(0).getVelocity()[0]*.01, -manager.getPlayers().get(0).getVelocity()[1]*.01);
 		manager.getPlayers().get(1).updateVelocity(-manager.getPlayers().get(1).getVelocity()[0]*.01, -manager.getPlayers().get(1).getVelocity()[1]*.01);
 	}
 	
-	public void gameKeysUpdate() {
+	private void gameKeysUpdate() {
 		int j = 0;
 		int sign = 1;
+		
 		for(int i = 0; i<8; i++) {
 			j = i/4;
 			sign = (2*((i/2)%2)-1);
@@ -139,12 +143,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				manager.getPlayers().get(j).updateVelocity(0.06*(i%2)*sign,0.06*((i+1)%2)*sign);
 			}
 		}
+	
 		if(isDown[8]) {
 			manager.getPlayers().get(0).updateDirection(3.0);
 		}
+		
 		if(isDown[9]) {
 			manager.getPlayers().get(0).updateDirection(-3.0);
 		}
+		
 		if(isDown[10]) {
 			if(System.currentTimeMillis()-reloadTime>timeSave1) {
 				manager.shootBullet(0);
@@ -153,11 +160,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	public void screenMouseUpdate() {
+	private void screenMouseUpdate() {
 		if(!mouseClicked) {
 			double xM = MouseInfo.getPointerInfo().getLocation().x-frameX;
 			double yM = MouseInfo.getPointerInfo().getLocation().y-frameY;
-		
 			if(p1.contains(xM, yM)) {
 				p1.hoverButton();
 			}
@@ -167,14 +173,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	public void gameMouseUpdate() {
+	private void gameMouseUpdate() {
 		double x1 = manager.getPlayers().get(1).getX();
 		double y1 = manager.getPlayers().get(1).getY();
 		double x2 = MouseInfo.getPointerInfo().getLocation().getX()-frameX;
 		double y2 = MouseInfo.getPointerInfo().getLocation().getY()-frameY;
 		double angle = getAngle(x1, y1, x2, y2);
 		angle = (angle+360)%360;
-		//manager.getPlayers().get(1).setDirection(angle);
+		
 		if(manager.getPlayers().get(1).getDirection()<180) {
 			if(angle>manager.getPlayers().get(1).getDirection()&&angle<(manager.getPlayers().get(1).getDirection()+180)) {
 				manager.getPlayers().get(1).updateDirection(3.0);
@@ -191,13 +197,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				manager.getPlayers().get(1).updateDirection(-3.0);
 			}
 		}
+		
 		if(mouseClicked&&System.currentTimeMillis()-reloadTime>timeSave2) {
 			manager.shootBullet(1);
 			timeSave2 = System.currentTimeMillis();
 		}
 	}
 	
-	public double getAngle(double x1, double y1, double x2, double y2) {
+	private double getAngle(double x1, double y1, double x2, double y2) {
 		double delX = x2 - x1;
 		double delY = y2 - y1;
 		double thetaR = Math.atan2(delX, delY);
@@ -205,7 +212,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	
-	public void gameUpdate() {
+	private void gameUpdate() {
 		manager.update();
 		gameKeysUpdate();
 		resistance();
@@ -226,7 +233,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 	}
 
-	public void buttonChecks() {
+	private void buttonChecks() {
 		if(p1.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			p1.clickedButton();
 		}
@@ -255,7 +262,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 
 	}
 	
-	public void gameP1Controls(KeyEvent e, boolean state) {
+	private void gameP1Controls(KeyEvent e, boolean state) {
 		if(e.getKeyCode() == KeyEvent.VK_W) {
 			isDown[0] = state;
 		}
@@ -279,7 +286,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	public void gameP2Controls(KeyEvent e, boolean state) {
+	private void gameP2Controls(KeyEvent e, boolean state) {
 		if(e.getKeyCode() == KeyEvent.VK_UP) {
 			isDown[4] = state;
 		}
@@ -303,12 +310,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		
+		/*if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			manager.getPlayers().get(0).addTriangle();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 			manager.getPlayers().get(0).removeLastTriangle();
-		}
+		}*/
 		
 		gameP1Controls(e, true);
 		gameP2Controls(e, true);

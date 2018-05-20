@@ -22,7 +22,7 @@ public class Core extends GameObject{
 		this.color = Color.BLACK;
 	}
 	
-	public void initiateReserve() {
+	private void initiateReserve() {
 		double direction = 180;
 		double height = player.getHeight();
 		for(int i = 0; i<6; i++) {
@@ -32,7 +32,7 @@ public class Core extends GameObject{
 		}
 	}
 	
-	public void initiateDrawn() {
+	private void initiateDrawn() {
 		for(int i = 0; i<6; i++) {
 			drawn.add(true);
 		}

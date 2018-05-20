@@ -37,10 +37,12 @@ public class PlayerTriangle extends GameObject{
 	public void draw(Graphics g) {
 		int[] xcord = new int[3];
 		int[] ycord = new int[3];
+		
 		for(int i = 0 ; i<3; i++) {
 			xcord[i] = (int)(x+2.0/3*height*Math.sin(Math.toRadians(direction+i*120)));
 			ycord[i] = (int)(y+2.0/3*height*Math.cos(Math.toRadians(direction+i*120)));
 		}
+		
 		Polygon p = new Polygon(xcord, ycord, 3);
 		g.setColor(color);
 		g.fillPolygon(p);

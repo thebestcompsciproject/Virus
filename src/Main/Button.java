@@ -38,7 +38,6 @@ public class Button {
 		y1-=20;
 		if(x1>=x&&x1<=x+width) {
 			if(y1>=y&&y1<=y+height) {
-				//System.out.println(y + " " + y1 + " " + (y+height));
 				return true;
 			}
 		}
@@ -47,7 +46,7 @@ public class Button {
 	
 	public void draw(Graphics g) {
 		 g.drawImage(drawButton, (int)x, (int)y, (int)width, (int)height, null);
-		 g.drawRect((int)400, (int)400, (int)width, (int)height);
+		 //g.drawRect((int)400, (int)400, (int)width, (int)height);
 	}
 	
 	public void hoverButton() {
