@@ -32,7 +32,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	int fpsDraw;
 	
 	private final int reloadTime = 250;
-	private long timeSave = 0;
+	private long timeSave1 = 0;
+	private long timeSave2 = 0;
 	
 	public BufferedImage defaultPlay;
 	public BufferedImage hoverPlay;
@@ -145,9 +146,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			manager.getPlayers().get(0).updateDirection(-3.0);
 		}
 		if(isDown[10]) {
-			if(System.currentTimeMillis()-reloadTime>timeSave) {
+			if(System.currentTimeMillis()-reloadTime>timeSave1) {
 				manager.shootBullet(0);
-				timeSave = System.currentTimeMillis();
+				timeSave1 = System.currentTimeMillis();
 			}
 		}
 	}
@@ -190,6 +191,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				manager.getPlayers().get(1).updateDirection(-3.0);
 			}
 		}
+		if(mouseClicked&&System.currentTimeMillis()-reloadTime>timeSave2) {
+			manager.shootBullet(1);
+			timeSave2 = System.currentTimeMillis();
+		}
 	}
 	
 	public double getAngle(double x1, double y1, double x2, double y2) {
@@ -229,7 +234,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		manager.shootBullet(1);
 		//buttonChecks();
 		mouseClicked = true;
 	}

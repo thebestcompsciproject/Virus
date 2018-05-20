@@ -18,7 +18,6 @@ public class ObjectManager {
 	
 	private long time = 0;
 	private int spawnTime = 1000; //milliseconds to spawn a new triangle on the map
-	private int maxMap = 15;
 	
 	public ObjectManager(int width, int height) {
 		this.width = width;
@@ -102,9 +101,17 @@ public class ObjectManager {
 	}
 	
 	public void manageMap() {
-		if(map.size()<maxMap&&System.currentTimeMillis() - time >= spawnTime) {
+		if(map.size()<(width*height)/40000&&System.currentTimeMillis() - time >= spawnTime) {
 			addObject(new MapTriangle(Math.random()*width, Math.random()*height, Math.random()*360, 40, Color.gray));
 			time = System.currentTimeMillis();
+		}
+		for(int i = 0; i<bullets.size(); i++) {
+			if(bullets.get(i).getX()>width||bullets.get(i).getY()>height) {
+				bullets.get(i).kill();
+			}
+			else if(bullets.get(i).getX()<0||bullets.get(i).getY()<0) {
+				bullets.get(i).kill();
+			}
 		}
 	}
 	
@@ -120,9 +127,9 @@ public class ObjectManager {
 		for(int i = 0; i<bullets.size(); i++) {
 			int index = (bullets.get(i).getPIndex()+1)%2;
 			double velX = players.get(index).getX()-bullets.get(i).getX();
-			velX/=Math.abs(1000);
+			velX/=Math.abs(3000);
 			double velY = players.get(index).getY()-bullets.get(i).getY();
-			velY/=Math.abs(1000);
+			velY/=Math.abs(3000);
 			System.out.println(velX + ", " + velY);
 			bullets.get(i).updateVelocity(velX, velY);
 		}
