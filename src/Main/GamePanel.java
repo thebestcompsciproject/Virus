@@ -170,7 +170,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		double x1 = manager.getPlayers().get(1).getX();
 		double y1 = manager.getPlayers().get(1).getY();
 		double x2 = MouseInfo.getPointerInfo().getLocation().getX()-frameX;
-		double y2 = MouseInfo.getPointerInfo().getLocation().getY()-45-frameY;
+		double y2 = MouseInfo.getPointerInfo().getLocation().getY()-frameY;
 		double angle = getAngle(x1, y1, x2, y2);
 		angle = (angle+360)%360;
 		//manager.getPlayers().get(1).setDirection(angle);
@@ -221,8 +221,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 	}
 
-	public void buttonChecks(MouseEvent e) {
-		if(p1.contains(e.getX(), e.getY())) {
+	public void buttonChecks() {
+		if(p1.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			p1.clickedButton();
 		}
 	}
@@ -230,7 +230,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		manager.shootBullet(1);
-		//buttonChecks(e);
+		//buttonChecks();
 		mouseClicked = true;
 	}
 

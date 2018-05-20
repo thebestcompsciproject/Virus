@@ -35,7 +35,7 @@ public class Button {
 	
 	public boolean contains(double x1, double y1)
 	{
-		y1-=45;
+		y1-=20;
 		if(x1>=x&&x1<=x+width) {
 			if(y1>=y&&y1<=y+height) {
 				//System.out.println(y + " " + y1 + " " + (y+height));

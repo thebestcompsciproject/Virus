@@ -298,5 +298,6 @@ public class ObjectManager {
 	public void reset() {
 		map.clear();
 		players.clear();
+		bullets.clear();
 	}
 }
