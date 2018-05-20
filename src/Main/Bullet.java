@@ -18,14 +18,20 @@ public class Bullet extends MapTriangle{
 	}
 	
 	public void update() {
-		if(Math.sqrt(Math.pow(velX, 2)+Math.pow(velY, 2))<10)
-		velX+=Math.sin(Math.toRadians(finalD))*.2;
-		velY+=Math.cos(Math.toRadians(finalD))*.2;
+		if(Math.sqrt(Math.pow(velX, 2)+Math.pow(velY, 2))<10) {
+			velX+=Math.sin(Math.toRadians(finalD))*.4;
+			velY+=Math.cos(Math.toRadians(finalD))*.4;
+		}
 		x+=velX;
 		y+=velY;
 	}
 
 	public int getPIndex() {
 		return pIndex;
+	}
+	
+	public void updateVelocity(double x, double y) {
+		velX+=x;
+		velY+=y;
 	}
 }

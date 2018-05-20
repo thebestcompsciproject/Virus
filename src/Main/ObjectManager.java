@@ -10,7 +10,7 @@ public class ObjectManager {
 
 	private ArrayList<Player> players;
 	private ArrayList<GameObject> map;
-	private ArrayList<MapTriangle> bullets;
+	private ArrayList<Bullet> bullets;
 	private int width;
 	private int height;
 	private int frameX;
@@ -27,7 +27,7 @@ public class ObjectManager {
 		frameY = 0;
 		players = new ArrayList<Player>();
 		map = new ArrayList<GameObject>();
-		bullets = new ArrayList<MapTriangle>();
+		bullets = new ArrayList<Bullet>();
 		addPlayer(new Player(400, 400, 0, Color.PINK, 0));
 		addPlayer(new Player(400, 600, 0, Color.MAGENTA, 1));
 	}
@@ -61,6 +61,7 @@ public class ObjectManager {
 		manageMap();
 		checkCollision();
 		purgeObjects();
+		attract();
 	}
 	
 	public void purgeObjects() {
@@ -112,7 +113,18 @@ public class ObjectManager {
 		if(t!=null) {
 			//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
 			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
-
+		}
+	}
+	
+	public void attract() {
+		for(int i = 0; i<bullets.size(); i++) {
+			int index = (bullets.get(i).getPIndex()+1)%2;
+			double velX = players.get(index).getX()-bullets.get(i).getX();
+			velX/=Math.abs(1000);
+			double velY = players.get(index).getY()-bullets.get(i).getY();
+			velY/=Math.abs(1000);
+			System.out.println(velX + ", " + velY);
+			bullets.get(i).updateVelocity(velX, velY);
 		}
 	}
 	
