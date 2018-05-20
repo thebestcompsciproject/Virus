@@ -22,12 +22,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Timer timer;
 	private boolean[] isDown;
 	private ObjectManager manager;
+	private int width;
+	private int height;
+	private int frameX;
+	private int frameY;
 	
 	private int fps;
 	long fpsTime;
 	int fpsDraw;
 	
-	private final long reloadTime = 380;
+	private final int reloadTime = 250;
 	private long timeSave = 0;
 	
 	public BufferedImage defaultPlay;
@@ -36,14 +40,26 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private boolean mouseClicked;
 	Button p1;
 	
-	public GamePanel() {
+	public GamePanel(int width, int height) {
 		timer = new Timer(15, this);
-		manager = new ObjectManager();
+		manager = new ObjectManager(width, height);
 		mouseClicked = false;
+		this.width = width;
+		this.height = height;
+		frameX = 0;
+		frameY = 0;
 		initiateIsDown();
 		initiateFps();
 		readImages();
 		makeButtons();
+	}
+	
+	public void updateInfo(int w, int h, int x, int y) {
+		width = w;
+		height = h;
+		frameX = x;
+		frameY = y;
+		manager.updateInfo(width, height, frameX, frameY);
 	}
 	
 	public void readImages() {
@@ -80,19 +96,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void drawGameState(Graphics g) {
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1000, 800);
+		g.fillRect(0, 0, width, height);
 		g.setColor(new Color(192, 192, 192));
-		for(int i = 0; i<13; i++) {
-			g.drawLine(i*80, 0, i*80, 1000);
-			g.drawLine(0, i*80, 1000, i*80);
-		}
+		
+		for(int i = 0; i<width; i+=80)
+			g.drawLine(i, 0, i, height);
+		for(int i = 0; i<height; i+=80)
+			g.drawLine(0, i, width, i);
+		
 		manager.draw(g);
 		fps++;
+		
 		if(System.currentTimeMillis()-1000 >= fpsTime) {
 			fpsTime = System.currentTimeMillis();
 			fpsDraw = fps;
 			fps = 0;
 		}
+		
 		g.setColor(Color.BLACK);
 		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);
 	}
@@ -134,8 +154,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void screenMouseUpdate() {
 		if(!mouseClicked) {
-			double xM = MouseInfo.getPointerInfo().getLocation().x;
-			double yM = MouseInfo.getPointerInfo().getLocation().y;
+			double xM = MouseInfo.getPointerInfo().getLocation().x-frameX;
+			double yM = MouseInfo.getPointerInfo().getLocation().y-frameY;
 		
 			if(p1.contains(xM, yM)) {
 				p1.hoverButton();
@@ -149,8 +169,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void gameMouseUpdate() {
 		double x1 = manager.getPlayers().get(1).getX();
 		double y1 = manager.getPlayers().get(1).getY();
-		double x2 = MouseInfo.getPointerInfo().getLocation().getX();
-		double y2 = MouseInfo.getPointerInfo().getLocation().getY()-45;
+		double x2 = MouseInfo.getPointerInfo().getLocation().getX()-frameX;
+		double y2 = MouseInfo.getPointerInfo().getLocation().getY()-45-frameY;
 		double angle = getAngle(x1, y1, x2, y2);
 		angle = (angle+360)%360;
 		//manager.getPlayers().get(1).setDirection(angle);

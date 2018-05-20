@@ -11,16 +11,33 @@ public class ObjectManager {
 	private ArrayList<Player> players;
 	private ArrayList<GameObject> map;
 	private ArrayList<MapTriangle> bullets;
+	private int width;
+	private int height;
+	private int frameX;
+	private int frameY;
 	
 	private long time = 0;
-	private int spawnTime = 500; //milliseconds to spawn a new triangle on the map
+	private int spawnTime = 1000; //milliseconds to spawn a new triangle on the map
+	private int maxMap = 15;
 	
-	public ObjectManager() {
+	public ObjectManager(int width, int height) {
+		this.width = width;
+		this.height = height;
+		frameX = 0;
+		frameY = 0;
 		players = new ArrayList<Player>();
 		map = new ArrayList<GameObject>();
 		bullets = new ArrayList<MapTriangle>();
 		addPlayer(new Player(400, 400, 0, Color.PINK, 0));
 		addPlayer(new Player(400, 600, 0, Color.MAGENTA, 1));
+	}
+	
+	public void updateInfo(int w, int h, int x, int y) {
+		width = w;
+		height = h;
+		frameX = x;
+		frameY = y;
+		
 	}
 	
 	public void addPlayer(Player p) {
@@ -38,10 +55,12 @@ public class ObjectManager {
 		for(GameObject o: map) {
 			o.update();
 		}
+		for(MapTriangle b: bullets) {
+			b.update();
+		}
 		manageMap();
 		checkCollision();
 		purgeObjects();
-		//System.out.println((getAngle()+360)%360);
 	}
 	
 	public void purgeObjects() {
@@ -57,6 +76,16 @@ public class ObjectManager {
 				i--;
 			}
 		}
+		if(players.size()<2) {
+			reset();
+		}
+		for(int i = 0; i < bullets.size(); i++) {
+			if(!bullets.get(i).isAlive()) {
+				bullets.remove(i);
+				i--;
+			}
+		}
+		
 	}
 	
 	public void draw(Graphics g) {
@@ -66,11 +95,14 @@ public class ObjectManager {
 		for(Player p: players) {
 			p.draw(g);
 		}
+		for(MapTriangle b: bullets) {
+			b.draw(g);
+		}
 	}
 	
 	public void manageMap() {
-		if(System.currentTimeMillis() - time >= spawnTime) {
-			//addObject(new Triangle());
+		if(map.size()<maxMap&&System.currentTimeMillis() - time >= spawnTime) {
+			addObject(new MapTriangle(Math.random()*width, Math.random()*height, Math.random()*360, 40, Color.gray));
 			time = System.currentTimeMillis();
 		}
 	}
@@ -78,7 +110,9 @@ public class ObjectManager {
 	public void shootBullet(int index) {
 		PlayerTriangle t = players.get(index).removeLastTriangle();
 		if(t!=null) {
-			map.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
+			//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
+			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
+
 		}
 	}
 	
@@ -128,6 +162,16 @@ public class ObjectManager {
 				break;
 			}
 		}
+		
+		for(int k = 0; k<bullets.size(); k++) {
+			o1 = players.get(i).getReserve().get(j);
+			o2 = bullets.get(k);
+			distance = Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2) + Math.pow(o1.getY() - o2.getY(), 2));
+			if(distance<(0.8*players.get(i).getHeight())) {
+				mapToPlayer(o2, (PlayerTriangle) o1, i);
+				break;
+			}
+		}
 	}
 	
 	public void checkMapCore(int i, int j) {
@@ -140,6 +184,16 @@ public class ObjectManager {
 			o2 = map.get(k);
 			distance = Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2) + Math.pow(o1.getY() - o2.getY(), 2));
 			if(distance<(players.get(i).getHeight())) {
+				mapToPlayer(o2, (PlayerTriangle) o1, i);
+				break;
+			}
+		}
+		
+		for(int k = 0; k<bullets.size(); k++) {
+			o1 = players.get(i).getCore().getReserve().get(j);
+			o2 = bullets.get(k);
+			distance = Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2) + Math.pow(o1.getY() - o2.getY(), 2));
+			if(distance<(0.8*players.get(i).getHeight())) {
 				mapToPlayer(o2, (PlayerTriangle) o1, i);
 				break;
 			}
@@ -198,6 +252,15 @@ public class ObjectManager {
 		return false;
 	}
 	
+	public void edges() {
+		for(int i = 0; i<players.size(); i++) {
+			if(players.get(i).getX()<0||players.get(i).getX()>width)
+				players.get(i).setVelocity(-players.get(i).getVelocity()[0], players.get(i).getVelocity()[1]);
+			if(players.get(i).getY()<0||players.get(i).getY()>height)
+				players.get(i).setVelocity(players.get(i).getVelocity()[0], -players.get(i).getVelocity()[1]);
+		}
+	}
+	
 	public void checkCollision() {
 		for(int j = 0; j<210; j++) {
 			if(players.get(0).getDrawn().get(j)) {
@@ -225,6 +288,7 @@ public class ObjectManager {
 				checkMapCore(1,j);
 			}
 		}
+		edges();
 	}
 	
 	public ArrayList<Player> getPlayers() {

@@ -25,6 +25,7 @@ public class Player extends GameObject{
 		this.y = y;
 		this.direction = direction;
 		this.color = color;
+		this.pIndex = pIndex;
 		velocity = new double[2];
 		core = new Core(this);
 		constructTriangles();
@@ -67,18 +68,18 @@ public class Player extends GameObject{
 	public void update() {
 		x+=velocity[0];
 		y+=velocity[1];
-		if(x<0) {
-			setVelocity(-velocity[0],velocity[1]);
-		}
-		if(y<0) {
-			setVelocity(velocity[0],-velocity[1]);
-		}
 		for(int i = 0; i<210; i++) {
 			reserve.get(i).setCenter(x, y);
 		}
 		for(int i = 0; i<6; i++) {
 			core.getReserve().get(i).setCenter(x, y);
 		}
+		boolean b = false;
+		for(int i = 0; i<6; i++) {
+			if(core.getDrawn().get(i))
+				b = true;
+		}
+		isAlive = b;
 	}
 	public void draw(Graphics g) {
 		core.draw(g);
