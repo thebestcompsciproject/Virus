@@ -15,13 +15,15 @@ public class Bullet extends MapTriangle{
 		super(x, y, direction, side, color);
 		this.finalD = finalD;
 		this.pIndex = pIndex;
+		velY = Math.cos(Math.toRadians(finalD))*8;
+		velX = Math.sin(Math.toRadians(finalD))*8;
 	}
 	
 	public void update() {
-		if(Math.sqrt(Math.pow(velX, 2)+Math.pow(velY, 2))<10) {
+		/*if(Math.sqrt(Math.pow(velX, 2)+Math.pow(velY, 2))<10) {
 			velX+=Math.sin(Math.toRadians(finalD))*.4;
 			velY+=Math.cos(Math.toRadians(finalD))*.4;
-		}
+		}*/
 		x+=velX;
 		y+=velY;
 	}
