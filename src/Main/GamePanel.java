@@ -2,6 +2,7 @@
 package Main;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Timer timer;
 	private boolean[] isDown;
 	private ObjectManager manager;
+	Font testFont;
 	
 	private int width;
 	private int height;
@@ -52,6 +54,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		this.height = height;
 		frameX = 0;
 		frameY = 0;
+		testFont = new Font ("Courier New", 1, 30);
 		initiateIsDown();
 		initiateFps();
 		readImages();
@@ -116,9 +119,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			fpsDraw = fps;
 			fps = 0;
 		}
-		
+				
 		g.setColor(Color.BLACK);
+		g.setFont(testFont);
 		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);
+		
 	}
 	
 	public void paint(Graphics g) {
