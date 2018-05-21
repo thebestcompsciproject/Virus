@@ -127,11 +127,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		//p1.draw(g);
 	}
 	
-	private void resistance() {
-		manager.getPlayers().get(0).updateVelocity(-manager.getPlayers().get(0).getVelocity()[0]*.01, -manager.getPlayers().get(0).getVelocity()[1]*.01);
-		manager.getPlayers().get(1).updateVelocity(-manager.getPlayers().get(1).getVelocity()[0]*.01, -manager.getPlayers().get(1).getVelocity()[1]*.01);
-	}
-	
 	private void gameKeysUpdate() {
 		int j = 0;
 		int sign = 1;
@@ -215,7 +210,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private void gameUpdate() {
 		manager.update();
 		gameKeysUpdate();
-		resistance();
 		gameMouseUpdate();
 	}
 	

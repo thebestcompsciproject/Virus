@@ -67,6 +67,7 @@ public class ObjectManager {
 		}
 		
 		manageMap();
+		resistance();
 		attract();
 		checkCollision();
 		purgeObjects();
@@ -86,6 +87,11 @@ public class ObjectManager {
 				bullets.get(i).kill();
 			}
 		}
+	}
+	
+	private void resistance() {
+		players.get(0).updateVelocity(-players.get(0).getVelocity()[0]*.01, -players.get(0).getVelocity()[1]*.01);
+		players.get(1).updateVelocity(-players.get(1).getVelocity()[0]*.01, -players.get(1).getVelocity()[1]*.01);
 	}
 	
 	private void attract() {
