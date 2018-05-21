@@ -97,12 +97,25 @@ public class ObjectManager {
 	private void attract() {
 		for(int i = 0; i<bullets.size(); i++) {
 			int index = (bullets.get(i).getPIndex()+1)%2;
-			double velX = players.get(index).getX()-bullets.get(i).getX();
-			velX/=Math.abs(3000);
-			double velY = players.get(index).getY()-bullets.get(i).getY();
-			velY/=Math.abs(3000);
-			bullets.get(i).updateVelocity(velX, velY);
+			if(checkAngleContained(bullets.get(i).getDirection(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get(index).getX(), players.get(i).getY()))) {
+				double velX = players.get(index).getX()-bullets.get(i).getX();
+				velX/=Math.abs(3000);
+				double velY = players.get(index).getY()-bullets.get(i).getY();
+				velY/=Math.abs(3000);
+				bullets.get(i).updateVelocity(velX, velY);
+			}
 		}
+	}
+	
+	private boolean checkAngleContained(double d1, double d2) {
+		return false;
+	}
+	
+	private double getAngle(double x1, double y1, double x2, double y2) {
+		double delX = x2 - x1;
+		double delY = y2 - y1;
+		double thetaR = Math.atan2(delX, delY);
+		return thetaR*360/(2*Math.PI);
 	}
 	
 	private void purgeObjects() {
