@@ -1,4 +1,4 @@
-//Muruhathasan
+//Muruhathasan, Gurram
 package Main;
 
 import java.awt.Color;
@@ -30,6 +30,9 @@ public class ObjectManager {
 		bullets = new ArrayList<Bullet>();
 		addPlayer(new Player(400, 400, 0, Color.PINK, 0));
 		addPlayer(new Player(400, 600, 0, Color.MAGENTA, 1));
+		for(int i = 0; i <(width*height)/40000; i++) {
+			map.add(new MapTriangle(Math.random()*width, Math.random()*height, Math.random()*360, 40, Color.gray));
+		}
 	}
 	
 	public void updateInfo(int w, int h, int x, int y) {
@@ -49,28 +52,27 @@ public class ObjectManager {
 	
 	public void shootBullet(int index) {
 		PlayerTriangle t = players.get(index).removeLastTriangle();
-		boolean b = checkAngleContained(players.get(index).getDirection(), getAngle(players.get(index).getX(), players.get(index).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()));
+		boolean b = checkAngleContained(players.get(index).getDirection(), getAngle(players.get(index).getX(), players.get(index).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()), 30);
 		if(t!=null) {
 			//bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, b));
 			bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, b));
 		}
 	}
 	
-	private boolean checkAngleContained(double d1, double d2) {
-		System.out.println(d1 + ", " + d2);
-		if(d1<=30&&d2<=30) {
+	private boolean checkAngleContained(double d1, double d2, double diff) {
+		if(d1<=diff&&diff<=30) {
 			return true;
 		}
-		else if(d1>=30&&d2>=30) {
+		else if(d1>=diff&&d2>=diff) {
 			if(Math.abs(d2-d1)<=30)
 				return true;
 		}
-		else if(d1>=330||d2>=330){
-			if(d1>=330)
+		else if(d1>=360-diff||d2>=360-diff){
+			if(d1>=360-diff)
 				d2+=360;
 			else
 				d1+=360;
-			if(Math.abs(d2-d1)<=30)
+			if(Math.abs(d2-d1)<=diff)
 				return true;
 		}
 		return false;
@@ -125,14 +127,22 @@ public class ObjectManager {
 	private void attract() {
 		for(int i = 0; i<bullets.size(); i++) {
 			if(bullets.get(i).getAttract()) {
-				int index = (bullets.get(i).getPIndex()+1)%2;
+				/*int index = (bullets.get(i).getPIndex()+1)%2;
 				double velX = players.get(index).getX()-bullets.get(i).getX();
 				velX/=3000;
 				double velY = players.get(index).getY()-bullets.get(i).getY();
 				velY/=3000;
-				bullets.get(i).updateVelocity(velX, velY);
+				bullets.get(i).updateVelocity(velX, velY);*/
+				int index = bullets.get(i).getPIndex();
+				if(checkAngleContained(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()), 60)) {
+					bullets.get(i).updateFinalD(angleDiff(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY())));
+				}
 			}
 		}
+	}
+	
+	public double angleDiff(double d1, double d2) {
+		return Math.abs(d1-d2)%360;
 	}
 	
 	private void purgeObjects() {

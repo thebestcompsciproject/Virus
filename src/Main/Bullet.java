@@ -38,6 +38,10 @@ public class Bullet extends MapTriangle{
 		velX+=x;
 		velY+=y;
 	}
+	
+	public void updateFinalD(double d) {
+		finalD+=d;
+	}
 
 	public double getFinalD() {
 		return finalD;
