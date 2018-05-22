@@ -37,7 +37,7 @@ public class Button {
 	{
 		y1-=20;
 		if(x1>=x&&x1<=x+width) {
-			if(y1>=y&&y1<=y+height) {
+			if(y1 >= y && y1 <= (y + height)) {
 				return true;
 			}
 		}
