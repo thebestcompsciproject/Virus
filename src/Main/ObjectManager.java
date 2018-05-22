@@ -49,10 +49,38 @@ public class ObjectManager {
 	
 	public void shootBullet(int index) {
 		PlayerTriangle t = players.get(index).removeLastTriangle();
+		boolean b = checkAngleContained(players.get(index).getDirection(), getAngle(players.get(index).getX(), players.get(index).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()));
 		if(t!=null) {
-			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
-			//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
+			//bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, b));
+			bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, b));
 		}
+	}
+	
+	private boolean checkAngleContained(double d1, double d2) {
+		System.out.println(d1 + ", " + d2);
+		if(d1<=30&&d2<=30) {
+			return true;
+		}
+		else if(d1>=30&&d2>=30) {
+			if(Math.abs(d2-d1)<=30)
+				return true;
+		}
+		else if(d1>=330||d2>=330){
+			if(d1>=330)
+				d2+=360;
+			else
+				d1+=360;
+			if(Math.abs(d2-d1)<=30)
+				return true;
+		}
+		return false;
+	}
+	
+	private double getAngle(double x1, double y1, double x2, double y2) {
+		double delX = x2 - x1;
+		double delY = y2 - y1;
+		double thetaR = Math.atan2(delX, delY);
+		return ((thetaR*360/(2*Math.PI))+360)%360;
 	}
 	
 	public void update() {
@@ -96,26 +124,15 @@ public class ObjectManager {
 	
 	private void attract() {
 		for(int i = 0; i<bullets.size(); i++) {
-			int index = (bullets.get(i).getPIndex()+1)%2;
-			if(checkAngleContained(bullets.get(i).getDirection(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get(index).getX(), players.get(i).getY()))) {
+			if(bullets.get(i).getAttract()) {
+				int index = (bullets.get(i).getPIndex()+1)%2;
 				double velX = players.get(index).getX()-bullets.get(i).getX();
-				velX/=Math.abs(3000);
+				velX/=3000;
 				double velY = players.get(index).getY()-bullets.get(i).getY();
-				velY/=Math.abs(3000);
+				velY/=3000;
 				bullets.get(i).updateVelocity(velX, velY);
 			}
 		}
-	}
-	
-	private boolean checkAngleContained(double d1, double d2) {
-		return false;
-	}
-	
-	private double getAngle(double x1, double y1, double x2, double y2) {
-		double delX = x2 - x1;
-		double delY = y2 - y1;
-		double thetaR = Math.atan2(delX, delY);
-		return thetaR*360/(2*Math.PI);
 	}
 	
 	private void purgeObjects() {
