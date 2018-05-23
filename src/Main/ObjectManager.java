@@ -54,8 +54,8 @@ public class ObjectManager {
 		PlayerTriangle t = players.get(index).removeLastTriangle();
 		boolean b = checkAngleContained(players.get(index).getDirection(), getAngle(players.get(index).getX(), players.get(index).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()), 30);
 		if(t!=null) {
-			//bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, b));
-			bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, b));
+			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, b));
+			//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, b));
 		}
 	}
 	
@@ -127,22 +127,28 @@ public class ObjectManager {
 	private void attract() {
 		for(int i = 0; i<bullets.size(); i++) {
 			if(bullets.get(i).getAttract()) {
-				/*int index = (bullets.get(i).getPIndex()+1)%2;
-				double velX = players.get(index).getX()-bullets.get(i).getX();
-				velX/=3000;
-				double velY = players.get(index).getY()-bullets.get(i).getY();
-				velY/=3000;
-				bullets.get(i).updateVelocity(velX, velY);*/
 				int index = bullets.get(i).getPIndex();
 				if(checkAngleContained(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()), 60)) {
-					bullets.get(i).updateFinalD(angleDiff(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY())));
+					bullets.get(i).updateFinalD((angleDiff(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY())))/50);
 				}
 			}
 		}
 	}
 	
 	public double angleDiff(double d1, double d2) {
-		return Math.abs(d1-d2)%360;
+		return direction(d1, d2)*Math.abs(d1-d2)%360;
+	}
+	
+	public int direction(double d1, double d2) {
+		if(d1<180) {
+			if(d2>d1&&d2<d1+180)
+				return 1;
+		}
+		else {
+			if(d2>d1||d2<d1-180)
+				return 1;
+		}
+		return -1;
 	}
 	
 	private void purgeObjects() {

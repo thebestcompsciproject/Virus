@@ -154,13 +154,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			g.drawLine(0, i, width, i);
 		
 		manager.draw(g);
-		fps++;
-		
-		if(System.currentTimeMillis()-1000 >= fpsTime) {
-			fpsTime = System.currentTimeMillis();
-			fpsDraw = fps;
-			fps = 0;
-		}
 				
 		g.setColor(Color.BLACK);
 		g.setFont(testFont);
@@ -170,16 +163,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		if(switchScreen.get(0) == false && switchScreen.get(1) == false && switchScreen.get(2) == false )
-		{
-		play.draw(g);
-		HTP.draw(g);
-		credits.draw(g);
-		insertMainMenu(g);
+		if(switchScreen.get(0) == false && switchScreen.get(1) == false && switchScreen.get(2) == false ) {
+			play.draw(g);
+			HTP.draw(g);
+			credits.draw(g);
+			insertMainMenu(g);
 		}
-		
-		if(switchScreen.get(0) == true)
-		{
+		if(switchScreen.get(0) == true) {
 			repaint();
 			drawGameState(g);
 		}
@@ -284,6 +274,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		gameMouseUpdate();
 	}
 	
+	private void fpsUpdate() {
+		fps++;
+		if(System.currentTimeMillis()-1000 >= fpsTime) {
+			fpsTime = System.currentTimeMillis();
+			fpsDraw = fps;
+			fps = 0;
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -293,6 +292,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		{
 			repaint();
 			gameUpdate();
+			fpsUpdate();
 		}
 		
 		screenMouseUpdate();
