@@ -52,6 +52,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage clickedCredits;
 	
 	public BufferedImage mainMenu;
+	public BufferedImage creditsScreen;
+	public BufferedImage HTPScreen;
 	
 	private boolean mouseClicked;
 	
@@ -89,31 +91,43 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void initiateSwitchScreen()
 	{
-		for (int i = 0; i < 3; i ++)
+		for (int i = 0; i < 4; i ++)
 		{
-			switchScreen.add(i,false); // button choices
+			switchScreen.add(i,false); // button choices 
 		}
 	}
 	
 	public void insertMainMenu(Graphics g)
 	{
-		g.drawImage(mainMenu,300, 100, 850 ,400 , null);
+		g.drawImage(mainMenu,300, 100, 850 ,200 , null);
+	}
+	
+	public void toCredits(Graphics g)
+	{
+		g.drawImage(creditsScreen, 0, 0, 1450, 920, null);
+	}
+	
+	public void toHTP(Graphics g)
+	{
+		g.drawImage(HTPScreen, 0, 0, 1450, 920, null);
 	}
 	private void readImages() {
 		try {
-			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayBlank.png"));
-			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayHover.png"));
-			clickedPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayClicked.png"));
+			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("fPlay1.png"));
+			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("fPlay2.png"));
+			clickedPlay = ImageIO.read(this.getClass().getResourceAsStream("fPlay3.png"));
 			
-			defaultHTP = ImageIO.read(this.getClass().getResourceAsStream("HowToPlay1.png"));
-			hoverHTP = ImageIO.read(this.getClass().getResourceAsStream("HowToPlay2.png"));
-			clickedHTP = ImageIO.read(this.getClass().getResourceAsStream("HowToPlay3.png"));
+			defaultHTP = ImageIO.read(this.getClass().getResourceAsStream("fHowToPlay1.png"));
+			hoverHTP = ImageIO.read(this.getClass().getResourceAsStream("fHowToPlay2.png"));
+			clickedHTP = ImageIO.read(this.getClass().getResourceAsStream("fHowToPlay3.png"));
 			
-			defaultCredits = ImageIO.read(this.getClass().getResourceAsStream("Credits1.png"));
-			hoverCredits = ImageIO.read(this.getClass().getResourceAsStream("Credits2.png"));
-			clickedCredits = ImageIO.read(this.getClass().getResourceAsStream("Credits3.png"));
+			defaultCredits = ImageIO.read(this.getClass().getResourceAsStream("fCredits1.png"));
+			hoverCredits = ImageIO.read(this.getClass().getResourceAsStream("fCredits2.png"));
+			clickedCredits = ImageIO.read(this.getClass().getResourceAsStream("fCredits3.png"));
 			
-			mainMenu  = ImageIO.read(this.getClass().getResourceAsStream("MainLogo.png"));
+			mainMenu  = ImageIO.read(this.getClass().getResourceAsStream("fMainLogo.png"));
+			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("creditsScreen.png"));
+			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("howToPlayScreen.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,7 +142,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void initiateIsDown() {
 		isDown = new boolean[11];
-		for(int i = 0; i<8; i++) {
+		for(int i = 0; i < 8; i++) {
 			isDown[i] = false;
 		}
 	}
@@ -169,9 +183,26 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			credits.draw(g);
 			insertMainMenu(g);
 		}
-		if(switchScreen.get(0) == true) {
+		
+		if(switchScreen.get(0) == true) { //play
 			repaint();
 			drawGameState(g);
+		}
+		
+		if(switchScreen.get(1) == true) { // htp
+			repaint();
+			toHTP(g);
+		}
+		
+		if(switchScreen.get(2) == true) { // credits
+			repaint();
+			toCredits(g);
+			
+		}
+		
+		if(switchScreen.get(3) == true) { //back
+			repaint();
+			
 		}
 	}
 	
@@ -293,6 +324,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			repaint();
 			gameUpdate();
 			fpsUpdate();
+		}
+		
+		if(switchScreen.get(1) == true)
+		{
+			repaint();
+		}
+		
+		if(switchScreen.get(2) == true) {
+			repaint();
+		}
+		
+		if(switchScreen.get(3) == true) {
+			repaint();
 		}
 		
 		screenMouseUpdate();
