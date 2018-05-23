@@ -29,8 +29,8 @@ public class ObjectManager {
 		map = new ArrayList<GameObject>();
 		bullets = new ArrayList<Bullet>();
 		System.out.println(width + ", " + height);
-		addPlayer(new Player(width/3, height/2, 0, Color.PINK, 0));
-		addPlayer(new Player((2*width)/3, height/2, 0, Color.MAGENTA, 1));
+		addPlayer(new Player(width/4, height/4, 0, Color.PINK, 0));
+		addPlayer(new Player((3*width)/4, (3*height)/4, 0, Color.MAGENTA, 1));
 		for(int i = 0; i <(width*height)/40000; i++) {
 			map.add(new MapTriangle(Math.random()*width, Math.random()*height, Math.random()*360, 40, Color.gray));
 		}
@@ -122,8 +122,8 @@ public class ObjectManager {
 	}
 	
 	private void resistance() {
-		players.get(0).updateVelocity(-players.get(0).getVelocity()[0]*.01, -players.get(0).getVelocity()[1]*.01);
-		players.get(1).updateVelocity(-players.get(1).getVelocity()[0]*.01, -players.get(1).getVelocity()[1]*.01);
+		players.get(0).updateVelocity(-players.get(0).getVelocity()[0]*.010, -players.get(0).getVelocity()[1]*.010);
+		players.get(1).updateVelocity(-players.get(1).getVelocity()[0]*.010, -players.get(1).getVelocity()[1]*.010);
 	}
 	
 	private void attract() {
@@ -354,10 +354,14 @@ public class ObjectManager {
 	
 	private void edges() {
 		for(int i = 0; i<players.size(); i++) {
-			if(players.get(i).getX()<0||players.get(i).getX()>width)
-				players.get(i).setVelocity(-players.get(i).getVelocity()[0], players.get(i).getVelocity()[1]);
-			if(players.get(i).getY()<0||players.get(i).getY()>height)
-				players.get(i).setVelocity(players.get(i).getVelocity()[0], -players.get(i).getVelocity()[1]);
+			if(players.get(i).getX()<0)
+				players.get(i).setVelocity(Math.abs(players.get(i).getVelocity()[0]), players.get(i).getVelocity()[1]);
+			if(players.get(i).getX()>width)
+				players.get(i).setVelocity(-Math.abs(players.get(i).getVelocity()[0]), players.get(i).getVelocity()[1]);
+			if(players.get(i).getY()<0)
+				players.get(i).setVelocity(players.get(i).getVelocity()[0], Math.abs(players.get(i).getVelocity()[1]));
+			if(players.get(i).getY()>height)
+				players.get(i).setVelocity(players.get(i).getVelocity()[0], -Math.abs(players.get(i).getVelocity()[1]));
 		}
 	}
 	

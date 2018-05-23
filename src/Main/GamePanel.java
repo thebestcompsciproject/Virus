@@ -65,7 +65,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public GamePanel(int width, int height) {
 		timer = new Timer(15, this);
-		manager = new ObjectManager(width, height);
+		manager = null;
 		mouseClicked = false;
 		this.width = width;
 		this.height = height;
@@ -214,7 +214,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			j = i/4;
 			sign = (2*((i/2)%2)-1);
 			if(isDown[i]&&manager.getPlayers().get(j).getVelocity()[(i+1)%2]*sign<6.0) {
-				manager.getPlayers().get(j).updateVelocity(0.06*(i%2)*sign,0.06*((i+1)%2)*sign);
+				manager.getPlayers().get(j).updateVelocity(0.1*(i%2)*sign,0.1*((i+1)%2)*sign);
 			}
 		}
 	
@@ -298,8 +298,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		return thetaR*360/(2*Math.PI);
 	}
 	
-	
 	private void gameUpdate() {
+		if(manager == null)
+			manager = new ObjectManager(width, height);
 		manager.update();
 		gameKeysUpdate();
 		gameMouseUpdate();
@@ -368,7 +369,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		buttonChecks();
+		if(!switchScreen.get(0))
+			buttonChecks();
 		mouseClicked = true;
 	}
 
