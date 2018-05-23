@@ -28,8 +28,9 @@ public class ObjectManager {
 		players = new ArrayList<Player>();
 		map = new ArrayList<GameObject>();
 		bullets = new ArrayList<Bullet>();
-		addPlayer(new Player(400, 400, 0, Color.PINK, 0));
-		addPlayer(new Player(400, 600, 0, Color.MAGENTA, 1));
+		System.out.println(width + ", " + height);
+		addPlayer(new Player(width/3, height/2, 0, Color.PINK, 0));
+		addPlayer(new Player((2*width)/3, height/2, 0, Color.MAGENTA, 1));
 		for(int i = 0; i <(width*height)/40000; i++) {
 			map.add(new MapTriangle(Math.random()*width, Math.random()*height, Math.random()*360, 40, Color.gray));
 		}
@@ -40,6 +41,7 @@ public class ObjectManager {
 		height = h;
 		frameX = x;
 		frameY = y;
+		System.out.println(width + ", " + height);
 	}
 	
 	public void addPlayer(Player p) {

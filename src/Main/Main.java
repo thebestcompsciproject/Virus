@@ -11,10 +11,10 @@ public class Main implements ActionListener{
 	
 	JFrame frame;
 	GamePanel panel;
-	final static int width = 1450;
-	final static int height = 1000;
+	int width = 1450;
+	int height = 1000;
 	Timer t;
-	int repeat = 16;
+	int repeat = 15;
 	
 	public static void main(String args[]) {
 		Main main = new Main();
@@ -43,5 +43,6 @@ public class Main implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		panel.updateInfo(frame.getWidth(), frame.getHeight(), frame.getX(), frame.getY());
+		//System.out.println(frame.getWidth() + ", " + frame.getHeight());
 	}
 }
