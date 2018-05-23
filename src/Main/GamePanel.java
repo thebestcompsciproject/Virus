@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.MouseInfo;
 
 import javax.imageio.ImageIO;
@@ -42,9 +43,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage hoverPlay;
 	public BufferedImage clickedPlay;
 	
+	public BufferedImage defaultHTP;
+	public BufferedImage hoverHTP;
+	public BufferedImage clickedHTP;
+	
+	public BufferedImage defaultCredits;
+	public BufferedImage hoverCredits;
+	public BufferedImage clickedCredits;
+	
+	public BufferedImage mainMenu;
+	
 	private boolean mouseClicked;
 	
-	private Button p1;
+	private Button play;
+	private Button HTP;
+	private Button credits;
+	
+	ArrayList<Boolean> switchScreen;
 	
 	public GamePanel(int width, int height) {
 		timer = new Timer(15, this);
@@ -55,8 +70,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		frameX = 0;
 		frameY = 0;
 		testFont = new Font ("Courier New", 1, 30);
+		
+		switchScreen = new ArrayList<Boolean>();
 		initiateIsDown();
 		initiateFps();
+		initiateSwitchScreen();
 		readImages();
 		makeButtons();
 	}
@@ -69,11 +87,33 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		manager.updateInfo(width, height, frameX, frameY);
 	}
 	
+	public void initiateSwitchScreen()
+	{
+		for (int i = 0; i < 3; i ++)
+		{
+			switchScreen.add(i,false); // button choices
+		}
+	}
+	
+	public void insertMainMenu(Graphics g)
+	{
+		g.drawImage(mainMenu,300, 100, 850 ,400 , null);
+	}
 	private void readImages() {
 		try {
 			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayBlank.png"));
 			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayHover.png"));
 			clickedPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayClicked.png"));
+			
+			defaultHTP = ImageIO.read(this.getClass().getResourceAsStream("HowToPlay1.png"));
+			hoverHTP = ImageIO.read(this.getClass().getResourceAsStream("HowToPlay2.png"));
+			clickedHTP = ImageIO.read(this.getClass().getResourceAsStream("HowToPlay3.png"));
+			
+			defaultCredits = ImageIO.read(this.getClass().getResourceAsStream("Credits1.png"));
+			hoverCredits = ImageIO.read(this.getClass().getResourceAsStream("Credits2.png"));
+			clickedCredits = ImageIO.read(this.getClass().getResourceAsStream("Credits3.png"));
+			
+			mainMenu  = ImageIO.read(this.getClass().getResourceAsStream("MainLogo.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,7 +121,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void makeButtons() {
-		p1 = new Button(400, 400, 500, 250, defaultPlay, hoverPlay, clickedPlay);
+		play = new Button(560, 380, 300, 150, defaultPlay, hoverPlay, clickedPlay);
+		HTP = new Button(560, 550, 300, 150, defaultHTP, hoverHTP, clickedHTP);
+		credits = new Button(560, 720, 300, 150, defaultCredits, hoverCredits, clickedCredits);
 	}
 	
 	private void initiateIsDown() {
@@ -128,8 +170,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		drawGameState(g);
-		//p1.draw(g);
+		if(switchScreen.get(0) == false && switchScreen.get(1) == false && switchScreen.get(2) == false )
+		{
+		play.draw(g);
+		HTP.draw(g);
+		credits.draw(g);
+		insertMainMenu(g);
+		}
+		
+		if(switchScreen.get(0) == true)
+		{
+			repaint();
+			drawGameState(g);
+		}
 	}
 	
 	private void gameKeysUpdate() {
@@ -164,11 +217,24 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(!mouseClicked) {
 			double xM = MouseInfo.getPointerInfo().getLocation().x-frameX;
 			double yM = MouseInfo.getPointerInfo().getLocation().y-frameY;
-			if(p1.contains(xM, yM)) {
-				p1.hoverButton();
+
+			if(play.contains(xM, yM)) {
+				play.hoverButton();
 			}
 			else {
-				p1.defautlButton();
+				play.defautlButton();
+			}
+			if(HTP.contains(xM, yM)) {
+				HTP.hoverButton();
+			}
+			else {
+				HTP.defautlButton();
+			}
+			if(credits.contains(xM, yM)) {
+				credits.hoverButton();
+			}
+			else {
+				credits.defautlButton();
 			}
 		}
 	}
@@ -222,8 +288,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
-		gameUpdate();
-		//screenMouseUpdate();
+		
+		if(switchScreen.get(0) == true)
+		{
+			repaint();
+			gameUpdate();
+		}
+		
+		screenMouseUpdate();
 	}
 
 	@Override
@@ -233,8 +305,20 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 
 	private void buttonChecks() {
-		if(p1.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			p1.clickedButton();
+		
+		if(play.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			play.clickedButton();
+			switchScreen.set(0, true);
+		}
+		else if(HTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY))
+		{
+			HTP.clickedButton();
+			switchScreen.set(1, true);
+		}
+		else if(credits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY))
+		{
+			credits.clickedButton();
+			switchScreen.set(2, true);
 		}
 	}
 	@Override
