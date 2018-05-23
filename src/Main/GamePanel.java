@@ -324,7 +324,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		//buttonChecks();
+		buttonChecks();
 		mouseClicked = true;
 	}
 
