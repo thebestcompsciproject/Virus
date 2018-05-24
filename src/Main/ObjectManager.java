@@ -28,7 +28,6 @@ public class ObjectManager {
 		players = new ArrayList<Player>();
 		map = new ArrayList<GameObject>();
 		bullets = new ArrayList<Bullet>();
-		System.out.println(width + ", " + height);
 		addPlayer(new Player(width/4, height/4, 0, Color.PINK, 0));
 		addPlayer(new Player((3*width)/4, (3*height)/4, 0, Color.MAGENTA, 1));
 		for(int i = 0; i <(width*height)/40000; i++) {
@@ -41,7 +40,6 @@ public class ObjectManager {
 		height = h;
 		frameX = x;
 		frameY = y;
-		System.out.println(width + ", " + height);
 	}
 	
 	public void addPlayer(Player p) {

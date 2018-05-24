@@ -86,7 +86,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		height = h;
 		frameX = x;
 		frameY = y;
-		manager.updateInfo(width, height, frameX, frameY);
+		if(manager!=null)
+			manager.updateInfo(width, height, frameX, frameY);
 	}
 	
 	public void initiateSwitchScreen()
@@ -97,19 +98,21 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	public void insertMainMenu(Graphics g)
+	public void drawMainMenu(Graphics g)
 	{
-		g.drawImage(mainMenu,300, 100, 850 ,200 , null);
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, width, height);
+		g.drawImage(mainMenu, width*290/1280, height*60/725, width*700/1280, height*175/725, null);
 	}
 	
 	public void toCredits(Graphics g)
 	{
-		g.drawImage(creditsScreen, 0, 0, 1450, 920, null);
+		g.drawImage(creditsScreen, 0, 0, width, height, null);
 	}
 	
 	public void toHTP(Graphics g)
 	{
-		g.drawImage(HTPScreen, 0, 0, 1450, 920, null);
+		g.drawImage(HTPScreen, 0, 0, width, height, null);
 	}
 	private void readImages() {
 		try {
@@ -135,9 +138,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void makeButtons() {
-		play = new Button(560, 380, 300, 150, defaultPlay, hoverPlay, clickedPlay);
-		HTP = new Button(560, 550, 300, 150, defaultHTP, hoverHTP, clickedHTP);
-		credits = new Button(560, 720, 300, 150, defaultCredits, hoverCredits, clickedCredits);
+		play = new Button(width*525/1280, height*275/725, width*200/1280, height*100/725, defaultPlay, hoverPlay, clickedPlay);
+		HTP = new Button(width*525/1280, height*400/725, width*200/1280, height*100/725, defaultHTP, hoverHTP, clickedHTP);
+		credits = new Button(width*525/1280, height*525/725, width*200/1280, height*100/725, defaultCredits, hoverCredits, clickedCredits);
 	}
 	
 	private void initiateIsDown() {
@@ -178,10 +181,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void paint(Graphics g) {
 		super.paint(g);
 		if(switchScreen.get(0) == false && switchScreen.get(1) == false && switchScreen.get(2) == false ) {
+			drawMainMenu(g);
 			play.draw(g);
 			HTP.draw(g);
 			credits.draw(g);
-			insertMainMenu(g);
 		}
 		
 		if(switchScreen.get(0) == true) { //play
@@ -315,29 +318,33 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
+	private void updateButtonsMain() {
+		play.updateLocation(width*525/1280, height*275/725, width*200/1280, height*100/725);
+		HTP.updateLocation(width*525/1280, height*400/725, width*200/1280, height*100/725);
+		credits.updateLocation(width*525/1280, height*525/725, width*200/1280, height*100/725);
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
 		
-		if(switchScreen.get(0) == true)
-		{
+		if(switchScreen.get(0) == true) {
 			repaint();
 			gameUpdate();
 			fpsUpdate();
 		}
-		
-		if(switchScreen.get(1) == true)
-		{
-			repaint();
+		else if(switchScreen.get(1) == true) {
+			
 		}
-		
-		if(switchScreen.get(2) == true) {
-			repaint();
+		else if(switchScreen.get(2) == true) {
+			
 		}
-		
-		if(switchScreen.get(3) == true) {
-			repaint();
+		else if(switchScreen.get(3) == true) {
+			
+		}
+		else {
+			updateButtonsMain();
 		}
 		
 		screenMouseUpdate();

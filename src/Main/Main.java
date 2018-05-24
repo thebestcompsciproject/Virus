@@ -33,7 +33,7 @@ public class Main implements ActionListener{
 	public Main() {
 		t = new Timer(repeat, this);
 		frame = new JFrame();
-		panel= new GamePanel(1450,1000);
+		panel= new GamePanel(1280,725);
 		frame.add(panel);
 		frame.addKeyListener(panel);
 		frame.addMouseListener(panel);
@@ -43,6 +43,5 @@ public class Main implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		panel.updateInfo(frame.getWidth(), frame.getHeight(), frame.getX(), frame.getY());
-		//System.out.println(frame.getWidth() + ", " + frame.getHeight());
 	}
 }
