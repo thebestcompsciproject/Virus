@@ -86,7 +86,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		height = h;
 		frameX = x;
 		frameY = y;
-		if(manager!=null)
+		if(manager != null)
 			manager.updateInfo(width, height, frameX, frameY);
 	}
 	
@@ -128,9 +128,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			hoverCredits = ImageIO.read(this.getClass().getResourceAsStream("fCredits2.png"));
 			clickedCredits = ImageIO.read(this.getClass().getResourceAsStream("fCredits3.png"));
 			
-			mainMenu  = ImageIO.read(this.getClass().getResourceAsStream("fMainLogo.png"));
-			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("creditsScreen.png"));
-			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("howToPlayScreen.png"));
+			mainMenu  = ImageIO.read(this.getClass().getResourceAsStream("F_Title.png"));
+			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("F_Credits.png"));
+			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("F_HTP.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
