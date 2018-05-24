@@ -11,10 +11,10 @@ public class Main implements ActionListener{
 	
 	JFrame frame;
 	GamePanel panel;
-	final static int width = 1000;
-	final static int height = 800;
+	int width = 1450;
+	int height = 1000;
 	Timer t;
-	int repeat = 16;
+	int repeat = 15;
 	
 	public static void main(String args[]) {
 		Main main = new Main();
@@ -33,7 +33,7 @@ public class Main implements ActionListener{
 	public Main() {
 		t = new Timer(repeat, this);
 		frame = new JFrame();
-		panel= new GamePanel(1000,800);
+		panel= new GamePanel(1280,725);
 		frame.add(panel);
 		frame.addKeyListener(panel);
 		frame.addMouseListener(panel);
