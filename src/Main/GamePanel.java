@@ -102,7 +102,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	{
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
-		g.drawImage(mainMenu, width*290/1280, height*60/725, width*700/1280, height*175/725, null);
+		g.drawImage(mainMenu, width*290/1280, height*10/725, width*700/1280, height*300/725, null);
 	}
 	
 	public void toCredits(Graphics g)
