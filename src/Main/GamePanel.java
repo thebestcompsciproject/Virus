@@ -318,10 +318,18 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	private void updateButtonsMain() {
+	private void updateMain() {
 		play.updateLocation(width*525/1280, height*275/725, width*200/1280, height*100/725);
 		HTP.updateLocation(width*525/1280, height*400/725, width*200/1280, height*100/725);
 		credits.updateLocation(width*525/1280, height*525/725, width*200/1280, height*100/725);
+	}
+	
+	private void updateHTP() {
+		
+	}
+	
+	private void updateCredits() {
+		
 	}
 	
 	@Override
@@ -335,16 +343,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			fpsUpdate();
 		}
 		else if(switchScreen.get(1) == true) {
-			
+			updateHTP();
 		}
 		else if(switchScreen.get(2) == true) {
-			
+			updateCredits();
 		}
 		else if(switchScreen.get(3) == true) {
 			
 		}
 		else {
-			updateButtonsMain();
+			updateMain();
 		}
 		
 		screenMouseUpdate();
