@@ -161,6 +161,7 @@ public class ObjectManager {
 		
 		for(int i = 0; i < players.size(); i++) {
 			if(!players.get(i).isAlive()) {
+				System.out.println(i);
 				players.remove(i);
 				i--;
 			}
