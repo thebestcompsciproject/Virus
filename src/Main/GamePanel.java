@@ -87,6 +87,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		makeButtons();
 	}
 	
+	public void start() {
+		timer.start();
+	}
+	
 	public void updateInfo(int w, int h, int x, int y) {
 		width = w;
 		height = h;
@@ -151,8 +155,21 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		fpsDraw = 60;
 	}
 	
-	public void start() {
-		timer.start();
+	public void paintScreen(Graphics g) {
+		if(switchScreen.get(0) == false && switchScreen.get(1) == false && switchScreen.get(2) == false ) {
+			drawMainMenu(g);
+		}
+		if(switchScreen.get(0)) { //play
+			drawGameState(g);
+		}
+		
+		if(switchScreen.get(1)) { // htp
+			toHTP(g);
+		}
+		
+		if(switchScreen.get(2)) { // credits
+			toCredits(g);
+		}
 	}
 	
 	public void drawMainMenu(Graphics g) {
@@ -192,29 +209,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 	}
 	
-	public void paintScreen(Graphics g) {
-		if(switchScreen.get(0) == false && switchScreen.get(1) == false && switchScreen.get(2) == false ) {
-			drawMainMenu(g);
-		}
-		if(switchScreen.get(0)) { //play
-			drawGameState(g);
-		}
-		
-		if(switchScreen.get(1)) { // htp
-			toHTP(g);
-		}
-		
-		if(switchScreen.get(2)) { // credits
-			toCredits(g);
-			
-		}
-	}
-	
 	public void paint(Graphics g) {
 		super.paint(g);
 		paintScreen(g);
-		
 	}
+	
 	private void gameKeysUpdate() {
 		int j = 0;
 		int sign = 1;
@@ -320,8 +319,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void gameUpdate() {
-		if(manager == null)
+		if(manager == null) {
 			manager = new ObjectManager(width, height);
+		}
 		manager.update();
 		gameKeysUpdate();
 		gameMouseUpdate();
@@ -380,19 +380,18 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 
 	private void buttonChecksMain() {
-		
 		if(play.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			play.clickedButton();
 			switchScreen.set(0, true);
 		}
-		else if(HTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY))
-		{
+		else if(HTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			HTP.clickedButton();
+			repaint();
 			switchScreen.set(1, true);
 		}
-		else if(credits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY))
-		{
+		else if(credits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			credits.clickedButton();
+			repaint();
 			switchScreen.set(2, true);
 		}
 	}
@@ -400,6 +399,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private void buttonChecksHTP() {
 		if(backHTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			backHTP.clickedButton();
+			repaint();
 			switchScreen.set(1, false);
 		}
 	}
@@ -407,6 +407,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private void buttonChecksCredits() {
 		if(backCredits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			backCredits.clickedButton();
+			repaint();
 			switchScreen.set(2, false);
 		}
 	}
@@ -493,14 +494,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
-		/*if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			manager.getPlayers().get(0).addTriangle();
-		}as
-		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-			manager.getPlayers().get(0).removeLastTriangle();
-		}*/
-		
 		gameP1Controls(e, true);
 		gameP2Controls(e, true);
 	}
@@ -511,5 +504,4 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		gameP1Controls(e, false);
 		gameP2Controls(e, false);
 	}
-
 }
