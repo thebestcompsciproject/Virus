@@ -319,12 +319,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void gameUpdate() {
-		if(manager == null) {
-			manager = new ObjectManager(width, height);
+		if(manager.getPlayers().size()<2) {
+			switchScreen.set(0, false);
+			return;
 		}
-		manager.update();
 		gameKeysUpdate();
 		gameMouseUpdate();
+		manager.update();
 	}
 	
 	private void fpsUpdate() {
@@ -383,6 +384,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(play.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			play.clickedButton();
 			switchScreen.set(0, true);
+			manager = new ObjectManager(width, height);
 		}
 		else if(HTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			HTP.clickedButton();

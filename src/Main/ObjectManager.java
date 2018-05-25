@@ -161,7 +161,6 @@ public class ObjectManager {
 		
 		for(int i = 0; i < players.size(); i++) {
 			if(!players.get(i).isAlive()) {
-				System.out.println(i);
 				players.remove(i);
 				i--;
 			}
@@ -211,9 +210,10 @@ public class ObjectManager {
 		}
 		
 		edges();
+		checkBullets();
 	}
 	
-	private void bulletToBullet(MapTriangle o1, MapTriangle o2) {
+	private void bulletCollision(MapTriangle o1, MapTriangle o2) {
 		o1.kill();
 		o2.kill();
 	}
@@ -349,6 +349,22 @@ public class ObjectManager {
 			}
 		}
 		return false;
+	}
+	
+	public void checkBullets() {
+		double distance;
+		for(int i = 0; i<bullets.size(); i++) {
+			for(int j = i+1; j<bullets.size(); j++) {
+				GameObject o1 = bullets.get(i);
+				GameObject o2 = bullets.get(j);
+				if(o1 instanceof Bullet && o2 instanceof Bullet) {
+					distance = Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2) + Math.pow(o1.getY() - o2.getY(), 2));
+					if(distance<(0.8*players.get(0).getHeight())) {
+						bulletCollision((Bullet)o1, (Bullet)o2);
+					}
+				}
+			}
+		}
 	}
 	
 	private void edges() {
