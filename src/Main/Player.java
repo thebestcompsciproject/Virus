@@ -13,7 +13,12 @@ public class Player extends GameObject{
 	private Core core;
 	private double[] velocity;
 	private int pIndex;
-	
+	private boolean MG;
+	private boolean hasInfection;
+	private boolean dart;
+	private boolean hasAntidote;
+	private long infectionTimer = 0;
+	private int infectionBuffer = 1000;
 	double side = 40;
 	double height = (Math.sqrt(3)*side)/2;
 	
@@ -30,6 +35,10 @@ public class Player extends GameObject{
 		core = new Core(this);
 		constructTriangles();
 		constructDrawn();
+		MG = false;
+	    hasInfection = false;
+		dart = false;
+		hasAntidote = false;
 	}
 	
 	private void constructTriangles() {
@@ -146,6 +155,15 @@ public class Player extends GameObject{
 	public void updateDirection(double change) {
 		direction = (direction+change+360)%360;
 	}
+	
+	private void infection()
+	{
+		if(System.currentTimeMillis() - infectionBuffer > infectionTimer){
+			infectionTimer = System.currentTimeMillis();
+			this.removeLastTriangle();
+		}
+	}
+
 		
 	public ArrayList<PlayerTriangle> getReserve(){
 		return reserve;
@@ -170,4 +188,26 @@ public class Player extends GameObject{
 	public int getPIndex() {
 		return pIndex;
 	}
+	
+	public void setInfection(Boolean b)
+	{
+		hasInfection = b;
+	}
+	
+	public void setDart(Boolean b)
+	{
+		 dart = b;
+	}
+	
+	public void setMG(Boolean b)
+	{
+		MG = b;
+	}
+	
+	public void setAntidote(Boolean b)
+	{
+		 hasAntidote = b;
+	}
+	
+	
 }
