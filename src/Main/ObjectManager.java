@@ -52,11 +52,8 @@ public class ObjectManager {
 	
 	public void shootBullet(int index) {
 		PlayerTriangle t = players.get(index).removeLastTriangle();
-		boolean b = checkAngleContained(players.get(index).getDirection(), getAngle(players.get(index).getX(), players.get(index).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()), 30);
-		if(t!=null) {
-			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, b));
-			//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, b));
-		}
+		bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
+		//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
 	}
 	
 	private boolean checkAngleContained(double d1, double d2, double diff) {
@@ -126,11 +123,9 @@ public class ObjectManager {
 	
 	private void attract() {
 		for(int i = 0; i<bullets.size(); i++) {
-			if(bullets.get(i).getAttract()) {
-				int index = bullets.get(i).getPIndex();
-				if(checkAngleContained(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()), 60)) {
-					bullets.get(i).updateFinalD((angleDiff(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY())))/50);
-				}
+			int index = bullets.get(i).getPIndex();
+			if(checkAngleContained(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()), 45)) {
+				bullets.get(i).updateFinalD((angleDiff(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()))));
 			}
 		}
 	}
