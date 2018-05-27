@@ -19,7 +19,7 @@ public class Core extends GameObject{
 		drawn = new ArrayList<Boolean>();
 		initiateReserve();
 		initiateDrawn();
-		this.color = Color.BLACK;
+		this.color = new Color(50, 50, 50);
 	}
 	
 	private void initiateReserve() {
@@ -41,7 +41,7 @@ public class Core extends GameObject{
 	public void draw(Graphics g) {
 		for(int i = 0; i<6; i++) {
 			if(drawn.get(i)) {
-				g.setColor(Color.BLACK);
+				g.setColor(color);
 				reserve.get(i).draw(g);
 			}
 		}

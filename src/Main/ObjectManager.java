@@ -28,10 +28,8 @@ public class ObjectManager {
 		players = new ArrayList<Player>();
 		map = new ArrayList<GameObject>();
 		bullets = new ArrayList<Bullet>();
-		//addPlayer(new Player(width/4, height/4, 0, Color.PINK, 0));
-		//addPlayer(new Player((3*width)/4, (3*height)/4, 0, Color.MAGENTA, 1));
-		addPlayer(new Player(300, 300, 0, Color.PINK, 0));
-		addPlayer(new Player(300, 500, 0, Color.MAGENTA, 1));
+		addPlayer(new Player(width/4, height/4, 0, new Color(171, 60, 60), 0));
+		addPlayer(new Player((3*width)/4, (3*height)/4, 0, new Color(241, 194, 50), 1));
 		for(int i = 0; i <(width*height)/40000; i++) {
 			map.add(new MapTriangle(Math.random()*width, Math.random()*height, Math.random()*360, 40, Color.gray));
 		}
@@ -101,9 +99,9 @@ public class ObjectManager {
 	private void attract() {
 		for(int i = 0; i<bullets.size(); i++) {
 			int index = bullets.get(i).getPIndex();
-			//if(checkAngleContained(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()), 60)) {
+			if(checkAngleContained(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY()), 90)) {
 				bullets.get(i).updateFinalD((angleDiff(bullets.get(i).getFinalD(), getAngle(bullets.get(i).getX(), bullets.get(i).getY(), players.get((index+1)%2).getX(), players.get((index+1)%2).getY())))/75);
-			//}
+			}
 		}
 	}
 	
@@ -126,21 +124,8 @@ public class ObjectManager {
 	}
 	
 	private boolean checkAngleContained(double d1, double d2, double diff) {
-		if(d1<=diff&&diff<=30) {
+		if(Math.abs(angleDiff(d1, d2))<diff)
 			return true;
-		}
-		else if(d1>=diff&&d2>=diff) {
-			if(Math.abs(d2-d1)<=30)
-				return true;
-		}
-		else if(d1>=360-diff||d2>=360-diff){
-			if(d1>=360-diff)
-				d2+=360;
-			else
-				d1+=360;
-			if(Math.abs(d2-d1)<=diff)
-				return true;
-		}
 		return false;
 	}
 	
