@@ -18,10 +18,9 @@ public class Button {
 	
 	private BufferedImage defaultButton;
 	private BufferedImage hoverButton;
-	private BufferedImage pressButton;
 	private BufferedImage drawButton;
 	
-	Button(double x, double y, double width, double height, BufferedImage img1, BufferedImage img2, BufferedImage img3) 
+	Button(double x, double y, double width, double height, BufferedImage img1, BufferedImage img2) 
 	{
 		this.width = width;
 		this.height = height;
@@ -30,7 +29,6 @@ public class Button {
 		
 		defaultButton = img1;
 		hoverButton = img2;
-		pressButton = img3;
 		drawButton = defaultButton;
 	}
 	
@@ -47,7 +45,6 @@ public class Button {
 	
 	public void draw(Graphics g) {
 		 g.drawImage(drawButton, (int)x, (int)y, (int)width, (int)height, null);
-		 //g.drawRect((int)400, (int)400, (int)width, (int)height);
 	}
 	
 	public void updateLocation(double x, double y, double width, double height) {
@@ -64,9 +61,4 @@ public class Button {
 	public void defautlButton() {
 		drawButton = defaultButton;
 	}
-	
-	public void clickedButton() {
-		drawButton = pressButton;
-	}
-	
 }
