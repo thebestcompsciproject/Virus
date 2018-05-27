@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void updateInfo(int w, int h, int x, int y) {
 		width = w;
-		height = h;
+		height = h-10;
 		frameX = x;
 		frameY = y;
 		if(manager != null)
