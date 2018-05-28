@@ -142,8 +142,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			hoverPA = ImageIO.read(this.getClass().getResourceAsStream("PlayAgainB.png"));
 			
 			Logo  = ImageIO.read(this.getClass().getResourceAsStream("Logo.png"));
-			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("F_Credits.png"));
-			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("F_HTP.png"));
+			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("CreditsScreen.png"));
+			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("HTPScreen.png"));
 			winScreen1 = ImageIO.read(this.getClass().getResourceAsStream("P1Win.png"));
 			winScreen2 = ImageIO.read(this.getClass().getResourceAsStream("P2Win.png"));
 			//loading = ImageIO.read(this.getClass().getResourceAsStream(""));
@@ -225,7 +225,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		/*Color opaqueWhite = new Color(255, 255, 255, 50);
 		g.setColor(opaqueWhite);
 		g.fillRect(0, 0, width, height);*/
-		g.drawImage(winScreen1, width*5/18, (height-width*4/15)/2, width*4/9, width*4/15, null);
+		if(manager.getPlayers().get(0).getPIndex() == 0) {
+			g.drawImage(winScreen1, width*5/18, (height-width*4/15)/2, width*4/9, width*4/15, null);
+		}
+		else {
+			g.drawImage(winScreen2, width*5/18, (height-width*4/15)/2, width*4/9, width*4/15, null);
+		}
 		backPA.draw(g);
 		PA.draw(g);
 	}
@@ -390,8 +395,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void updateWin() { //fix
-		PA.updateLocation(width*525/1280, height*400/725, width*200/1280, height*100/725);
-		backPA.updateLocation(width*10/1280, height*600/725, width*200/1280, height*100/725);
+		PA.updateLocation(width*665/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
+		backPA.updateLocation(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
 	}
 	
 	private void updateLoading() { //fix
