@@ -54,7 +54,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage defaultPA;
 	public BufferedImage hoverPA;
 	
-	public BufferedImage mainMenu;
+	public BufferedImage Logo;
 	public BufferedImage creditsScreen;
 	public BufferedImage HTPScreen;
 	public BufferedImage winScreen1;
@@ -124,19 +124,22 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void readImages() {
 		try {
-			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("fPlay1.png"));
-			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("fPlay2.png"));
+			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayA.png"));
+			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayB.png"));
 			
-			defaultHTP = ImageIO.read(this.getClass().getResourceAsStream("fHowToPlay1.png"));
-			hoverHTP = ImageIO.read(this.getClass().getResourceAsStream("fHowToPlay2.png"));
+			defaultHTP = ImageIO.read(this.getClass().getResourceAsStream("HTPA.png"));
+			hoverHTP = ImageIO.read(this.getClass().getResourceAsStream("HTPB.png"));
 			
-			defaultCredits = ImageIO.read(this.getClass().getResourceAsStream("fCredits1.png"));
-			hoverCredits = ImageIO.read(this.getClass().getResourceAsStream("fCredits2.png"));
+			defaultCredits = ImageIO.read(this.getClass().getResourceAsStream("CreditsA.png"));
+			hoverCredits = ImageIO.read(this.getClass().getResourceAsStream("CreditsB.png"));
 
-			defaultBack = ImageIO.read(this.getClass().getResourceAsStream("B1.png"));
-			hoverBack = ImageIO.read(this.getClass().getResourceAsStream("B2.png"));
+			defaultBack = ImageIO.read(this.getClass().getResourceAsStream("BackA.png"));
+			hoverBack = ImageIO.read(this.getClass().getResourceAsStream("BackB.png"));
 			
-			mainMenu  = ImageIO.read(this.getClass().getResourceAsStream("F_Title.png"));
+			defaultPA = ImageIO.read(this.getClass().getResourceAsStream("PlayAgainA.png"));
+			hoverPA = ImageIO.read(this.getClass().getResourceAsStream("PlayAgainB.png"));
+			
+			Logo  = ImageIO.read(this.getClass().getResourceAsStream("Logo.png"));
 			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("F_Credits.png"));
 			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("F_HTP.png"));
 		} catch (IOException e) {
@@ -192,9 +195,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	public void drawMainMenu(Graphics g) {
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
-		g.drawImage(mainMenu, width*290/1280, height*10/725, width*700/1280, height*300/725, null);
+		g.drawImage(Logo, width*140/1280, height*50/725, width*1000/1280, height*175/725, null);
 		play.draw(g);
 		HTP.draw(g);
 		credits.draw(g);
