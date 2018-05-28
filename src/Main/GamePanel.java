@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage HTPScreen;
 	public BufferedImage winScreen1;
 	public BufferedImage winScreen2;
-	public BufferedImage Loading;
+	public BufferedImage loading;
 	
 	private boolean mouseClicked;
 	
@@ -68,6 +68,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Button credits;
 	private Button backHTP;
 	private Button backCredits;
+	private Button PA;
+	private Button backPA;
 	
 	ArrayList<Boolean> switchScreen;
 	
@@ -140,8 +142,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			hoverPA = ImageIO.read(this.getClass().getResourceAsStream("PlayAgainB.png"));
 			
 			Logo  = ImageIO.read(this.getClass().getResourceAsStream("Logo.png"));
-			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("F_Credits.png"));
-			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("F_HTP.png"));
+			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("CreditsScreen.png"));
+			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("HTPScreen.png"));
+			winScreen1 = ImageIO.read(this.getClass().getResourceAsStream("P1Win.png"));
+			winScreen2 = ImageIO.read(this.getClass().getResourceAsStream("P2Win.png"));
+			//loading = ImageIO.read(this.getClass().getResourceAsStream(""));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -154,6 +159,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		credits = new Button(width*525/1280, height*525/725, width*200/1280, height*100/725, defaultCredits, hoverCredits);
 		backHTP = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 		backCredits = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
+		PA = new Button(width*525/1280, height*400/725, width*200/1280, height*100/725, defaultPA, hoverPA);
+		backPA =  new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 	}
 	
 	public void paintScreen(Graphics g) {
@@ -213,12 +220,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		backCredits.draw(g);
 	}
 	
-	public void drawWin(Graphics g) { //fix
-		
+	public void drawWin(Graphics g) {
+		drawGameState(g);
+		/*Color opaqueWhite = new Color(255, 255, 255, 50);
+		g.setColor(opaqueWhite);
+		g.fillRect(0, 0, width, height);*/
+		if(manager.getPlayers().get(0).getPIndex() == 0) {
+			g.drawImage(winScreen1, width*5/18, (height-width*4/15)/2, width*4/9, width*4/15, null);
+		}
+		else {
+			g.drawImage(winScreen2, width*5/18, (height-width*4/15)/2, width*4/9, width*4/15, null);
+		}
+		backPA.draw(g);
+		PA.draw(g);
 	}
 	
-	public void drawLoading(Graphics g) { //fix
-		
+	public void drawLoading(Graphics g) {
+		g.drawImage(loading, 0, 0, width, height, null);
 	}
 	
 	public void paint(Graphics g) {
@@ -263,31 +281,43 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				play.hoverButton();
 			}
 			else {
-				play.defautlButton();
+				play.defaultButton();
 			}
 			if(HTP.contains(xM, yM)) {
 				HTP.hoverButton();
 			}
 			else {
-				HTP.defautlButton();
+				HTP.defaultButton();
 			}
 			if(credits.contains(xM, yM)) {
 				credits.hoverButton();
 			}
 			else {
-				credits.defautlButton();
+				credits.defaultButton();
 			}
 			if(backHTP.contains(xM, yM)) {
 				backHTP.hoverButton();
 			}
 			else {
-				backHTP.defautlButton();
+				backHTP.defaultButton();
 			}
 			if(backCredits.contains(xM, yM)) {
 				backCredits.hoverButton();
 			}
 			else {
-				backCredits.defautlButton();
+				backCredits.defaultButton();
+			}
+			if(backPA.contains(xM, yM)) {
+				backPA.hoverButton();
+			}
+			else {
+				backPA.defaultButton();
+			}
+			if(PA.contains(xM, yM)) {
+				PA.hoverButton();
+			}
+			else {
+				PA.defaultButton();
 			}
 		}
 	}
@@ -365,7 +395,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void updateWin() { //fix
-		
+		PA.updateLocation(width*665/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
+		backPA.updateLocation(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
 	}
 	
 	private void updateLoading() { //fix
@@ -436,7 +467,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void buttonChecksWin() { //fix
-		
+		if(PA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			repaint();
+			switchScreen.set(3, false);
+			switchScreen.set(0,  true);
+			manager = new ObjectManager(width, height);
+		}
+		if(backPA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			repaint();
+			switchScreen.set(3, false);
+		}
 	}
 	
 	@Override
