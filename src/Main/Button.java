@@ -58,7 +58,7 @@ public class Button {
 		drawButton = hoverButton;
 	}
 	
-	public void defautlButton() {
+	public void defaultButton() {
 		drawButton = defaultButton;
 	}
 }

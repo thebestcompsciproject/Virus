@@ -157,10 +157,6 @@ public class ObjectManager {
 				i--;
 			}
 		}
-		
-		if(players.size()<2) {
-			reset();
-		}
 	}
 	
 	private void checkCollision() {
