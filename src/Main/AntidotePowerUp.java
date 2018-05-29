@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 public class AntidotePowerUp extends GameObject 
 	{
+		private long spawnTime;
 		private double radius;
 		
 		public AntidotePowerUp(double x, double y, double direction, double radius, Color color) 
@@ -16,6 +17,7 @@ public class AntidotePowerUp extends GameObject
 			this.direction = direction;
 			this.color = color;
 			this.radius = radius;
+			spawnTime = System.currentTimeMillis();
 		}
 		
 		public void draw(Graphics g) 
@@ -30,6 +32,13 @@ public class AntidotePowerUp extends GameObject
 		public double getRadius()
 		{
 			return radius;
+		}
+		
+		public void update() {
+			if( (System.currentTimeMillis() - 9000) > spawnTime)
+			{
+				this.kill();
+			}
 		}
 	}
 
