@@ -17,8 +17,14 @@ public class ObjectManager {
 	private int frameX;
 	private int frameY;
 	
-	private long time = 0;
-	private int spawnTime = 1000;
+	private long timeMap = 0;
+	private int spawnTimeMap = 1000;
+	private long timeInf = 0;
+	private double probInf = 0.03;
+	
+	private boolean infSpawn = false;
+	private boolean antSpawn = false;
+	
 	
 	public ObjectManager(int width, int height) {
 		this.width = width;
@@ -76,9 +82,9 @@ public class ObjectManager {
 	}
 	
 	private void manageMap() {
-		if(map.size()<(width*height)/40000&&System.currentTimeMillis() - time >= spawnTime) {
+		if(map.size()<(width*height)/40000&&System.currentTimeMillis() - timeMap >= spawnTimeMap) {
 			map.add(new MapTriangle(Math.random()*width, Math.random()*height, Math.random()*360, 40, Color.gray));
-			time = System.currentTimeMillis();
+			timeMap = System.currentTimeMillis();
 		}
 		
 		for(int i = 0; i<bullets.size(); i++) {
@@ -89,12 +95,40 @@ public class ObjectManager {
 				bullets.get(i).kill();
 			}
 		}
+		spawnInfectionDart();
+		spawnAntidote();
 	}
+	
+	private void spawnInfectionDart() 
+	{
+		if(System.currentTimeMillis()-1000>=timeInf){
+			timeInf = System.currentTimeMillis();
+			if (Math.random()<probInf)
+			{
+				infSpawn = true;
+				antSpawn = true;
+				addObject(new DartPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 23.0, new Color(106, 168, 79)));
+				
+			}		
+		}
+		
+	}
+	
+	private void spawnAntidote() 
+	{
+		if (infSpawn&&antSpawn)
+			{
+				addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 23.0, new Color(69, 126, 218)));
+				antSpawn = false;
+			}		
+		}
+		
 	
 	private void resistance() {
 		players.get(0).updateVelocity(-players.get(0).getVelocity()[0]*.010, -players.get(0).getVelocity()[1]*.010);
 		players.get(1).updateVelocity(-players.get(1).getVelocity()[0]*.010, -players.get(1).getVelocity()[1]*.010);
 	}
+	
 	
 	private void attract() {
 		for(int i = 0; i<bullets.size(); i++) {
