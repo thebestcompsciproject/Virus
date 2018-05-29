@@ -2,6 +2,7 @@
 package Main;
 //test test test
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.Toolkit;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -190,6 +193,21 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		else {
 			drawMainMenu(g);
 		}
+		
+		drawMouse(g);
+	}
+	
+	public void drawMouse(Graphics g) {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+	    Point hotSpot = new Point(0,0);
+	    BufferedImage cursorImage = new BufferedImage(1, 1, BufferedImage.TRANSLUCENT); 
+	    Cursor invisibleCursor = toolkit.createCustomCursor(cursorImage, hotSpot, "InvisibleCursor");        
+	    setCursor(invisibleCursor);
+	    double xM = MouseInfo.getPointerInfo().getLocation().x-frameX;
+		double yM = MouseInfo.getPointerInfo().getLocation().y-frameY-20;
+		g.setColor(new Color(241, 194, 50));
+	    g.fillRect((int)(xM-1), (int)(yM-15), 2, 30);
+	    g.fillRect((int)(xM-15), (int)(yM-1), 30, 2);
 	}
 	
 	private void drawGameState(Graphics g) {
