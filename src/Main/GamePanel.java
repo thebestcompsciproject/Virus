@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private int fpsDraw;
 	
 	private long loadingInitial = -1;
-	private long loadingTime = 2000;
+	private long loadingTimeMenu = 1500;
 	
 	private final int reloadTime = 250;
 	private long timeSave1 = 0;
@@ -428,10 +428,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			loadingInitial = System.currentTimeMillis();
 		}
 		
-		if(System.currentTimeMillis()-loadingTime>loadingInitial) {
+		if(System.currentTimeMillis()-loadingTimeMenu>loadingInitial) {
 			loadingInitial = -1;
 			manager = new ObjectManager(width, height);
-			switchScreen.set(4, false);
+			for(int i = 1; i<5; i++) {
+				switchScreen.set(i, false);
+			}
 			switchScreen.set(0, true);
 		}
 	}
@@ -514,7 +516,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(PA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			repaint();
 			switchScreen.set(3, false);
-			switchScreen.set(0,  true);
+			switchScreen.set(4,  true);
 			manager = new ObjectManager(width, height);
 		}
 		if(backPA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
