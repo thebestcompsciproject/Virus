@@ -21,7 +21,6 @@ public class TestCode {
 			}
 			angle = 360-angle;
 			System.out.println(angle);
-			//sumanth is a bitch
 			if(angle<90) {
 				u1+=players.get(0).getVelocity()[0]*Math.sin(Math.toRadians(30));
 				v2+=-players.get(0).getVelocity()[0]*Math.cos(Math.toRadians(30));

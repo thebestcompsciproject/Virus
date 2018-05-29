@@ -18,7 +18,7 @@ public class ObjectManager {
 	private int frameY;
 	
 	private long time = 0;
-	private int spawnTime = 1000; //milliseconds to spawn a new triangle on the map
+	private int spawnTime = 1000;
 	
 	public ObjectManager(int width, int height) {
 		this.width = width;

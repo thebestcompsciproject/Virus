@@ -76,9 +76,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	ArrayList<Boolean> switchScreen;
 	
+	//CONSTRUCTOR
+	
 	public GamePanel(int width, int height) {
 		timer = new Timer(15, this);
-		manager = null;
 		mouseClicked = false;
 		this.width = width;
 		this.height = height;
@@ -166,6 +167,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		backPA =  new Button(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultBack, hoverBack);
 	}
 	
+	//GRAPHICS
+	
 	public void paint(Graphics g) {
 		super.paint(g);
 		
@@ -227,9 +230,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void drawWin(Graphics g) {
 		drawGameState(g);
-		/*Color opaqueWhite = new Color(255, 255, 255, 50);
+		Color opaqueWhite = new Color(255, 255, 255, 50);
 		g.setColor(opaqueWhite);
-		g.fillRect(0, 0, width, height);*/
+		g.fillRect(0, 0, width, height);
 		if(manager.getPlayers().get(0).getPIndex() == 0) {
 			g.drawImage(winScreen1, width*5/18, (height-width*4/15)/2, width*4/9, width*4/15, null);
 		}
@@ -243,6 +246,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void drawLoading(Graphics g) {
 		g.drawImage(loading, 0, 0, width, height, null);
 	}
+	
+	//UPDATES
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -406,11 +411,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 		if(System.currentTimeMillis()-loadingTime>loadingInitial) {
 			loadingInitial = -1;
+			manager = new ObjectManager(width, height);
 			switchScreen.set(4, false);
 			switchScreen.set(0, true);
 		}
 	}
 
+	//MOUSECHECKS
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -495,6 +503,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			switchScreen.set(3, false);
 		}
 	}
+	
+	//KEYCHECKS
 
 	@Override
 	public void keyTyped(KeyEvent e) {
