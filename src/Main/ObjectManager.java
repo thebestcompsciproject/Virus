@@ -54,7 +54,7 @@ public class ObjectManager {
 		PlayerTriangle t = players.get(index).removeLastTriangle();
 		if(t!=null)
 			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
-		//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
+			//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
 	}
 	
 	public void update() {

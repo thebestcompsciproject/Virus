@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Timer timer;
 	private boolean[] isDown;
 	private ObjectManager manager;
-	Font testFont;
+	private Font testFont;
 	
 	private int width;
 	private int height;
@@ -34,6 +34,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private int fps;
 	private long fpsTime;
 	private int fpsDraw;
+	
+	private long loadingInitial = -1;
+	private long loadingTime = 2000;
 	
 	private final int reloadTime = 250;
 	private long timeSave1 = 0;
@@ -142,11 +145,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			hoverPA = ImageIO.read(this.getClass().getResourceAsStream("PlayAgainB.png"));
 			
 			Logo  = ImageIO.read(this.getClass().getResourceAsStream("Logo.png"));
-			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("CreditsScreen.png"));
-			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("HTPScreen.png"));
+			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("Credits.png"));
+			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("HTP.png"));
 			winScreen1 = ImageIO.read(this.getClass().getResourceAsStream("P1Win.png"));
 			winScreen2 = ImageIO.read(this.getClass().getResourceAsStream("P2Win.png"));
-			//loading = ImageIO.read(this.getClass().getResourceAsStream(""));
+			loading = ImageIO.read(this.getClass().getResourceAsStream("Loading.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -163,7 +166,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		backPA =  new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 	}
 	
-	public void paintScreen(Graphics g) {
+	public void paint(Graphics g) {
+		super.paint(g);
+		
 		if(switchScreen.get(0)) {
 			drawGameState(g);
 		}
@@ -239,16 +244,39 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		g.drawImage(loading, 0, 0, width, height, null);
 	}
 	
-	public void paint(Graphics g) {
-		super.paint(g);
-		paintScreen(g);
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		repaint();
+		
+		if(switchScreen.get(0)) {
+			gameUpdate();
+			fpsUpdate();
+		}
+		else if(switchScreen.get(1)) {
+			updateHTP();
+		}
+		else if(switchScreen.get(2)) {
+			updateCredits();
+		}
+		else if(switchScreen.get(3)) {
+			updateWin();
+		}
+		else if(switchScreen.get(4)) {
+			updateLoading();
+		}
+		else {
+			updateMenu();
+		}
+		
+		MenuMouseUpdate();
 	}
 	
 	private void gameKeysUpdate() {
 		int j = 0;
 		int sign = 1;
 		
-		for(int i = 0; i<8; i++) {
+		for(int i = 0; i<8; i++) {//checks keys for movement
 			j = i/4;
 			sign = (2*((i/2)%2)-1);
 			if(isDown[i]&&manager.getPlayers().get(j).getVelocity()[(i+1)%2]*sign<6.0) {
@@ -272,54 +300,26 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	private void MainMouseUpdate() {
+	private void MenuMouseUpdate() {
 		if(!mouseClicked) {
 			double xM = MouseInfo.getPointerInfo().getLocation().x-frameX;
 			double yM = MouseInfo.getPointerInfo().getLocation().y-frameY;
-
-			if(play.contains(xM, yM)) {
-				play.hoverButton();
-			}
-			else {
-				play.defaultButton();
-			}
-			if(HTP.contains(xM, yM)) {
-				HTP.hoverButton();
-			}
-			else {
-				HTP.defaultButton();
-			}
-			if(credits.contains(xM, yM)) {
-				credits.hoverButton();
-			}
-			else {
-				credits.defaultButton();
-			}
-			if(backHTP.contains(xM, yM)) {
-				backHTP.hoverButton();
-			}
-			else {
-				backHTP.defaultButton();
-			}
-			if(backCredits.contains(xM, yM)) {
-				backCredits.hoverButton();
-			}
-			else {
-				backCredits.defaultButton();
-			}
-			if(backPA.contains(xM, yM)) {
-				backPA.hoverButton();
-			}
-			else {
-				backPA.defaultButton();
-			}
-			if(PA.contains(xM, yM)) {
-				PA.hoverButton();
-			}
-			else {
-				PA.defaultButton();
-			}
+			
+			checkButton(play, xM, yM);
+			checkButton(HTP, xM, yM);
+			checkButton(credits, xM, yM);
+			checkButton(backHTP, xM, yM);
+			checkButton(backCredits, xM, yM);
+			checkButton(backPA, xM, yM);
+			checkButton(PA, xM, yM);
 		}
+	}
+	
+	private void checkButton(Button b, double x, double y) {
+		if(b.contains(x, y))
+			b.hoverButton();
+		else
+			b.defaultButton();
 	}
 	
 	private void gameMouseUpdate() {
@@ -380,7 +380,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	private void updateMain() {
+	private void updateMenu() {
 		play.updateLocation(width*525/1280, height*275/725, width*200/1280, height*100/725);
 		HTP.updateLocation(width*525/1280, height*400/725, width*200/1280, height*100/725);
 		credits.updateLocation(width*525/1280, height*525/725, width*200/1280, height*100/725);
@@ -400,83 +400,21 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void updateLoading() { //fix
-		
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		repaint();
-		
-		if(switchScreen.get(0)) {
-			gameUpdate();
-			fpsUpdate();
-		}
-		else if(switchScreen.get(1)) {
-			updateHTP();
-		}
-		else if(switchScreen.get(2)) {
-			updateCredits();
-		}
-		else if(switchScreen.get(3)) {
-			updateWin();
-		}
-		else if(switchScreen.get(4)) {
-			updateLoading();
-		}
-		else {
-			updateMain();
+		if(loadingInitial<0) {
+			loadingInitial = System.currentTimeMillis();
 		}
 		
-		MainMouseUpdate();
+		if(System.currentTimeMillis()-loadingTime>loadingInitial) {
+			loadingInitial = -1;
+			switchScreen.set(4, false);
+			switchScreen.set(0, true);
+		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	private void buttonChecksMain() {
-		if(play.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			switchScreen.set(0, true);
-			manager = new ObjectManager(width, height);
-		}
-		else if(HTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(1, true);
-		}
-		else if(credits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(2, true);
-		}
-	}
-	
-	private void buttonChecksHTP() {
-		if(backHTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(1, false);
-		}
-	}
-	
-	private void buttonChecksCredits() {
-		if(backCredits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(2, false);
-		}
-	}
-	
-	private void buttonChecksWin() { //fix
-		if(PA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(3, false);
-			switchScreen.set(0,  true);
-			manager = new ObjectManager(width, height);
-		}
-		if(backPA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(3, false);
-		}
 	}
 	
 	@Override
@@ -516,6 +454,68 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 
 	}
 	
+	private void buttonChecksMain() {
+		if(play.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			switchScreen.set(4, true);
+			manager = new ObjectManager(width, height);
+		}
+		else if(HTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			repaint();
+			switchScreen.set(1, true);
+		}
+		else if(credits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			repaint();
+			switchScreen.set(2, true);
+		}
+	}
+	
+	private void buttonChecksHTP() {
+		if(backHTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			repaint();
+			switchScreen.set(1, false);
+		}
+	}
+	
+	private void buttonChecksCredits() {
+		if(backCredits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			repaint();
+			switchScreen.set(2, false);
+		}
+	}
+	
+	private void buttonChecksWin() { //fix
+		if(PA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			repaint();
+			switchScreen.set(3, false);
+			switchScreen.set(0,  true);
+			manager = new ObjectManager(width, height);
+		}
+		if(backPA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			repaint();
+			switchScreen.set(3, false);
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		gameP1Controls(e, true);
+		gameP2Controls(e, true);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		gameP1Controls(e, false);
+		gameP2Controls(e, false);
+	}
+	
 	private void gameP1Controls(KeyEvent e, boolean state) {
 		if(e.getKeyCode() == KeyEvent.VK_W) {
 			isDown[0] = state;
@@ -553,25 +553,5 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			isDown[7] = state;
 		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		gameP1Controls(e, true);
-		gameP2Controls(e, true);
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		gameP1Controls(e, false);
-		gameP2Controls(e, false);
 	}
 }
