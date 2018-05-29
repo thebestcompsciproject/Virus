@@ -222,7 +222,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 		manager.draw(g);
 				
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.setFont(testFont);
 		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);
 	}
