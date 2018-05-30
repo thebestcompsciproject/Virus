@@ -28,6 +28,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private boolean[] isDown;
 	private ObjectManager manager;
 	private Font testFont;
+	private int opacity = 0;
+	private boolean opacityControl;
 	
 	private int width;
 	private int height;
@@ -77,7 +79,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Button PA;
 	private Button backPA;
 	
-	ArrayList<Boolean> switchScreen;
+	private final int menuState = 0;
+	private final int playState = 1;
+	private final int HTPState = 2;
+	private final int creditsState = 3;
+	private final int winState = 4;
+	private final int loadingState = 5;
+	
+	private int currentState;
 	
 	//CONSTRUCTOR
 	
@@ -90,10 +99,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		frameY = 0;
 		testFont = new Font ("Courier New", 1, 30);
 		
-		switchScreen = new ArrayList<Boolean>();
+		currentState = 0;
 		initiateIsDown();
 		initiateFps();
-		initiateSwitchScreen();
 		readImages();
 		makeButtons();
 	}
@@ -109,13 +117,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		frameY = y;
 		if(manager != null)
 			manager.updateInfo(width, height, frameX, frameY);
-	}
-	
-	public void initiateSwitchScreen() {
-		//Play, HTP, Credits, Win, Loading
-		for (int i = 0; i < 5; i ++) {
-			switchScreen.add(i,false); 
-		}
 	}
 	
 	private void initiateIsDown() {
@@ -175,23 +176,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		if(switchScreen.get(0)) {
+		if(currentState == menuState) {
+			drawMainMenu(g);
+		}
+		if(currentState == playState) {
 			drawGameState(g);
 		}
-		else if(switchScreen.get(1)) {
+		else if(currentState == HTPState) {
 			drawHTP(g);
 		}
-		else if(switchScreen.get(2)) {
+		else if(currentState == creditsState) {
 			drawCredits(g);
 		}
-		else if(switchScreen.get(3)) {
+		else if(currentState == winState) {
 			drawWin(g);
 		}
-		else if(switchScreen.get(4)) {
+		else if(currentState == loadingState) {
 			drawLoading(g);
-		}
-		else {
-			drawMainMenu(g);
 		}
 		
 		drawMouse(g);
@@ -208,7 +209,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		g.setColor(new Color(241, 194, 50));
 	    g.fillRect((int)(xM-1), (int)(yM-15), 2, 30);
 	    g.fillRect((int)(xM-15), (int)(yM-1), 30, 2);
-	    //g.fillOval((int)(xM-3), (int)(yM-3), 6, 6);
 	}
 	
 	private void drawGameState(Graphics g) {
@@ -262,6 +262,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		PA.draw(g);
 	}
 	
+	private void drawTransition(int index) {
+		if(opacity>=255) {
+			opacityControl = true;
+		}
+		if(!opacityControl)
+			opacity+=15;
+		else
+			opacity-=15;
+		if(opacity == 0) {
+			opacityControl = false;
+		}
+	}
+	
 	public void drawLoading(Graphics g) {
 		g.drawImage(loading, 0, 0, width, height, null);
 	}
@@ -273,24 +286,24 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		// TODO Auto-generated method stub
 		repaint();
 		
-		if(switchScreen.get(0)) {
+		if(currentState == menuState) {
+			updateMenu();
+		}
+		if(currentState == playState) {
 			gameUpdate();
 			fpsUpdate();
 		}
-		else if(switchScreen.get(1)) {
+		else if(currentState == HTPState) {
 			updateHTP();
 		}
-		else if(switchScreen.get(2)) {
+		else if(currentState == creditsState) {
 			updateCredits();
 		}
-		else if(switchScreen.get(3)) {
+		else if(currentState == winState) {
 			updateWin();
 		}
-		else if(switchScreen.get(4)) {
+		else if(currentState == loadingState) {
 			updateLoading();
-		}
-		else {
-			updateMenu();
 		}
 		
 		MenuMouseUpdate();
@@ -386,8 +399,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void gameUpdate() {
 		if(manager.getPlayers().size()<2) {
-			switchScreen.set(0, false);
-			switchScreen.set(3, true);
+			currentState = winState;
 			return;
 		}
 		gameKeysUpdate();
@@ -431,10 +443,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(System.currentTimeMillis()-loadingTimeMenu>loadingInitial) {
 			loadingInitial = -1;
 			manager = new ObjectManager(width, height);
-			for(int i = 1; i<5; i++) {
-				switchScreen.set(i, false);
-			}
-			switchScreen.set(0, true);
+			currentState = playState;
 		}
 	}
 
@@ -449,20 +458,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if(!switchScreen.get(0)&&!switchScreen.get(4)) {
-			if(switchScreen.get(1)) {
-				buttonChecksHTP();
-			}
-			else if(switchScreen.get(2)) {
-				buttonChecksCredits();
-			}
-			else if(switchScreen.get(3)) {
-				buttonChecksWin();
-			}
-			else {
-				buttonChecksMain();
-			}
+		if(currentState == menuState) {
+			buttonChecksMain();
 		}
+		if(currentState == HTPState) {
+			buttonChecksHTP();
+		}
+		if(currentState == creditsState) {
+			buttonChecksCredits();
+		}
+		if(currentState == winState) {
+			buttonChecksWin();
+		}
+
 		mouseClicked = true;
 	}
 
@@ -485,43 +493,36 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void buttonChecksMain() {
 		if(play.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			switchScreen.set(4, true);
+			currentState = loadingState;
 			manager = new ObjectManager(width, height);
 		}
 		else if(HTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(1, true);
+			currentState = HTPState;
 		}
 		else if(credits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(2, true);
+			currentState = creditsState;
 		}
 	}
 	
 	private void buttonChecksHTP() {
 		if(backHTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(1, false);
+			currentState = menuState;
 		}
 	}
 	
 	private void buttonChecksCredits() {
 		if(backCredits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(2, false);
+			currentState = menuState;
 		}
 	}
 	
 	private void buttonChecksWin() { //fix
 		if(PA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(3, false);
-			switchScreen.set(4,  true);
+			currentState = loadingState;
 			manager = new ObjectManager(width, height);
 		}
 		if(backPA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			repaint();
-			switchScreen.set(3, false);
+			currentState = menuState;
 		}
 	}
 	
