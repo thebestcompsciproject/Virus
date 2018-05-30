@@ -152,7 +152,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			defaultPA = ImageIO.read(this.getClass().getResourceAsStream("PlayAgainA.png"));
 			hoverPA = ImageIO.read(this.getClass().getResourceAsStream("PlayAgainB.png"));
 			
-			Logo  = ImageIO.read(this.getClass().getResourceAsStream("Logo.png"));
+			Logo  = ImageIO.read(this.getClass().getResourceAsStream("Logo1.png"));
 			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("Credits.png"));
 			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("HTP.png"));
 			winScreen1 = ImageIO.read(this.getClass().getResourceAsStream("win1.png"));
@@ -287,26 +287,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(runTransition) {
 			updateTransition(futureState);
 		}
-		else if(currentState == menuState) {
-			updateMenu();
-		}
 		else if(currentState == playState) {
 			gameUpdate();
 			fpsUpdate();
-		}
-		else if(currentState == HTPState) {
-			updateHTP();
-		}
-		else if(currentState == creditsState) {
-			updateCredits();
-		}
-		else if(currentState == winState) {
-			updateWin();
 		}
 		else if(currentState == loadingState) {
 			updateLoading();
 		}
 		
+		updateAll();
 		MenuMouseUpdate();
 	}
 	
@@ -415,6 +404,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			fpsDraw = fps;
 			fps = 0;
 		}
+	}
+	
+	private void updateAll() {
+		updateMenu();
+		updateHTP();
+		updateCredits();
+		updateWin();
 	}
 	
 	private void updateMenu() {
