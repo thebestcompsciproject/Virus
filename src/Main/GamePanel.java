@@ -155,8 +155,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			Logo  = ImageIO.read(this.getClass().getResourceAsStream("Logo.png"));
 			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("Credits.png"));
 			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("HTP.png"));
-			winScreen1 = ImageIO.read(this.getClass().getResourceAsStream("P1Win.png"));
-			winScreen2 = ImageIO.read(this.getClass().getResourceAsStream("P2Win.png"));
+			winScreen1 = ImageIO.read(this.getClass().getResourceAsStream("win1.png"));
+			winScreen2 = ImageIO.read(this.getClass().getResourceAsStream("win2.png"));
 			loading = ImageIO.read(this.getClass().getResourceAsStream("Loading.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -256,9 +256,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void drawWin(Graphics g) {
 		drawGameState(g);
-		/*Color opaqueWhite = new Color(255, 255, 255, 50);
+		Color opaqueWhite = new Color(255, 255, 255, 50);
 		g.setColor(opaqueWhite);
-		g.fillRect(0, 0, width, height);*/
+		g.fillRect(0, 0, width, height);
 		if(manager.getPlayers().get(0).getPIndex() == 0) {
 			g.drawImage(winScreen1, width*5/18, (height-width*4/15)/2, width*4/9, width*4/15, null);
 		}
@@ -453,6 +453,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(opacity>=255) {
 			opacityControl = true;
 			currentState = state;
+			manager = new ObjectManager(width, height);
 		}
 		if(!opacityControl)
 			opacity+=15;
@@ -541,7 +542,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private void buttonChecksWin() {
 		if(PA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			futureState = loadingState;
-			manager = new ObjectManager(width, height);
 			runTransition = true;
 		}
 		if(backPA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
