@@ -28,8 +28,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private boolean[] isDown;
 	private ObjectManager manager;
 	private Font testFont;
+	
 	private int opacity = 0;
-	private boolean opacityControl;
+	private boolean opacityControl = false;
+	private boolean runTransition = false;
 	
 	private int width;
 	private int height;
@@ -87,6 +89,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private final int loadingState = 5;
 	
 	private int currentState;
+	private int futureState;
 	
 	//CONSTRUCTOR
 	
@@ -195,6 +198,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			drawLoading(g);
 		}
 		
+		if(runTransition) {
+			drawTransition(g);
+		}
+		
 		drawMouse(g);
 	}
 	
@@ -249,9 +256,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void drawWin(Graphics g) {
 		drawGameState(g);
-		Color opaqueWhite = new Color(255, 255, 255, 50);
+		/*Color opaqueWhite = new Color(255, 255, 255, 50);
 		g.setColor(opaqueWhite);
-		g.fillRect(0, 0, width, height);
+		g.fillRect(0, 0, width, height);*/
 		if(manager.getPlayers().get(0).getPIndex() == 0) {
 			g.drawImage(winScreen1, width*5/18, (height-width*4/15)/2, width*4/9, width*4/15, null);
 		}
@@ -262,21 +269,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		PA.draw(g);
 	}
 	
-	private void drawTransition(int index) {
-		if(opacity>=255) {
-			opacityControl = true;
-		}
-		if(!opacityControl)
-			opacity+=15;
-		else
-			opacity-=15;
-		if(opacity == 0) {
-			opacityControl = false;
-		}
-	}
-	
 	public void drawLoading(Graphics g) {
 		g.drawImage(loading, 0, 0, width, height, null);
+	}
+	
+	private void drawTransition(Graphics g) {
+		g.setColor(new Color(0, 0, 0, opacity));
+		g.fillRect(0, 0, width, height);
 	}
 	
 	//UPDATES
@@ -285,11 +284,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
-		
-		if(currentState == menuState) {
+		if(runTransition) {
+			updateTransition(futureState);
+		}
+		else if(currentState == menuState) {
 			updateMenu();
 		}
-		if(currentState == playState) {
+		else if(currentState == playState) {
 			gameUpdate();
 			fpsUpdate();
 		}
@@ -430,12 +431,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		backCredits.updateLocation(width*10/1280, height*600/725, width*200/1280, height*100/725);
 	}
 	
-	private void updateWin() { //fix
+	private void updateWin() {
 		PA.updateLocation(width*665/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
 		backPA.updateLocation(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
 	}
 	
-	private void updateLoading() { //fix
+	private void updateLoading() {
 		if(loadingInitial<0) {
 			loadingInitial = System.currentTimeMillis();
 		}
@@ -443,7 +444,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(System.currentTimeMillis()-loadingTimeMenu>loadingInitial) {
 			loadingInitial = -1;
 			manager = new ObjectManager(width, height);
-			currentState = playState;
+			futureState = playState;
+			runTransition = true;
+		}
+	}
+	
+	private void updateTransition(int state) {
+		if(opacity>=255) {
+			opacityControl = true;
+			currentState = state;
+		}
+		if(!opacityControl)
+			opacity+=15;
+		else
+			opacity-=15;
+		if(opacity == 0) {
+			runTransition = false;
+			opacityControl = false;
 		}
 	}
 
@@ -493,36 +510,43 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void buttonChecksMain() {
 		if(play.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			currentState = loadingState;
+			futureState = loadingState;
 			manager = new ObjectManager(width, height);
+			runTransition = true;
 		}
 		else if(HTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			currentState = HTPState;
+			futureState = HTPState;
+			runTransition = true;
 		}
 		else if(credits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			currentState = creditsState;
+			futureState = creditsState;
+			runTransition = true;
 		}
 	}
 	
 	private void buttonChecksHTP() {
 		if(backHTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			currentState = menuState;
+			futureState = menuState;
+			runTransition = true;
 		}
 	}
 	
 	private void buttonChecksCredits() {
 		if(backCredits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			currentState = menuState;
+			futureState = menuState;
+			runTransition = true;
 		}
 	}
 	
-	private void buttonChecksWin() { //fix
+	private void buttonChecksWin() {
 		if(PA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			currentState = loadingState;
+			futureState = loadingState;
 			manager = new ObjectManager(width, height);
+			runTransition = true;
 		}
 		if(backPA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			currentState = menuState;
+			futureState = menuState;
+			runTransition = true;
 		}
 	}
 	
