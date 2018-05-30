@@ -13,14 +13,12 @@ public class Player extends GameObject{
 	private Core core;
 	private double[] velocity;
 	private int pIndex;
-	private boolean MG;
-	private boolean hasInfection;
-	private boolean dart;
-	private boolean hasAntidote;
 	private long infectionTimer = 0;
 	private int infectionBuffer = 1000;
 	double side = 40;
 	double height = (Math.sqrt(3)*side)/2;
+	boolean[] powerUps;
+	boolean infection;
 	
 	public Player(double x, double y, double direction, Color color, int pIndex) {
 		super();
@@ -35,10 +33,15 @@ public class Player extends GameObject{
 		core = new Core(this);
 		constructTriangles();
 		constructDrawn();
-		MG = false;
-	    hasInfection = false;
-		dart = false;
-		hasAntidote = false;
+		initiatePowerUps();
+	}
+	
+	private void initiatePowerUps(){
+		powerUps = new boolean[4];
+		for(int i = 0; i<powerUps.length; i++){
+			powerUps[i] = false;
+		}
+		infection = false;
 	}
 	
 	private void constructTriangles() {
@@ -189,25 +192,41 @@ public class Player extends GameObject{
 		return pIndex;
 	}
 	
-	public void setInfection(Boolean b)
-	{
-		hasInfection = b;
+	public void setInfection(boolean b) {
+		infection = b;
 	}
 	
-	public void setDart(Boolean b)
-	{
-		 dart = b;
+	public boolean hasPowerUp(){
+		for(int i = 0; i<powerUps.length; i++){
+			if(powerUps[i]){
+				return true;
+			}
+		}
+		return false;
 	}
 	
-	public void setMG(Boolean b)
-	{
-		MG = b;
+	public void setDart(boolean b) {
+		if(!hasPowerUp()||!b) 
+			powerUps[0] = b;
 	}
 	
-	public void setAntidote(Boolean b)
-	{
-		 hasAntidote = b;
+	public boolean getDart(){
+		return powerUps[0];
 	}
 	
+	public void setAntidote(boolean b) {
+		if(!hasPowerUp()||!b) 
+			powerUps[1] = b;
+	}
+	
+	public void setMG(boolean b) {
+		if(!hasPowerUp()||!b) 
+			powerUps[2] = b;
+	}
+	
+	public void setReplenish(boolean b) {
+		if(!hasPowerUp()||!b) 
+			powerUps[3] = b;
+	}
 	
 }

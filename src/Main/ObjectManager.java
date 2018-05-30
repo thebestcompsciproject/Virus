@@ -61,8 +61,14 @@ public class ObjectManager {
 	public void shootBullet(int index) {
 		PlayerTriangle t = players.get(index).removeLastTriangle();
 		if(t!=null)
-			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
-			//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index));
+			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, false));
+			//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, false));
+	}
+	
+	public void shootInfectedBullet(int index){
+		PlayerTriangle t = players.get(index).removeLastTriangle();
+		if(t!=null)
+			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), new Color(106, 168, 79), players.get(index).getDirection(), index, true));
 	}
 	
 	public void update() {
@@ -119,12 +125,11 @@ public class ObjectManager {
 	
 	private void spawnAntidote() 
 	{
-		if (infSpawn&&antSpawn)
-			{
-				addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 23.0, new Color(69, 126, 218)));
-				antSpawn = false;
-			}		
-		}
+		if (infSpawn&&antSpawn) {
+			addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 23.0, new Color(69, 126, 218)));
+			antSpawn = false;
+		}		
+	}
 	
 	
 	private void spawnReplenish()
@@ -253,16 +258,38 @@ public class ObjectManager {
 	private void bulletToPlayer(Bullet o1, PlayerTriangle o2, int pIndex) {
 		if(pIndex!=o1.getPIndex()){
 			o1.kill();
-			if(o2.getIndex()>=0)
-				players.get(pIndex).removeTriangle(o2.getIndex());
-			else
-				players.get(pIndex).getCore().removeTriangle(o2.getIndex()+6);
+			if(o1.getInfection()){
+				players.get(pIndex).setInfection(true);
+			}
+			else{
+				if(o2.getIndex()>=0)
+					players.get(pIndex).removeTriangle(o2.getIndex());
+				else
+					players.get(pIndex).getCore().removeTriangle(o2.getIndex()+6);
+			}
 		}
 	}
 	
 	private void mapToPlayer(GameObject o1, PlayerTriangle o2, int pIndex) {
 		if(o1 instanceof Bullet) {
 			bulletToPlayer((Bullet)o1, o2, pIndex);
+		}
+		else if(o1 instanceof DartPowerUp){
+			
+			players.get(o2.getPlayer().getPIndex()).setDart(true);
+			o1.kill();
+		}
+		else if(o1 instanceof AntidotePowerUp){
+			players.get(o2.getPlayer().getPIndex()).setAntidote(true);
+			o1.kill();
+		}
+		else if(o1 instanceof MGPowerUp){	
+			players.get(o2.getPlayer().getPIndex()).setMG(true);
+			o1.kill();
+		}
+		else if(o1 instanceof ReplenishPowerUp){		
+			players.get(o2.getPlayer().getPIndex()).setReplenish(true);
+			o1.kill();
 		}
 		else {
 			o1.kill();

@@ -123,7 +123,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void initiateIsDown() {
-		isDown = new boolean[11];
+		isDown = new boolean[12];
 		for(int i = 0; i < 8; i++) {
 			isDown[i] = false;
 		}
@@ -323,6 +323,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			if(System.currentTimeMillis()-reloadTime>timeSave1) {
 				manager.shootBullet(0);
 				timeSave1 = System.currentTimeMillis();
+			}
+		}
+		if(isDown[11]){
+			if(manager.getPlayers().get(0).getDart()){
+				manager.shootInfectedBullet(0);
+				manager.getPlayers().get(0).setDart(false);
 			}
 		}
 	}
@@ -589,6 +595,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 			isDown[10] = state;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_U){
+			isDown[11] = state;
 		}
 	}
 	
