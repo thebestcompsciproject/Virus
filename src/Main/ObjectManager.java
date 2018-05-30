@@ -21,6 +21,8 @@ public class ObjectManager {
 	private int spawnTimeMap = 1000;
 	private long timeInf = 0;
 	private double probInf = 0.03;
+	private long timeReplenish = 0;
+	private double probRepl = 0.05;
 	
 	private boolean infSpawn = false;
 	private boolean antSpawn = false;
@@ -97,6 +99,7 @@ public class ObjectManager {
 		}
 		spawnInfectionDart();
 		spawnAntidote();
+		spawnReplenish();
 	}
 	
 	private void spawnInfectionDart() 
@@ -122,6 +125,20 @@ public class ObjectManager {
 				antSpawn = false;
 			}		
 		}
+	
+	
+	private void spawnReplenish()
+	{
+		if (System.currentTimeMillis() - 1000 >= timeReplenish)
+		{
+			timeReplenish = System.currentTimeMillis();
+			if(Math.random() < probRepl)
+			{
+				addObject(new ReplenishPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 23.0, new Color(69, 69, 69)));
+			}
+			
+		}
+	}
 		
 	
 	private void resistance() {

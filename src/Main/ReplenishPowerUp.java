@@ -28,7 +28,10 @@ public class ReplenishPowerUp extends GameObject
 	
 	public void update()
 	{
-		
+		if( (System.currentTimeMillis() - 7000) > spawnTime)
+		{
+			this.kill();
+		}
 	}
 	
 	public double getRadius()
