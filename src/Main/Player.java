@@ -17,6 +17,11 @@ public class Player extends GameObject{
 	private int infectionBuffer = 500;
 	private long MGTimer = -1;
 	private int MGBuffer = 5000;
+	private long replenishTimer = -1;
+	private int replenishBuffer = 15000;
+	private long replenishStart;
+	private boolean isBeginReplenish = false;
+	private int timeDiff = 1000;
 	double side = 40;
 	double height = (Math.sqrt(3)*side)/2;
 	boolean[] powerUps;
@@ -206,7 +211,24 @@ public class Player extends GameObject{
 	}
 	
 	private void replenish() {
-		//add stuff here
+		
+		if(isBeginReplenish == false)
+		{
+			isBeginReplenish = true;
+			replenishStart = System.currentTimeMillis();
+			
+		}
+		if (replenishTimer < 0)
+		{
+			replenishTimer = System.currentTimeMillis();
+			
+		}
+		
+		if(System.currentTimeMillis() - replenishTimer > replenishTimer && (replenishStart % System.currentTimeMillis()) == 0 )
+		{
+			addTriangle();
+		}
+		
 		powerUps[2] = false;
 	}
 	
