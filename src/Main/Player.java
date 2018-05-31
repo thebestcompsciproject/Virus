@@ -159,10 +159,11 @@ public class Player extends GameObject{
 		return null;
 	}
 	
-	public void removeLastTriangleRestricted() {
+	public PlayerTriangle removeLastTriangleRestricted() {
 		if(tCount%2 == 0) {
-			removeLastTriangle();
+			return removeLastTriangle();
 		}
+		return null;
 	}
 	
 	public void updateVelocity(double x, double y) {

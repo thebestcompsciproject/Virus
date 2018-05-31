@@ -64,12 +64,16 @@ public class ObjectManager {
 		}*/
 		
 		if(size<40) {
-			players.get(index).removeLastTriangleRestricted();
 			players.get(index).addTCount();
+			if(players.get(index).removeLastTriangleRestricted()!=null) {
+				bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), players.get(index).getDirection(), size, players.get(index).getColor(), players.get(index).getDirection(), index, false));
+			}
 		}
-		else
-			players.get(index).removeLastTriangle();
-		bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), players.get(index).getDirection(), size, players.get(index).getColor(), players.get(index).getDirection(), index, false));
+		else {
+			if(players.get(index).removeLastTriangle()!=null) {
+				bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), players.get(index).getDirection(), size, players.get(index).getColor(), players.get(index).getDirection(), index, false));
+			}
+		}
 	}
 	
 	public void shootInfectedBullet(int index){
