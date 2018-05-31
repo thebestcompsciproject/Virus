@@ -18,15 +18,12 @@ public class Player extends GameObject{
 	private long MGTimer = -1;
 	private int MGBuffer = 5000;
 	private long replenishTimer = -1;
-	private int replenishBuffer = 15000;
-	private long replenishStart;
-	private boolean isBeginReplenish = false;
-	private int timeDiff = 1000;
+	private int replenishBuffer = 100;
 	double side = 40;
 	double height = (Math.sqrt(3)*side)/2;
 	boolean[] powerUps;
 	boolean infection;
-	int tRemoved = 0;
+	int tCount = 0;
 	int colorChangeStall = 0;
 	
 	public Player(double x, double y, double direction, Color color, int pIndex) {
@@ -163,7 +160,7 @@ public class Player extends GameObject{
 	}
 	
 	public void removeLastTriangleRestricted() {
-		if(tRemoved%2 == 0) {
+		if(tCount%2 == 0) {
 			removeLastTriangle();
 		}
 	}
@@ -188,21 +185,21 @@ public class Player extends GameObject{
 			infectionTimer = System.currentTimeMillis();
 		}
 		if(System.currentTimeMillis() - infectionBuffer > infectionTimer){
-			tRemoved++;
+			tCount++;
 			infectionTimer = System.currentTimeMillis();
 			removeLastTriangle();
-			if(tRemoved>=20) {
+			if(tCount>=20) {
 				infection = false;
 				infectionTimer = -1;
-				tRemoved = 0;
+				tCount = 0;
 			}
 		}
 		
-		if(colorChangeStall<3&&tRemoved%2==1) {
+		if(colorChangeStall<3&&tCount%2==1) {
 			setColor(new Color(106, 168, 79));
 			colorChangeStall++;
 		}
-		else if(tRemoved%2 == 0){
+		else if(tCount%2 == 0){
 			colorChangeStall = 0;
 		}
 		else {
@@ -211,19 +208,18 @@ public class Player extends GameObject{
 	}
 	
 	private void replenish() {
-		if (replenishTimer < 0)
-		{
+		if (replenishTimer < 0) {
 			replenishTimer = System.currentTimeMillis();
-			
 		}
-		
-		if(System.currentTimeMillis() - replenishBuffer > replenishTimer)
-		{
+		if(System.currentTimeMillis() - replenishBuffer > replenishTimer) {
 			addTriangle();
 			replenishTimer = System.currentTimeMillis();
+			tCount++;
 		}
-		
-		powerUps[2] = false;
+		if(tCount>=10) {
+			powerUps[2] = false;
+			tCount = 0;
+		}
 	}
 	
 	public void MG() {
@@ -233,12 +229,12 @@ public class Player extends GameObject{
 		if(System.currentTimeMillis() - MGBuffer > MGTimer) {
 			MGTimer = -1;
 			powerUps[1] = false;
-			tRemoved = 0;
+			tCount = 0;
 		}
 	}
 	
-	public void addTRemoved() {
-		tRemoved++;
+	public void addTCount() {
+		tCount++;
 	}
 	
 	public void setColor(Color c) {

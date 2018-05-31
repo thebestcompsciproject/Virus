@@ -21,9 +21,9 @@ public class ObjectManager {
 	private int spawnTimeMap = 1000;
 	
 	private long timeInf = 0;
-	private double probInf = 0.03;
+	private double probInf = 0.1;
 	private long timeRepl = 0;
-	private double probRepl = 0.2;
+	private double probRepl = 0.1;
 	private long timeMG = 0;
 	private double probMG = 0.1;
 	
@@ -65,7 +65,7 @@ public class ObjectManager {
 		
 		if(size<40) {
 			players.get(index).removeLastTriangleRestricted();
-			players.get(index).addTRemoved();
+			players.get(index).addTCount();
 		}
 		else
 			players.get(index).removeLastTriangle();
@@ -139,7 +139,6 @@ public class ObjectManager {
 		if (System.currentTimeMillis() - 1000 >= timeMG) {
 			timeMG = System.currentTimeMillis();
 			if(Math.random() < probMG) {
-				System.out.println("ok");
 				addObject(new MGPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 20.0, new Color(250, 250, 250)));
 				//addObject(new MGPowerUp(100, 100, 360*Math.random(), 23.0, new Color(255, 255, 255)));
 			}
