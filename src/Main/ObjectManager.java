@@ -23,7 +23,7 @@ public class ObjectManager {
 	private long timeInf = 0;
 	private double probInf = 0.03;
 	private long timeRepl = 0;
-	private double probRepl = 0.05;
+	private double probRepl = 0.2;
 	private long timeMG = 0;
 	private double probMG = 0.1;
 	

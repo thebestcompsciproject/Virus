@@ -211,22 +211,16 @@ public class Player extends GameObject{
 	}
 	
 	private void replenish() {
-		
-		if(isBeginReplenish == false)
-		{
-			isBeginReplenish = true;
-			replenishStart = System.currentTimeMillis();
-			
-		}
 		if (replenishTimer < 0)
 		{
 			replenishTimer = System.currentTimeMillis();
 			
 		}
 		
-		if(System.currentTimeMillis() - replenishTimer > replenishTimer && (replenishStart % System.currentTimeMillis()) == 0 )
+		if(System.currentTimeMillis() - replenishBuffer > replenishTimer)
 		{
 			addTriangle();
+			replenishTimer = System.currentTimeMillis();
 		}
 		
 		powerUps[2] = false;

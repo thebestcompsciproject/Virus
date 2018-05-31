@@ -11,8 +11,8 @@ public class Main implements ActionListener{
 	
 	JFrame frame;
 	GamePanel panel;
-	int width = 10000;
-	int height = 10000;
+	int width = 1920;
+	int height = 1200;
 	Timer t;
 	int repeat = 15;
 	
