@@ -19,14 +19,13 @@ public class ObjectManager {
 	
 	private long timeMap = 0;
 	private int spawnTimeMap = 1000;
+	
 	private long timeInf = 0;
 	private double probInf = 0.03;
-	private long timeReplenish = 0;
+	private long timeRepl = 0;
 	private double probRepl = 0.05;
-	
-	private boolean infSpawn = false;
-	private boolean antSpawn = false;
-	
+	private long timeMG = 0;
+	private double probMG = 0.1;
 	
 	public ObjectManager(int width, int height) {
 		this.width = width;
@@ -58,11 +57,19 @@ public class ObjectManager {
 		map.add(o);
 	}
 	
-	public void shootBullet(int index) {
-		PlayerTriangle t = players.get(index).removeLastTriangle();
-		if(t!=null)
-			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, false));
-			//bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, false));
+	public void shootBullet(int index, int size) {
+		/*PlayerTriangle t = players.get(index).removeLastTriangle();
+		if(t!=null) {
+			bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, false));
+		}*/
+		
+		if(size<40) {
+			players.get(index).removeLastTriangleRestricted();
+			players.get(index).addTRemoved();
+		}
+		else
+			players.get(index).removeLastTriangle();
+		bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), players.get(index).getDirection(), size, players.get(index).getColor(), players.get(index).getDirection(), index, false));
 	}
 	
 	public void shootInfectedBullet(int index){
@@ -104,47 +111,40 @@ public class ObjectManager {
 			}
 		}
 		spawnInfectionDart();
-		spawnAntidote();
 		spawnReplenish();
+		spawnMG();
 	}
-	
-	private void spawnInfectionDart() 
-	{
+
+	private void spawnInfectionDart() {
 		if(System.currentTimeMillis()-1000>=timeInf){
 			timeInf = System.currentTimeMillis();
-			if (Math.random()<probInf)
-			{
-				infSpawn = true;
-				antSpawn = true;
-				addObject(new DartPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 23.0, new Color(106, 168, 79)));
-				
+			if (Math.random()<probInf) {
+				addObject(new DartPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 20.0, new Color(106, 168, 79)));
+				addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 20.0, new Color(69, 126, 218)));
 			}		
 		}
 		
 	}
 	
-	private void spawnAntidote() 
-	{
-		if (infSpawn&&antSpawn) {
-			addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 23.0, new Color(69, 126, 218)));
-			antSpawn = false;
-		}		
-	}
-	
-	
-	private void spawnReplenish()
-	{
-		if (System.currentTimeMillis() - 1000 >= timeReplenish)
-		{
-			timeReplenish = System.currentTimeMillis();
-			if(Math.random() < probRepl)
-			{
-				addObject(new ReplenishPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 23.0, new Color(69, 69, 69)));
+	private void spawnReplenish() {
+		if (System.currentTimeMillis() - 1000 >= timeRepl) {
+			timeRepl = System.currentTimeMillis();
+			if(Math.random() < probRepl) {
+				addObject(new ReplenishPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 20.0, new Color(69, 69, 69)));
 			}
-			
 		}
 	}
-		
+	
+	private void spawnMG() {
+		if (System.currentTimeMillis() - 1000 >= timeMG) {
+			timeMG = System.currentTimeMillis();
+			if(Math.random() < probMG) {
+				System.out.println("ok");
+				addObject(new MGPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 20.0, new Color(250, 250, 250)));
+				//addObject(new MGPowerUp(100, 100, 360*Math.random(), 23.0, new Color(255, 255, 255)));
+			}
+		}
+	}
 	
 	private void resistance() {
 		players.get(0).updateVelocity(-players.get(0).getVelocity()[0]*.010, -players.get(0).getVelocity()[1]*.010);
@@ -251,8 +251,10 @@ public class ObjectManager {
 	}
 	
 	private void bulletCollision(MapTriangle o1, MapTriangle o2) {
-		o1.kill();
-		o2.kill();
+		if(((Bullet)o1).getPIndex() != ((Bullet)o2).getPIndex()) {
+			o1.kill();
+			o2.kill();
+		}
 	}
 	
 	private void bulletToPlayer(Bullet o1, PlayerTriangle o2, int pIndex) {
@@ -280,7 +282,7 @@ public class ObjectManager {
 			o1.kill();
 		}
 		else if(o1 instanceof AntidotePowerUp){
-			players.get(o2.getPlayer().getPIndex()).setAntidote(true);
+			players.get(o2.getPlayer().getPIndex()).setInfection(false);
 			o1.kill();
 		}
 		else if(o1 instanceof MGPowerUp){	

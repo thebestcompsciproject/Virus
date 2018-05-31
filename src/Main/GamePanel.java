@@ -45,7 +45,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private long loadingInitial = -1;
 	private long loadingTimeMenu = 1500;
 	
-	private final int reloadTime = 250;
+	private final int reloadTime = 300;
 	private long timeSave1 = 0;
 	private long timeSave2 = 0;
 	
@@ -320,8 +320,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		
 		if(isDown[10]) {
-			if(System.currentTimeMillis()-reloadTime>timeSave1) {
-				manager.shootBullet(0);
+			if(manager.getPlayers().get(0).getMG()) {
+				if(System.currentTimeMillis()-reloadTime/2>timeSave1) {
+					manager.shootBullet(0, 20);
+					timeSave1 = System.currentTimeMillis();
+				}
+			}
+			else if(System.currentTimeMillis()-reloadTime>timeSave1) {
+				manager.shootBullet(0, 40);
 				timeSave1 = System.currentTimeMillis();
 			}
 		}
@@ -381,7 +387,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		
 		if(mouseClicked&&System.currentTimeMillis()-reloadTime>timeSave2) {
-			manager.shootBullet(1);
+			manager.shootBullet(1, 40);
 			timeSave2 = System.currentTimeMillis();
 		}
 	}

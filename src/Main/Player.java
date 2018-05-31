@@ -13,12 +13,16 @@ public class Player extends GameObject{
 	private Core core;
 	private double[] velocity;
 	private int pIndex;
-	private long infectionTimer = 0;
-	private int infectionBuffer = 1000;
+	private long infectionTimer = -1;
+	private int infectionBuffer = 500;
+	private long MGTimer = -1;
+	private int MGBuffer = 5000;
 	double side = 40;
 	double height = (Math.sqrt(3)*side)/2;
 	boolean[] powerUps;
 	boolean infection;
+	int tRemoved = 0;
+	int colorChangeStall = 0;
 	
 	public Player(double x, double y, double direction, Color color, int pIndex) {
 		super();
@@ -92,7 +96,15 @@ public class Player extends GameObject{
 				b = true;
 		}
 		isAlive = b;
+		
+		if(infection)
+			infection();
+		if(powerUps[1])
+			MG();
+		if(powerUps[2])
+			replenish();
 	}
+	
 	public void draw(Graphics g) {
 		core.draw(g);
 		
@@ -145,6 +157,12 @@ public class Player extends GameObject{
 		return null;
 	}
 	
+	public void removeLastTriangleRestricted() {
+		if(tRemoved%2 == 0) {
+			removeLastTriangle();
+		}
+	}
+	
 	public void updateVelocity(double x, double y) {
 		velocity[0]+=x;
 		velocity[1]+=y;
@@ -161,12 +179,57 @@ public class Player extends GameObject{
 	
 	private void infection()
 	{
-		if(System.currentTimeMillis() - infectionBuffer > infectionTimer){
+		if(infectionTimer<0) {
 			infectionTimer = System.currentTimeMillis();
-			this.removeLastTriangle();
+		}
+		if(System.currentTimeMillis() - infectionBuffer > infectionTimer){
+			tRemoved++;
+			infectionTimer = System.currentTimeMillis();
+			removeLastTriangle();
+			if(tRemoved>=20) {
+				infection = false;
+				infectionTimer = -1;
+				tRemoved = 0;
+			}
+		}
+		
+		if(colorChangeStall<3&&tRemoved%2==1) {
+			setColor(new Color(106, 168, 79));
+			colorChangeStall++;
+		}
+		else if(tRemoved%2 == 0){
+			colorChangeStall = 0;
+		}
+		else {
+			setColor(color);
 		}
 	}
-
+	
+	private void replenish() {
+		//add stuff here
+		powerUps[2] = false;
+	}
+	
+	public void MG() {
+		if(MGTimer<0) {
+			MGTimer = System.currentTimeMillis();
+		}
+		if(System.currentTimeMillis() - MGBuffer > MGTimer) {
+			MGTimer = -1;
+			powerUps[1] = false;
+			tRemoved = 0;
+		}
+	}
+	
+	public void addTRemoved() {
+		tRemoved++;
+	}
+	
+	public void setColor(Color c) {
+		for(int i = 0; i<reserve.size(); i++) {
+			reserve.get(i).setColor(c);
+		}
+	}
 		
 	public ArrayList<PlayerTriangle> getReserve(){
 		return reserve;
@@ -214,19 +277,18 @@ public class Player extends GameObject{
 		return powerUps[0];
 	}
 	
-	public void setAntidote(boolean b) {
+	public void setMG(boolean b) {
 		if(!hasPowerUp()||!b) 
 			powerUps[1] = b;
 	}
 	
-	public void setMG(boolean b) {
-		if(!hasPowerUp()||!b) 
-			powerUps[2] = b;
+	public boolean getMG() {
+		return powerUps[1];
 	}
 	
 	public void setReplenish(boolean b) {
 		if(!hasPowerUp()||!b) 
-			powerUps[3] = b;
+			powerUps[2] = b;
 	}
 	
 }

@@ -1,18 +1,13 @@
 package Main;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-public class MGPowerUp extends GameObject
-
-{
-	private double x;
-	private double y;
+public class MGPowerUp extends GameObject {
 	private double radius;
-	private double height;
 	
-	public MGPowerUp(double x, double y, double direction, double radius, Color color) 
-	{
+	public MGPowerUp(double x, double y, double direction, double radius, Color color) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -20,15 +15,15 @@ public class MGPowerUp extends GameObject
 		this.color = color;
 		this.radius = radius;
 	}
-	public void draw(Graphics g )
-	{
+	
+	public void draw(Graphics g) {
 		g.setColor(color);
-		g.fillOval((int)x, (int)y, (int)(2*radius), (int)height);
+		g.fillOval((int)x, (int)y, (int)(2*radius), (int) (2*radius));
 		g.setColor(Color.BLACK);
-		g.drawOval((int)x, (int)y, (int)(2*radius), (int)height);
+		g.drawOval((int)x, (int)y, (int)(2*radius), (int) (2*radius));
 	}
-	public double getRadius()
-	{
+	
+	public double getRadius() {
 		return radius;
 	}
 }

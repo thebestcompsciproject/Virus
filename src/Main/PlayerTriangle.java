@@ -55,6 +55,10 @@ public class PlayerTriangle extends GameObject{
 		this.y = y+yref;
 	}
 	
+	public void setColor(Color c) {
+		color = c;
+	}
+	
 	public double getSide() {
 		return side;
 	}
