@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -137,27 +138,46 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void readImages() {
 		try {
-			defaultPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayA.png"));
-			hoverPlay = ImageIO.read(this.getClass().getResourceAsStream("PlayB.png"));
+			URL defaultPlay_URL = this.getClass().getResource("PlayA.png");
+			URL hoverPlay_URL = this.getClass().getResource("PlayB.png");
+			URL defaultHTP_URL = this.getClass().getResource("HTPA.png");
+			URL hoverHTP_URL = this.getClass().getResource("HTPB.png");
+			URL defaultCredits_URL = this.getClass().getResource("CreditsA.png");
+			URL hoverCredits_URL = this.getClass().getResource("CreditsB.png");
+			URL defaultBack_URL = this.getClass().getResource("BackA.png");
+			URL hoverBackURL = this.getClass().getResource("BackB.png");
+			URL defaultPA_URL = this.getClass().getResource("PLayAgainA.png");
+			URL hoverPA_URL = this.getClass().getResource("PlayAgainB.png");
 			
-			defaultHTP = ImageIO.read(this.getClass().getResourceAsStream("HTPA.png"));
-			hoverHTP = ImageIO.read(this.getClass().getResourceAsStream("HTPB.png"));
+			URL logoURL = this.getClass().getResource("Logo1.png");
+			URL credits_URL = this.getClass().getResource("Credits.png");
+			URL HTP_URL = this.getClass().getResource("HTP.png");
+			URL win1URL = this.getClass().getResource("win1.png");
+			URL win2URL = this.getClass().getResource("win2.png");
+			URL loading1 = this.getClass().getResource("Loading.png");
 			
-			defaultCredits = ImageIO.read(this.getClass().getResourceAsStream("CreditsA.png"));
-			hoverCredits = ImageIO.read(this.getClass().getResourceAsStream("CreditsB.png"));
+			defaultPlay = ImageIO.read(defaultPlay_URL);
+			hoverPlay = ImageIO.read(hoverPlay_URL);
+			
+			defaultHTP = ImageIO.read(defaultHTP_URL);
+			hoverHTP = ImageIO.read(hoverHTP_URL);
+			
+			defaultCredits = ImageIO.read(defaultCredits_URL);
+			hoverCredits = ImageIO.read(hoverCredits_URL);
 
-			defaultBack = ImageIO.read(this.getClass().getResourceAsStream("BackA.png"));
-			hoverBack = ImageIO.read(this.getClass().getResourceAsStream("BackB.png"));
 			
-			defaultPA = ImageIO.read(this.getClass().getResourceAsStream("PlayAgainA.png"));
-			hoverPA = ImageIO.read(this.getClass().getResourceAsStream("PlayAgainB.png"));
+			defaultBack = ImageIO.read(defaultBack_URL);
+			hoverBack = ImageIO.read(hoverBackURL);
 			
-			Logo  = ImageIO.read(this.getClass().getResourceAsStream("Logo1.png"));
-			creditsScreen = ImageIO.read(this.getClass().getResourceAsStream("Credits.png"));
-			HTPScreen = ImageIO.read(this.getClass().getResourceAsStream("HTP.png"));
-			winScreen1 = ImageIO.read(this.getClass().getResourceAsStream("win1.png"));
-			winScreen2 = ImageIO.read(this.getClass().getResourceAsStream("win2.png"));
-			loading = ImageIO.read(this.getClass().getResourceAsStream("Loading.png"));
+			defaultPA = ImageIO.read(defaultPA_URL);
+			hoverPA = ImageIO.read(hoverPA_URL);
+			
+			Logo  = ImageIO.read(logoURL);
+			creditsScreen = ImageIO.read(credits_URL);
+			HTPScreen = ImageIO.read(HTP_URL);
+			winScreen1 = ImageIO.read(win1URL);
+			winScreen2 = ImageIO.read(win2URL);
+			loading = ImageIO.read(loading1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
