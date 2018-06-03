@@ -1,10 +1,10 @@
 //Muruhathasan
-
 package Main;
 
 public class TestCode {
 
-	//for ObjectManager
+	//FOR OBJECTMANAGER
+	
 	/*public void playerCollision() {
 		double xVel = players.get(0).getVelocity()[0];
 		double yVel = players.get(0).getVelocity()[1];
@@ -74,7 +74,8 @@ public class TestCode {
 		}
 	}*/
 	
-	//for ObjectManager
+	//FOR OBJECTMANAGER
+	
 	/*public double getAngle() {
 		double delX = players.get(0).getX() - players.get(1).getX();
 		double delY = players.get(0).getY() - players.get(1).getY();

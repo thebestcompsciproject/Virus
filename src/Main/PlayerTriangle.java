@@ -15,6 +15,10 @@ public class PlayerTriangle extends GameObject{
 	
 	private double height;
 	
+	public PlayerTriangle() {
+		//placeholder
+	}
+	
 	public PlayerTriangle(double xref, double yref, double direction, double side, Player player, int index, Color color) {
 		super();
 		this.xref = xref;

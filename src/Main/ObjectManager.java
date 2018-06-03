@@ -6,6 +6,11 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Main.PowerUps.AntidotePowerUp;
+import Main.PowerUps.DartPowerUp;
+import Main.PowerUps.MGPowerUp;
+import Main.PowerUps.ReplenishPowerUp;
+
 public class ObjectManager {
 
 	private ArrayList<Player> players;
@@ -21,11 +26,13 @@ public class ObjectManager {
 	private int spawnTimeMap = 1000;
 	
 	private long timeInf = 0;
-	private double probInf = 0.1;
+	private double probInf = 0.05;
 	private long timeRepl = 0;
 	private double probRepl = 0.1;
 	private long timeMG = 0;
-	private double probMG = 0.1;
+	private double probMG = 0.05;
+	
+	//CONSTRUCTOR
 	
 	public ObjectManager(int width, int height) {
 		this.width = width;
@@ -48,6 +55,8 @@ public class ObjectManager {
 		frameX = x;
 		frameY = y;
 	}
+	
+	//ADD METHODS
 	
 	public void addPlayer(Player p) {
 		players.add(p);
@@ -78,9 +87,13 @@ public class ObjectManager {
 	
 	public void shootInfectedBullet(int index){
 		PlayerTriangle t = players.get(index).removeLastTriangle();
-		if(t!=null)
+		if(t!=null) {
 			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), new Color(106, 168, 79), players.get(index).getDirection(), index, true));
+			players.get(index).setDart(false);
+		}
 	}
+	
+	//UPDATES
 	
 	public void update() {
 		for(Player p: players) {
@@ -123,8 +136,8 @@ public class ObjectManager {
 		if(System.currentTimeMillis()-1000>=timeInf){
 			timeInf = System.currentTimeMillis();
 			if (Math.random()<probInf) {
-				addObject(new DartPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 20.0, new Color(106, 168, 79)));
-				addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 20.0, new Color(69, 126, 218)));
+				addObject(new DartPowerUp(width*Math.random(), height*Math.random(), 25.0));
+				addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 25.0));
 			}		
 		}
 		
@@ -134,7 +147,7 @@ public class ObjectManager {
 		if (System.currentTimeMillis() - 1000 >= timeRepl) {
 			timeRepl = System.currentTimeMillis();
 			if(Math.random() < probRepl) {
-				addObject(new ReplenishPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 20.0, new Color(69, 69, 69)));
+				addObject(new ReplenishPowerUp(width*Math.random(), height*Math.random(), 25.0));
 			}
 		}
 	}
@@ -143,8 +156,7 @@ public class ObjectManager {
 		if (System.currentTimeMillis() - 1000 >= timeMG) {
 			timeMG = System.currentTimeMillis();
 			if(Math.random() < probMG) {
-				addObject(new MGPowerUp(width*Math.random(), height*Math.random(), 360*Math.random(), 20.0, new Color(250, 250, 250)));
-				//addObject(new MGPowerUp(100, 100, 360*Math.random(), 23.0, new Color(255, 255, 255)));
+				addObject(new MGPowerUp(width*Math.random(), height*Math.random(), 25.0));
 			}
 		}
 	}
@@ -217,6 +229,8 @@ public class ObjectManager {
 			}
 		}
 	}
+	
+	//COLLISIONS
 	
 	private void checkCollision() {
 		for(int j = 0; j<210; j++) {
@@ -443,6 +457,8 @@ public class ObjectManager {
 				players.get(i).setVelocity(players.get(i).getVelocity()[0], -Math.abs(players.get(i).getVelocity()[1]));
 		}
 	}
+	
+	//GRAPHICS
 	
 	public void draw(Graphics g) {
 		for(GameObject o: map)

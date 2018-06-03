@@ -21,6 +21,7 @@ import java.awt.Toolkit;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements KeyListener, ActionListener, MouseListener{
@@ -375,7 +376,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 		if(isDown[10]) {
 			if(manager.getPlayers().get(0).getMG()) {
-				if(System.currentTimeMillis()-reloadTime/2>timeSave1) {
+				if(System.currentTimeMillis()-2*reloadTime/3>timeSave1) {
 					manager.shootBullet(0, 20);
 					timeSave1 = System.currentTimeMillis();
 				}
@@ -388,7 +389,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(isDown[11]){
 			if(manager.getPlayers().get(0).getDart()){
 				manager.shootInfectedBullet(0);
-				manager.getPlayers().get(0).setDart(false);
 			}
 		}
 	}
@@ -440,9 +440,17 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			}
 		}
 		
-		if(mouseClicked&&System.currentTimeMillis()-reloadTime>timeSave2) {
-			manager.shootBullet(1, 40);
-			timeSave2 = System.currentTimeMillis();
+		if(mouseClicked) {
+			if(manager.getPlayers().get(1).getMG()) {
+				if(System.currentTimeMillis()-reloadTime*2/3>timeSave2) {
+					manager.shootBullet(1, 20);
+					timeSave2 = System.currentTimeMillis();
+				}
+			}
+			else if(System.currentTimeMillis()-reloadTime>timeSave2) {
+				manager.shootBullet(1, 40);
+				timeSave2 = System.currentTimeMillis();
+			}
 		}
 	}
 	
@@ -539,6 +547,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
+		mouseClicked = true;
+		if(currentState == playState) {
+			if(SwingUtilities.isRightMouseButton(e)) {
+				if(manager.getPlayers().get(1).getDart()) {
+					manager.shootInfectedBullet(1);
+				}
+				mouseClicked = false;
+			}
+		}
 		if(currentState == menuState) {
 			buttonChecksMain();
 		}
@@ -551,8 +568,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(currentState == winState) {
 			buttonChecksWin();
 		}
-
-		mouseClicked = true;
 	}
 
 	@Override

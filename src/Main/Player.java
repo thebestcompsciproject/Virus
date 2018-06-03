@@ -163,7 +163,7 @@ public class Player extends GameObject{
 		if(tCount%2 == 0) {
 			return removeLastTriangle();
 		}
-		return null;
+		return new PlayerTriangle();
 	}
 	
 	public void updateVelocity(double x, double y) {
