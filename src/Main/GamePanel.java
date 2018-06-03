@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private long timeSave1 = 0;
 	private long timeSave2 = 0;
 	
-	private boolean lateImages = false;
+	private int lateImages = -1;
 	
 	public BufferedImage defaultPlay;
 	public BufferedImage hoverPlay;
@@ -108,7 +108,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 		initiateIsDown();
 		initiateFps();
-		readInitialImages();
+		readLoading();
 	}
 	
 	public void start() {
@@ -137,18 +137,28 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		fpsDraw = 60;
 	}
 	
-	private void readInitialImages() {
+	private void readLoading() {
+		URL loading1 = this.getClass().getResource("Loading.png");
 		
 		try {
-			URL defaultPlay_URL = this.getClass().getResource("PlayA.png");
-			URL hoverPlay_URL = this.getClass().getResource("PlayB.png");
-			URL defaultHTP_URL = this.getClass().getResource("HTPA.png");
-			URL hoverHTP_URL = this.getClass().getResource("HTPB.png");
-			URL defaultCredits_URL = this.getClass().getResource("CreditsA.png");
-			URL hoverCredits_URL = this.getClass().getResource("CreditsB.png");
-			URL logoURL = this.getClass().getResource("Logo1.png");
-			URL loading1 = this.getClass().getResource("Loading.png");
-			
+			loading = ImageIO.read(loading1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		makeButtons();
+	}
+	
+	private void readInitialImages() {
+		URL defaultPlay_URL = this.getClass().getResource("PlayA.png");
+		URL hoverPlay_URL = this.getClass().getResource("PlayB.png");
+		URL defaultHTP_URL = this.getClass().getResource("HTPA.png");
+		URL hoverHTP_URL = this.getClass().getResource("HTPB.png");
+		URL defaultCredits_URL = this.getClass().getResource("CreditsA.png");
+		URL hoverCredits_URL = this.getClass().getResource("CreditsB.png");
+		URL logoURL = this.getClass().getResource("Logo1.png");
+		
+		try {
 			defaultPlay = ImageIO.read(defaultPlay_URL);
 			hoverPlay = ImageIO.read(hoverPlay_URL);
 			defaultHTP = ImageIO.read(defaultHTP_URL);
@@ -156,7 +166,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			defaultCredits = ImageIO.read(defaultCredits_URL);
 			hoverCredits = ImageIO.read(hoverCredits_URL);
 			Logo  = ImageIO.read(logoURL);
-			loading = ImageIO.read(loading1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -316,11 +325,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
-		
-		if(!lateImages) {
-			readLateImages();
-			lateImages = true;
-		}
+		updateAll();
+		images();
 		if(runTransition) {
 			updateTransition(futureState);
 		}
@@ -332,8 +338,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			updateLoading();
 		}
 		
-		updateAll();
 		MenuMouseUpdate();
+	}
+	
+	private void images(){
+		if(lateImages<2) {
+			if(lateImages == 0) {
+				readInitialImages();
+			}
+			else if(lateImages == 1) {
+				readLateImages();
+			}
+			lateImages++;
+		}
 	}
 	
 	private void gameKeysUpdate() {
