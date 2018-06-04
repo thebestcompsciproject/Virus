@@ -30,7 +30,7 @@ public class AntidotePowerUp extends GameObject {
 		
 	public void update() {
 		pulse();
-		if( (System.currentTimeMillis() - 9000) > spawnTime) {
+		if( (System.currentTimeMillis() - 7000) > spawnTime) {
 			this.kill();
 		}
 	}

@@ -27,13 +27,13 @@ public class ObjectManager {
 	private int spawnTimeMap = 1000;
 	
 	private long timeInf = 0;
-	private double probInf = 0.05;
+	private double probInf = 0.04;
 	private long timeRepl = 0;
-	private double probRepl = 0.1;
+	private double probRepl = 0.07;
 	private long timeMG = 0;
 	private double probMG = 0.05;
 	private long timeP = 0;
-	private double probP = 0.05;
+	private double probP = 0.03;
 	
 	//CONSTRUCTOR
 	
@@ -149,7 +149,6 @@ public class ObjectManager {
 			timeInf = System.currentTimeMillis();
 			if (Math.random()<probInf) {
 				addObject(new DartPowerUp(width*Math.random(), height*Math.random(), 25.0));
-				addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 25.0));
 			}		
 		}
 		
@@ -300,6 +299,7 @@ public class ObjectManager {
 			o1.kill();
 			if(o1.getType() == 1){
 				players.get(pIndex).setInfection(true);
+				addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 25.0));
 			}
 			else if(o1.getType() == 2) {
 				players.get(pIndex).setParalyze(true);
