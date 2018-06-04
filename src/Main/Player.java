@@ -5,26 +5,36 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player extends GameObject{
 
 	private ArrayList<PlayerTriangle> reserve;
 	private ArrayList<Boolean> drawn;
+	private int[] layerEnds;
 	private Core core;
 	private double[] velocity;
 	private int pIndex;
+	
 	private long infectionTimer = -1;
 	private int infectionBuffer = 500;
 	private long MGTimer = -1;
 	private int MGBuffer = 5000;
 	private long replenishTimer = -1;
 	private int replenishBuffer = 100;
+	private long pTimer = -1;
+	private int pBuffer = 80;
+	private int pLayer = 1;
+	private int pRuns = 0;
+	
 	double side = 40;
 	double height = (Math.sqrt(3)*side)/2;
+	
 	boolean[] powerUps;
 	boolean infection;
 	int tCount = 0;
 	int colorChangeStall = 0;
+	boolean paralyzed;
 	
 	public Player(double x, double y, double direction, Color color, int pIndex) {
 		super();
@@ -51,6 +61,14 @@ public class Player extends GameObject{
 	}
 	
 	private void constructTriangles() {
+		layerEnds = new int[6];
+		layerEnds[0] = 0;
+		layerEnds[1] = 18;
+		layerEnds[2] = 48;
+		layerEnds[3] = 90;
+		layerEnds[4] = 144;
+		layerEnds[5] = 210;
+		
 		double dir = 180;
 		int index = 0;
 		
@@ -101,6 +119,8 @@ public class Player extends GameObject{
 		
 		if(infection)
 			infection();
+		if(paralyzed)
+			paralyze();
 		if(powerUps[1])
 			MG();
 		if(powerUps[2])
@@ -220,6 +240,7 @@ public class Player extends GameObject{
 		if(tCount>=10) {
 			powerUps[2] = false;
 			tCount = 0;
+			replenishTimer = -1;
 		}
 	}
 	
@@ -231,6 +252,31 @@ public class Player extends GameObject{
 			MGTimer = -1;
 			powerUps[1] = false;
 			tCount = 0;
+		}
+	}
+	
+	public void paralyze() {
+		if(pTimer<0) {
+			pTimer = System.currentTimeMillis();
+		}
+		if(System.currentTimeMillis()-pBuffer > pTimer) {
+			pTimer = System.currentTimeMillis();
+			pLayer++;
+			if(pLayer>5) {
+				pLayer = 1;
+				pRuns++;
+			}
+			setColor(color);
+			for(int i = layerEnds[pLayer-1]; i<layerEnds[pLayer]; i++) {
+				reserve.get(i).setColor(Color.YELLOW);
+			}
+		}
+		if(pRuns>=8) {
+			setColor(color);
+			pTimer = -1;
+			paralyzed = false;
+			pRuns = 0;
+			pLayer = 0;
 		}
 	}
 	
@@ -268,10 +314,6 @@ public class Player extends GameObject{
 		return pIndex;
 	}
 	
-	public void setInfection(boolean b) {
-		infection = b;
-	}
-	
 	public boolean hasPowerUp(){
 		for(int i = 0; i<powerUps.length; i++){
 			if(powerUps[i]){
@@ -281,27 +323,59 @@ public class Player extends GameObject{
 		return false;
 	}
 	
-	public void setDart(boolean b) {
-		if(!hasPowerUp()||!b) 
-			powerUps[0] = b;
+	public boolean getParalyzed() {
+		return paralyzed;
 	}
 	
-	public boolean getDart(){
+	public boolean getIDart(){
 		return powerUps[0];
-	}
-	
-	public void setMG(boolean b) {
-		if(!hasPowerUp()||!b) 
-			powerUps[1] = b;
 	}
 	
 	public boolean getMG() {
 		return powerUps[1];
 	}
 	
-	public void setReplenish(boolean b) {
-		if(!hasPowerUp()||!b) 
-			powerUps[2] = b;
+	public boolean getPDart() {
+		return powerUps[3];
 	}
 	
+	public void setInfection(boolean b) {
+		infection = b;
+	}
+	
+	public void setParalyze(boolean b) {
+		paralyzed = b;
+	}
+	
+	public boolean setIDart(boolean b) {
+		if(!hasPowerUp()||!b) { 
+			powerUps[0] = b;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean setMG(boolean b) {
+		if(!hasPowerUp()||!b) { 
+			powerUps[1] = b;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean setReplenish(boolean b) {
+		if(!hasPowerUp()||!b) { 
+			powerUps[2] = b;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean setPDart(boolean b) {
+		if(!hasPowerUp()||!b) { 
+			powerUps[3] = b;
+			return true;
+		}
+		return false;
+	}
 }

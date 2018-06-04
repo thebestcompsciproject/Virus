@@ -10,15 +10,15 @@ public class Bullet extends MapTriangle{
 	private double velX = 0;
 	private double velY = 0;
 	private int pIndex;
-	private boolean infection;
+	private int type;
 	
-	public Bullet(double x, double y, double direction, double side, Color color, double finalD, int pIndex, boolean infection) {
+	public Bullet(double x, double y, double direction, double side, Color color, double finalD, int pIndex, int type) {
 		super(x, y, direction, side, color);
 		this.finalD = finalD;
 		this.pIndex = pIndex;
 		velY = Math.cos(Math.toRadians(finalD))*8;
 		velX = Math.sin(Math.toRadians(finalD))*8;
-		this.infection = infection;
+		this.type = type;
 	}
 	
 	public void update() {
@@ -45,7 +45,7 @@ public class Bullet extends MapTriangle{
 		return finalD;
 	}
 	
-	public boolean getInfection(){
-		return infection;
+	public int getType(){
+		return type;
 	}
 }

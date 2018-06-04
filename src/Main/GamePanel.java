@@ -51,7 +51,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private long timeSave1 = 0;
 	private long timeSave2 = 0;
 	
-	private int lateImages = -1;
+	private int lateImages = -5;
 	
 	public BufferedImage defaultPlay;
 	public BufferedImage hoverPlay;
@@ -110,6 +110,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		initiateIsDown();
 		initiateFps();
 		readLoading();
+		makeButtons();
 	}
 	
 	public void start() {
@@ -147,17 +148,25 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		makeButtons();
 	}
 	
-	private void readInitialImages() {
+	private void readLateImages() {
 		URL defaultPlay_URL = this.getClass().getResource("PlayA.png");
 		URL hoverPlay_URL = this.getClass().getResource("PlayB.png");
 		URL defaultHTP_URL = this.getClass().getResource("HTPA.png");
 		URL hoverHTP_URL = this.getClass().getResource("HTPB.png");
 		URL defaultCredits_URL = this.getClass().getResource("CreditsA.png");
 		URL hoverCredits_URL = this.getClass().getResource("CreditsB.png");
+		URL defaultBack_URL = this.getClass().getResource("BackA.png");
+		URL hoverBackURL = this.getClass().getResource("BackB.png");
+		URL defaultPA_URL = this.getClass().getResource("PLayAgainA.png");
+		URL hoverPA_URL = this.getClass().getResource("PlayAgainB.png");
+		
 		URL logoURL = this.getClass().getResource("Logo1.png");
+		URL credits_URL = this.getClass().getResource("Credits.png");
+		URL HTP_URL = this.getClass().getResource("HTP.png");
+		URL win1URL = this.getClass().getResource("win1.png");
+		URL win2URL = this.getClass().getResource("win2.png");
 		
 		try {
 			defaultPlay = ImageIO.read(defaultPlay_URL);
@@ -166,34 +175,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			hoverHTP = ImageIO.read(hoverHTP_URL);
 			defaultCredits = ImageIO.read(defaultCredits_URL);
 			hoverCredits = ImageIO.read(hoverCredits_URL);
-			Logo  = ImageIO.read(logoURL);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		makeButtons();
-	}
-	
-	private void readLateImages() {
-		try {
-			
-			URL defaultBack_URL = this.getClass().getResource("BackA.png");
-			URL hoverBackURL = this.getClass().getResource("BackB.png");
-			URL defaultPA_URL = this.getClass().getResource("PLayAgainA.png");
-			URL hoverPA_URL = this.getClass().getResource("PlayAgainB.png");
-			
-			URL credits_URL = this.getClass().getResource("Credits.png");
-			URL HTP_URL = this.getClass().getResource("HTP.png");
-			URL win1URL = this.getClass().getResource("win1.png");
-			URL win2URL = this.getClass().getResource("win2.png");
-			
 			defaultBack = ImageIO.read(defaultBack_URL);
 			hoverBack = ImageIO.read(hoverBackURL);
-			
+			//just need to get these two images to load
 			defaultPA = ImageIO.read(defaultPA_URL);
 			hoverPA = ImageIO.read(hoverPA_URL);
 			
+			Logo  = ImageIO.read(logoURL);
 			creditsScreen = ImageIO.read(credits_URL);
 			HTPScreen = ImageIO.read(HTP_URL);
 			winScreen1 = ImageIO.read(win1URL);
@@ -327,9 +315,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		// TODO Auto-generated method stub
 		repaint();
 		updateAll();
-		images();
 		if(runTransition) {
-			updateTransition(futureState);
+			updateTransition();
 		}
 		else if(currentState == playState) {
 			gameUpdate();
@@ -340,14 +327,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		
 		MenuMouseUpdate();
+		images();
 	}
 	
 	private void images(){
-		if(lateImages<2) {
-			if(lateImages == 0) {
-				readInitialImages();
-			}
-			else if(lateImages == 1) {
+		if(lateImages < 0) {
+			if(lateImages==-1) {
 				readLateImages();
 			}
 			lateImages++;
@@ -361,34 +346,43 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		for(int i = 0; i<8; i++) {//checks keys for movement
 			j = i/4;
 			sign = (2*((i/2)%2)-1);
-			if(isDown[i]&&manager.getPlayers().get(j).getVelocity()[(i+1)%2]*sign<6.0) {
+			if(!manager.getPlayers().get(j).getParalyzed()&&isDown[i]&&manager.getPlayers().get(j).getVelocity()[(i+1)%2]*sign<6.0) {
 				manager.getPlayers().get(j).updateVelocity(0.1*(i%2)*sign,0.1*((i+1)%2)*sign);
 			}
 		}
 	
 		if(isDown[8]) {
-			manager.getPlayers().get(0).updateDirection(3.0);
+			if(!manager.getPlayers().get(0).getParalyzed())
+				manager.getPlayers().get(0).updateDirection(3.0);
 		}
 		
 		if(isDown[9]) {
-			manager.getPlayers().get(0).updateDirection(-3.0);
+			if(!manager.getPlayers().get(0).getParalyzed())
+				manager.getPlayers().get(0).updateDirection(-3.0);
 		}
 		
 		if(isDown[10]) {
-			if(manager.getPlayers().get(0).getMG()) {
-				if(System.currentTimeMillis()-2*reloadTime/3>timeSave1) {
-					manager.shootBullet(0, 20);
+			if(!manager.getPlayers().get(0).getParalyzed()) {
+				if(manager.getPlayers().get(0).getMG()) {
+					if(System.currentTimeMillis()-2*reloadTime/3>timeSave1) {
+						manager.shootBullet(0, 20);
+						timeSave1 = System.currentTimeMillis();
+					}
+				}
+				else if(System.currentTimeMillis()-reloadTime>timeSave1) {
+					manager.shootBullet(0, 40);
 					timeSave1 = System.currentTimeMillis();
 				}
 			}
-			else if(System.currentTimeMillis()-reloadTime>timeSave1) {
-				manager.shootBullet(0, 40);
-				timeSave1 = System.currentTimeMillis();
-			}
 		}
 		if(isDown[11]){
-			if(manager.getPlayers().get(0).getDart()){
-				manager.shootInfectedBullet(0);
+			if(!manager.getPlayers().get(0).getParalyzed()) {
+				if(manager.getPlayers().get(0).getIDart()){
+					manager.shootInfectedBullet(0);
+				}
+				if(manager.getPlayers().get(0).getPDart()){
+					manager.shootParalyzedBullet(0);
+				}
 			}
 		}
 	}
@@ -441,15 +435,17 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		
 		if(mouseClicked) {
-			if(manager.getPlayers().get(1).getMG()) {
-				if(System.currentTimeMillis()-reloadTime*2/3>timeSave2) {
-					manager.shootBullet(1, 20);
+			if(!manager.getPlayers().get(1).getParalyzed()) {
+				if(manager.getPlayers().get(1).getMG()) {
+					if(System.currentTimeMillis()-reloadTime*2/3>timeSave2) {
+						manager.shootBullet(1, 20);
+						timeSave2 = System.currentTimeMillis();
+					}
+				}
+				else if(System.currentTimeMillis()-reloadTime>timeSave2) {
+					manager.shootBullet(1, 40);
 					timeSave2 = System.currentTimeMillis();
 				}
-			}
-			else if(System.currentTimeMillis()-reloadTime>timeSave2) {
-				manager.shootBullet(1, 40);
-				timeSave2 = System.currentTimeMillis();
 			}
 		}
 	}
@@ -507,6 +503,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void updateLoading() {
+		if(manager == null||manager.getPlayers().size()<2) {
+			manager = new ObjectManager(width, height);
+		}
 		if(loadingInitial<0) {
 			loadingInitial = System.currentTimeMillis();
 		}
@@ -520,11 +519,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	private void updateTransition(int state) {
+	private void updateTransition() {
 		if(opacity>=255) {
 			opacityControl = true;
-			currentState = state;
-			manager = new ObjectManager(width, height);
+			currentState = futureState;
 		}
 		if(!opacityControl)
 			opacity+=15;
@@ -550,8 +548,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		mouseClicked = true;
 		if(currentState == playState) {
 			if(SwingUtilities.isRightMouseButton(e)) {
-				if(manager.getPlayers().get(1).getDart()) {
-					manager.shootInfectedBullet(1);
+				if(!manager.getPlayers().get(1).getParalyzed()) {
+					if(manager.getPlayers().get(1).getIDart()) {
+						manager.shootInfectedBullet(1);
+					}
+					if(manager.getPlayers().get(1).getPDart()) {
+						manager.shootParalyzedBullet(1);
+					}
 				}
 				mouseClicked = false;
 			}

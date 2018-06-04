@@ -9,6 +9,7 @@ import java.util.Arrays;
 import Main.PowerUps.AntidotePowerUp;
 import Main.PowerUps.DartPowerUp;
 import Main.PowerUps.MGPowerUp;
+import Main.PowerUps.ParalyzePowerUp;
 import Main.PowerUps.ReplenishPowerUp;
 
 public class ObjectManager {
@@ -31,6 +32,8 @@ public class ObjectManager {
 	private double probRepl = 0.1;
 	private long timeMG = 0;
 	private double probMG = 0.05;
+	private long timeP = 0;
+	private double probP = 0.05;
 	
 	//CONSTRUCTOR
 	
@@ -75,12 +78,12 @@ public class ObjectManager {
 		if(size<40) {
 			players.get(index).addTCount();
 			if(players.get(index).removeLastTriangleRestricted()!=null) {
-				bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), players.get(index).getDirection(), size, players.get(index).getColor(), players.get(index).getDirection(), index, false));
+				bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), players.get(index).getDirection(), size, players.get(index).getColor(), players.get(index).getDirection(), index, 0));
 			}
 		}
 		else {
 			if(players.get(index).removeLastTriangle()!=null) {
-				bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), players.get(index).getDirection(), size, players.get(index).getColor(), players.get(index).getDirection(), index, false));
+				bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), players.get(index).getDirection(), size, players.get(index).getColor(), players.get(index).getDirection(), index, 0));
 			}
 		}
 	}
@@ -88,8 +91,16 @@ public class ObjectManager {
 	public void shootInfectedBullet(int index){
 		PlayerTriangle t = players.get(index).removeLastTriangle();
 		if(t!=null) {
-			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), new Color(106, 168, 79), players.get(index).getDirection(), index, true));
-			players.get(index).setDart(false);
+			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), new Color(106, 168, 79), players.get(index).getDirection(), index, 1));
+			players.get(index).setIDart(false);
+		}
+	}
+	
+	public void shootParalyzedBullet(int index){
+		PlayerTriangle t = players.get(index).removeLastTriangle();
+		if(t!=null) {
+			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), Color.YELLOW, players.get(index).getDirection(), index, 2));
+			players.get(index).setPDart(false);
 		}
 	}
 	
@@ -130,6 +141,7 @@ public class ObjectManager {
 		spawnInfectionDart();
 		spawnReplenish();
 		spawnMG();
+		spawnParalyzeDart();
 	}
 
 	private void spawnInfectionDart() {
@@ -157,6 +169,15 @@ public class ObjectManager {
 			timeMG = System.currentTimeMillis();
 			if(Math.random() < probMG) {
 				addObject(new MGPowerUp(width*Math.random(), height*Math.random(), 25.0));
+			}
+		}
+	}
+	
+	private void spawnParalyzeDart() {
+		if (System.currentTimeMillis() - 1000 >= timeP) {
+			timeP = System.currentTimeMillis();
+			if(Math.random() < probP) {
+				addObject(new ParalyzePowerUp(width*Math.random(), height*Math.random(), 25.0));
 			}
 		}
 	}
@@ -277,8 +298,11 @@ public class ObjectManager {
 	private void bulletToPlayer(Bullet o1, PlayerTriangle o2, int pIndex) {
 		if(pIndex!=o1.getPIndex()){
 			o1.kill();
-			if(o1.getInfection()){
+			if(o1.getType() == 1){
 				players.get(pIndex).setInfection(true);
+			}
+			else if(o1.getType() == 2) {
+				players.get(pIndex).setParalyze(true);
 			}
 			else{
 				if(o2.getIndex()>=0)
@@ -293,22 +317,25 @@ public class ObjectManager {
 		if(o1 instanceof Bullet) {
 			bulletToPlayer((Bullet)o1, o2, pIndex);
 		}
-		else if(o1 instanceof DartPowerUp){
-			
-			players.get(o2.getPlayer().getPIndex()).setDart(true);
-			o1.kill();
-		}
 		else if(o1 instanceof AntidotePowerUp){
 			players.get(o2.getPlayer().getPIndex()).setInfection(false);
 			o1.kill();
 		}
+		else if(o1 instanceof DartPowerUp){
+			if(players.get(o2.getPlayer().getPIndex()).setIDart(true))
+				o1.kill();
+		}
 		else if(o1 instanceof MGPowerUp){	
-			players.get(o2.getPlayer().getPIndex()).setMG(true);
-			o1.kill();
+			if(players.get(o2.getPlayer().getPIndex()).setMG(true))
+				o1.kill();
 		}
 		else if(o1 instanceof ReplenishPowerUp){		
-			players.get(o2.getPlayer().getPIndex()).setReplenish(true);
-			o1.kill();
+			if(players.get(o2.getPlayer().getPIndex()).setReplenish(true))
+				o1.kill();
+		}
+		else if(o1 instanceof ParalyzePowerUp){		
+			if(players.get(o2.getPlayer().getPIndex()).setPDart(true))
+				o1.kill();
 		}
 		else {
 			o1.kill();
