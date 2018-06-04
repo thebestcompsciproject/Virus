@@ -159,7 +159,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		URL hoverCredits_URL = this.getClass().getResource("CreditsB.png");
 		URL defaultBack_URL = this.getClass().getResource("BackA.png");
 		URL hoverBackURL = this.getClass().getResource("BackB.png");
-		URL defaultPA_URL = this.getClass().getResource("PLayAgainA.png");
+		URL defaultPA_URL = this.getClass().getResource("PlayAgainA.png");
 		URL hoverPA_URL = this.getClass().getResource("PlayAgainB.png");
 		
 		URL logoURL = this.getClass().getResource("Logo1.png");
@@ -177,7 +177,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			hoverCredits = ImageIO.read(hoverCredits_URL);
 			defaultBack = ImageIO.read(defaultBack_URL);
 			hoverBack = ImageIO.read(hoverBackURL);
-			//just need to get these two images to load
 			defaultPA = ImageIO.read(defaultPA_URL);
 			hoverPA = ImageIO.read(hoverPA_URL);
 			

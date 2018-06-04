@@ -23,10 +23,14 @@ public class MGPowerUp extends GameObject {
 	}
 	
 	public void draw(Graphics g) {
-		g.setColor(new Color(69,69,69));
+		g.setColor(Color.WHITE);
 		g.fillOval((int)x, (int)y, (int)(2*dRadius), (int) (2*dRadius));
 		g.setColor(Color.BLACK);
 		g.drawOval((int)x, (int)y, (int)(2*dRadius), (int) (2*dRadius));
+		g.setColor(new Color(69,69,69));
+		/*g.drawCircle();
+		g.drawCircle();
+		g.drawCircle();*/
 	}
 	
 	public void update() {
