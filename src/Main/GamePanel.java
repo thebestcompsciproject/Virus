@@ -171,7 +171,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		URL win1_URL = this.getClass().getResource("Win1.png");
 		URL win2_URL = this.getClass().getResource("Win2.png");
 		URL anti_URL = this.getClass().getResource("Anti.png");
-		URL infection_URL = this.getClass().getResource("Infect.png");
+		URL infection_URL = this.getClass().getResource("virus_v2.jpg");
 		
 		try {
 			defaultPlay = ImageIO.read(defaultPlay_URL);
