@@ -11,6 +11,7 @@ public class Bullet extends MapTriangle{
 	private double velY = 0;
 	private int pIndex;
 	private int type;
+	int hits = 0;
 	
 	public Bullet(double x, double y, double direction, double side, Color color, double finalD, int pIndex, int type) {
 		super(x, y, direction, side, color);
@@ -26,6 +27,9 @@ public class Bullet extends MapTriangle{
 		velY = Math.cos(Math.toRadians(finalD))*10;
 		x+=velX;
 		y+=velY;
+		if(hits>=2) {
+			this.kill();
+		}
 	}
 
 	public int getPIndex() {
@@ -47,5 +51,13 @@ public class Bullet extends MapTriangle{
 	
 	public int getType(){
 		return type;
+	}
+
+	public void addHits() {
+		hits++;
+	}
+
+	public int getHits() {
+		return hits;
 	}
 }

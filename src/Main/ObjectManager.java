@@ -296,20 +296,25 @@ public class ObjectManager {
 	
 	private void bulletToPlayer(Bullet o1, PlayerTriangle o2, int pIndex) {
 		if(pIndex!=o1.getPIndex()){
-			o1.kill();
+			o1.addHits();
 			if(o1.getType() == 1){
 				if(!players.get(pIndex).getInfection())
 					addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 25.0));
 				players.get(pIndex).setInfection(true);
+				o1.kill();
 			}
 			else if(o1.getType() == 2) {
 				players.get(pIndex).setParalyze(true);
+				o1.kill();
 			}
 			else{
 				if(o2.getIndex()>=0)
 					players.get(pIndex).removeTriangle(o2.getIndex());
-				else
-					players.get(pIndex).getCore().removeTriangle(o2.getIndex()+6);
+				else {
+					if(o1.getHits()==1)
+						players.get(pIndex).getCore().removeTriangle(o2.getIndex()+6);
+					o1.kill();
+				}
 			}
 		}
 	}
@@ -320,6 +325,7 @@ public class ObjectManager {
 		}
 		else if(o1 instanceof AntidotePowerUp){
 			players.get(o2.getPlayer().getPIndex()).setInfection(false);
+			players.get(o2.getPlayer().getPIndex()).setColor(players.get(o2.getPlayer().getPIndex()).getColor());
 			o1.kill();
 		}
 		else if(o1 instanceof DartPowerUp){
@@ -495,6 +501,33 @@ public class ObjectManager {
 			p.draw(g);
 		for(MapTriangle b: bullets)
 			b.draw(g);
+		if(players.size()==2)
+			powerUpsGUI(g);
+	}
+	
+	private void powerUpsGUI(Graphics g) {
+		g.setColor(players.get(0).getColor());
+		g.drawOval(2*width/100, height-height/10, height/15, height/15);
+		g.drawOval(2*width/100+ height/15+width/50, height-height/10, height/15, height/15);
+		
+		g.setColor(players.get(1).getColor());
+		g.drawOval(width-(2*width/100+ 2*height/15+width/50), height-height/10, height/15, height/15);
+		g.drawOval(width-(2*width/100+height/15), height-height/10, height/15, height/15);
+		
+		g.setColor(Color.WHITE);
+		
+		if(players.get(0).getIDart()) {
+			
+		}
+		if(players.get(0).getPDart()) {
+			
+		}
+		if(players.get(0).getIDart()) {
+			
+		}
+		if(players.get(0).getPDart()) {
+			
+		}
 	}
 	
 	public ArrayList<Player> getPlayers() {
