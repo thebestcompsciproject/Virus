@@ -323,6 +323,10 @@ public class Player extends GameObject{
 		return false;
 	}
 	
+	public boolean getInfection() {
+		return infection;
+	}
+	
 	public boolean getParalyzed() {
 		return paralyzed;
 	}

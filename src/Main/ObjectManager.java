@@ -298,8 +298,9 @@ public class ObjectManager {
 		if(pIndex!=o1.getPIndex()){
 			o1.kill();
 			if(o1.getType() == 1){
+				if(!players.get(pIndex).getInfection())
+					addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 25.0));
 				players.get(pIndex).setInfection(true);
-				addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 25.0));
 			}
 			else if(o1.getType() == 2) {
 				players.get(pIndex).setParalyze(true);

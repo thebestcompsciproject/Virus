@@ -75,6 +75,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage winScreen2;
 	public BufferedImage loading;
 	
+	public static BufferedImage antidote;
+	public static BufferedImage infection;
+	
 	private boolean mouseClicked;
 	
 	private Button play;
@@ -165,8 +168,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		URL logoURL = this.getClass().getResource("Logo1.png");
 		URL credits_URL = this.getClass().getResource("Credits.png");
 		URL HTP_URL = this.getClass().getResource("HTP.png");
-		URL win1URL = this.getClass().getResource("win1.png");
-		URL win2URL = this.getClass().getResource("win2.png");
+		URL win1_URL = this.getClass().getResource("win1.png");
+		URL win2_URL = this.getClass().getResource("win2.png");
+		URL anti_URL = this.getClass().getResource("Anti.png");
+		URL infection_URL = this.getClass().getResource("Infect.png");
 		
 		try {
 			defaultPlay = ImageIO.read(defaultPlay_URL);
@@ -183,8 +188,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			Logo  = ImageIO.read(logoURL);
 			creditsScreen = ImageIO.read(credits_URL);
 			HTPScreen = ImageIO.read(HTP_URL);
-			winScreen1 = ImageIO.read(win1URL);
-			winScreen2 = ImageIO.read(win2URL);
+			winScreen1 = ImageIO.read(win1_URL);
+			winScreen2 = ImageIO.read(win2_URL);
+			
+			antidote = ImageIO.read(anti_URL);
+			infection = ImageIO.read(infection_URL);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

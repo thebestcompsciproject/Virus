@@ -3,6 +3,7 @@ package Main.PowerUps;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Polygon;
 
 import Main.GameObject;
 
@@ -26,9 +27,32 @@ public class ParalyzePowerUp extends GameObject {
 		g.fillOval((int) x, (int) y, (int)(2*dRadius), (int) (2*dRadius));
 		g.setColor(Color.BLACK);
 		g.drawOval((int) x, (int) y, (int)(2*dRadius), (int) (2*dRadius));
+		drawBolt(g);
+	}
+	
+	private void drawBolt(Graphics g) {
 		g.setColor(Color.YELLOW);
-		g.fillRect((int)(x+(9*dRadius/10)), (int)(y+(dRadius/2)), (int)(2*dRadius/10), (int)dRadius);
-		g.fillRect((int)(x+(dRadius/2)), (int)(y+(9*dRadius/10)), (int)dRadius, (int)(2*dRadius/10));
+		int[] xC = new int[6];
+		int[] yC = new int[6];
+		
+		xC[0] = (int)(x+4*dRadius/3);
+		xC[1] = (int)(x+2*dRadius/3);
+		xC[2] = (int)(x+dRadius);
+		xC[3] = (int)(x+2*dRadius/3);
+		xC[4] = (int)(x+4*dRadius/3);
+		xC[5] = (int)(x+dRadius);
+		
+		yC[0] = (int)(y+dRadius/3);
+		yC[1] = (int)(y+3*dRadius/4);
+		yC[2] = (int)(y+5*dRadius/4);
+		yC[3] = (int)(y+5*dRadius/3);
+		yC[4] = (int)(y+5*dRadius/4);
+		yC[5] = (int)(y+3*dRadius/4);
+		
+		Polygon p = new Polygon(xC, yC, 6);
+		g.fillPolygon(p);
+		g.setColor(new Color(69, 69, 69));
+		g.drawPolygon(p);
 	}
 	
 	public void update() {

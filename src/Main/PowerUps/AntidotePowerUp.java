@@ -3,14 +3,21 @@ package Main.PowerUps;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 import Main.GameObject;
+import Main.GamePanel;
 
 public class AntidotePowerUp extends GameObject {
 	private long spawnTime;
 	private double dRadius;
 	private double radius;
 	private boolean grow = false;
+	private BufferedImage antidote;
 		
 	public AntidotePowerUp(double x, double y, double radius) {
 		super();
@@ -19,13 +26,15 @@ public class AntidotePowerUp extends GameObject {
 		this.radius = radius;
 		dRadius = radius;
 		spawnTime = System.currentTimeMillis();
+		antidote = GamePanel.antidote;
 	}
 	
 	public void draw(Graphics g) {
-		g.setColor(new Color(69, 126, 218));
+		g.setColor(Color.WHITE);
 		g.fillOval((int) x, (int) y, (int)(2*dRadius), (int) (2*dRadius));
 		g.setColor(Color.BLACK);
 		g.drawOval((int) x, (int) y, (int)(2*dRadius), (int) (2*dRadius));
+		g.drawImage(antidote, (int)(x+dRadius/2), (int)(y+2*dRadius/5), (int)(dRadius), (int)(6*dRadius/5), null);
 	}
 		
 	public void update() {
