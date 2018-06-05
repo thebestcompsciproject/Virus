@@ -168,8 +168,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		URL logoURL = this.getClass().getResource("Logo1.png");
 		URL credits_URL = this.getClass().getResource("Credits.png");
 		URL HTP_URL = this.getClass().getResource("HTP.png");
-		URL win1_URL = this.getClass().getResource("win1.png");
-		URL win2_URL = this.getClass().getResource("win2.png");
+		URL win1_URL = this.getClass().getResource("Win1.png");
+		URL win2_URL = this.getClass().getResource("Win2.png");
 		URL anti_URL = this.getClass().getResource("Anti.png");
 		URL infection_URL = this.getClass().getResource("Infect.png");
 		
