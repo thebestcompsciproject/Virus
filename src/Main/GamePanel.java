@@ -75,6 +75,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage winScreen2;
 	public BufferedImage loading;
 	
+	public BufferedImage puListDefault;
+	public BufferedImage puListHover;
+	public BufferedImage puListScreen;
+	
 	public static BufferedImage antidote;
 	public static BufferedImage infection;
 	
@@ -87,6 +91,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Button backCredits;
 	private Button PA;
 	private Button backPA;
+	private Button PULScreen;
 	
 	private final int menuState = 0;
 	private final int playState = 1;
@@ -153,6 +158,18 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
+	private void readPUDescriptions()
+	{
+		URL PUListS = this.getClass().getResource("PUListScreen.PNG");
+		
+		try {
+			puListScreen = ImageIO.read(PUListS);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private void readLateImages() {
 		URL defaultPlay_URL = this.getClass().getResource("PlayA.png");
 		URL hoverPlay_URL = this.getClass().getResource("PlayB.png");
@@ -209,6 +226,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		backCredits = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 		PA = new Button(width*665/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultPA, hoverPA);
 		backPA =  new Button(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultBack, hoverBack);
+		PULScreen  = new Button(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultBack, hoverBack); //change later
 	}
 	
 	//GRAPHICS
@@ -284,6 +302,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void drawHTP(Graphics g) {
 		g.drawImage(HTPScreen, 0, 0, width, height, null);
 		backHTP.draw(g);
+		
 	}
 	
 	public void drawCredits(Graphics g) {
