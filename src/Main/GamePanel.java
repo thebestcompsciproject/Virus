@@ -695,10 +695,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(e.getKeyCode() == KeyEvent.VK_D) {
 			isDown[3] = state;
 		}
-		if(e.getKeyCode() == KeyEvent.VK_T) {
+		if(e.getKeyCode() == KeyEvent.VK_J) {
 			isDown[8] = state;
 		}
-		if(e.getKeyCode() == KeyEvent.VK_Y) {
+		if(e.getKeyCode() == KeyEvent.VK_K) {
 			isDown[9] = state;
 		}
 		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
