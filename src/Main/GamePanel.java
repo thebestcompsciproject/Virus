@@ -158,17 +158,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	private void readPUDescriptions()
-	{
-		URL PUListS = this.getClass().getResource("PUListScreen.PNG");
-		
-		try {
-			puListScreen = ImageIO.read(PUListS);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
 	private void readLateImages() {
 		URL defaultPlay_URL = this.getClass().getResource("PlayA.png");
@@ -189,6 +178,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		URL win2_URL = this.getClass().getResource("Win2.png");
 		URL anti_URL = this.getClass().getResource("Anti.png");
 		URL infection_URL = this.getClass().getResource("virus_v2.jpg");
+		URL PUListS = this.getClass().getResource("PUListScreen.PNG");
 		
 		try {
 			defaultPlay = ImageIO.read(defaultPlay_URL);
@@ -207,6 +197,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			HTPScreen = ImageIO.read(HTP_URL);
 			winScreen1 = ImageIO.read(win1_URL);
 			winScreen2 = ImageIO.read(win2_URL);
+			puListScreen = ImageIO.read(PUListS);
 			
 			antidote = ImageIO.read(anti_URL);
 			infection = ImageIO.read(infection_URL);
