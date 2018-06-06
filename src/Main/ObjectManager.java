@@ -27,7 +27,8 @@ public class ObjectManager {
 	private int spawnTimeMap = 1000;
 	
 	private long timeInf = 0;
-	private double probInf = 0.04;
+	private double probInf1 = 0.04;
+	double probInf = 0.5;
 	private long timeRepl = 0;
 	private double probRepl = 0.07;
 	private long timeMG = 0;
@@ -495,38 +496,59 @@ public class ObjectManager {
 	//GRAPHICS
 	
 	public void draw(Graphics g) {
+		if(players.size()==2)
+			powerUpsGUI(g);
 		for(GameObject o: map)
 			o.draw(g);
 		for(Player p: players)
 			p.draw(g);
 		for(MapTriangle b: bullets)
 			b.draw(g);
-		if(players.size()==2)
-			powerUpsGUI(g);
 	}
 	
 	private void powerUpsGUI(Graphics g) {
-		g.setColor(players.get(0).getColor());
-		g.drawOval(2*width/100, height-height/10, height/15, height/15);
-		g.drawOval(2*width/100+ height/15+width/50, height-height/10, height/15, height/15);
-		
-		g.setColor(players.get(1).getColor());
-		g.drawOval(width-(2*width/100+ 2*height/15+width/50), height-height/10, height/15, height/15);
-		g.drawOval(width-(2*width/100+height/15), height-height/10, height/15, height/15);
-		
-		g.setColor(Color.WHITE);
+		g.setColor(new Color(200, 200, 200));
 		
 		if(players.get(0).hasIDart()) {
-			
+			g.drawImage(GamePanel.arcReactVirus, 2*width/100, height-height/10, height/15, height/15, null);
+		}
+		else {
+			g.drawImage(GamePanel.arcReactDefault, 2*width/100, height-height/10, height/15, height/15, null);
 		}
 		if(players.get(0).hasPDart()) {
-				
+			g.drawImage(GamePanel.arcReactParalyze, 2*width/100+ height/15+width/50, height-height/10, height/15, height/15, null);
 		}
-		if(players.get(0).hasIDart()) {
-			
+		else {
+			g.drawImage(GamePanel.arcReactDefault, 2*width/100+ height/15+width/50, height-height/10, height/15, height/15, null);
 		}
-		if(players.get(0).hasPDart()) {
-			
+		if(players.get(1).hasIDart()) {
+			g.drawImage(GamePanel.arcReactVirus, width-(2*width/100+ 2*height/15+width/50), height-height/10, height/15, height/15, null);
+		}
+		else{
+			g.drawImage(GamePanel.arcReactDefault, width-(2*width/100+ 2*height/15+width/50), height-height/10, height/15, height/15, null);
+		}
+		if(players.get(1).hasPDart()) {
+			g.drawImage(GamePanel.arcReactParalyze, width-(2*width/100+height/15), height-height/10, height/15, height/15, null);
+		}
+		else {
+			g.drawImage(GamePanel.arcReactDefault, width-(2*width/100+height/15), height-height/10, height/15, height/15, null);
+		}
+		
+		if(players.get(0).hasInfection()) {
+			g.setColor(new Color(106, 168, 79));
+			g.fillRect(2*width/100+ 2*(height/15+width/50), height-height/11, (int) (200*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/10000), height/20);
+		}
+		if(players.get(0).isParalyzed()) {
+			g.setColor(Color.YELLOW);
+			g.fillRect(2*width/100+ 2*(height/15+width/50), height-height/11, (int) (200*(3200-(System.currentTimeMillis()-players.get(0).getPStartTime()))/3200), height/20);
+		}
+		if(players.get(0).getMG()) {
+			g.setColor(new Color(69, 69, 69));
+			g.fillRect(2*width/100+ 2*(height/15+width/50), height-height/11, (int) (200*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/10000), height/20);
+		}
+		if(players.get(0).getReplenish()) {
+			g.setColor(players.get(0).getColor());
+			g.fillRect(2*width/100+ 2*(height/15+width/50), height-height/11, (int) (200*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/10000), height/20);
 		}
 	}
 	

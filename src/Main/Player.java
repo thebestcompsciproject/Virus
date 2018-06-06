@@ -18,7 +18,7 @@ public class Player extends GameObject{
 	
 	private long infectionStartTime = -1;
 	private long infectionTimer = -1;
-	private int infectionBuffer = 500;
+	private int infectionBuffer = 10000;
 	
 	private long MGStartTime = -1;
 	private long MGTimer = -1;
@@ -27,7 +27,7 @@ public class Player extends GameObject{
 	private long replenishStartTime = -1;
 	private long replenishTimer = -1;
 	private int replenishBuffer = 100;
-	
+	 
 	private long pStartTime = -1;
 	private long pTimer = -1;
 	private int pBuffer = 80;
@@ -211,8 +211,9 @@ public class Player extends GameObject{
 	{
 		if(infectionTimer<0) {
 			infectionTimer = System.currentTimeMillis();
+			infectionStartTime = infectionTimer;
 		}
-		if(System.currentTimeMillis() - infectionBuffer > infectionTimer){
+		if(System.currentTimeMillis() - infectionBuffer/20 > infectionTimer){
 			tCount++;
 			infectionTimer = System.currentTimeMillis();
 			removeLastTriangle();
@@ -238,6 +239,7 @@ public class Player extends GameObject{
 	private void replenish() {
 		if (replenishTimer < 0) {
 			replenishTimer = System.currentTimeMillis();
+			replenishStartTime = replenishTimer;
 		}
 		if(System.currentTimeMillis() - replenishBuffer > replenishTimer) {
 			addTriangle();
@@ -254,6 +256,7 @@ public class Player extends GameObject{
 	public void MG() {
 		if(MGTimer<0) {
 			MGTimer = System.currentTimeMillis();
+			MGStartTime = MGTimer;
 		}
 		if(System.currentTimeMillis() - MGBuffer > MGTimer) {
 			MGTimer = -1;
@@ -265,6 +268,7 @@ public class Player extends GameObject{
 	public void paralyze() {
 		if(pTimer<0) {
 			pTimer = System.currentTimeMillis();
+			pStartTime = pTimer;
 		}
 		if(System.currentTimeMillis()-pBuffer > pTimer) {
 			pTimer = System.currentTimeMillis();
@@ -346,6 +350,10 @@ public class Player extends GameObject{
 		return powerUps[3];
 	}
 	
+	public boolean getReplenish() {
+		return powerUps[2];
+	}
+	
 	public boolean getMG() {
 		return powerUps[1];
 	}
@@ -388,5 +396,21 @@ public class Player extends GameObject{
 			return true;
 		}
 		return false;
+	}
+	
+	public long getPStartTime() {
+		return pStartTime;
+	}
+	
+	public long getInfectionStartTime() {
+		return infectionStartTime;
+	}
+	
+	public long getReplenishStartTime() {
+		return replenishStartTime;
+	}
+	
+	public long getMGStartTime() {
+		return MGStartTime;
 	}
 }

@@ -79,9 +79,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage puListHover;
 	public BufferedImage puListScreen;
 	
-	public BufferedImage arcReactDefault;
-	public BufferedImage arcReactVirus;
-	public BufferedImage arcReactParalyze;
+	public static BufferedImage arcReactDefault;
+	public static BufferedImage arcReactVirus;
+	public static BufferedImage arcReactParalyze;
 	
 	public static BufferedImage antidote;
 	public static BufferedImage infection;
