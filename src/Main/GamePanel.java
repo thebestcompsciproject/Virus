@@ -79,6 +79,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage puListHover;
 	public BufferedImage puListScreen;
 	
+	public BufferedImage arcReactDefault;
+	public BufferedImage arcReactVirus;
+	public BufferedImage arcReactParalyze;
+	
 	public static BufferedImage antidote;
 	public static BufferedImage infection;
 	
@@ -178,7 +182,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		URL win2_URL = this.getClass().getResource("Win2.png");
 		URL anti_URL = this.getClass().getResource("Anti.png");
 		URL infection_URL = this.getClass().getResource("virus_v2.jpg");
-		URL PUListS = this.getClass().getResource("PUListScreen.PNG");
+		URL PUListS_URL = this.getClass().getResource("PUListScreen.PNG");
+		
+		URL arcReactorDefault_URL = this.getClass().getResource("arcReactorDefault.jpg");
+		URL arcReactorVirus_URL = this.getClass().getResource("arcReactorVirus.jpg");
+		URL arcReactorParalyze_URL = this.getClass().getResource("arcReactorParalyze.jpg");
 		
 		try {
 			defaultPlay = ImageIO.read(defaultPlay_URL);
@@ -197,7 +205,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			HTPScreen = ImageIO.read(HTP_URL);
 			winScreen1 = ImageIO.read(win1_URL);
 			winScreen2 = ImageIO.read(win2_URL);
-			puListScreen = ImageIO.read(PUListS);
+			puListScreen = ImageIO.read(PUListS_URL);
+			
+			arcReactDefault = ImageIO.read(arcReactorDefault_URL);
+			arcReactVirus = ImageIO.read(arcReactorVirus_URL);
+			arcReactParalyze = ImageIO.read(arcReactorParalyze_URL);
 			
 			antidote = ImageIO.read(anti_URL);
 			infection = ImageIO.read(infection_URL);
