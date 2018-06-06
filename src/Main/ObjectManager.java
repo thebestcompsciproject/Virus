@@ -298,7 +298,7 @@ public class ObjectManager {
 		if(pIndex!=o1.getPIndex()){
 			o1.addHits();
 			if(o1.getType() == 1){
-				if(!players.get(pIndex).getInfection())
+				if(!players.get(pIndex).hasInfection())
 					addObject(new AntidotePowerUp(width*Math.random(), height*Math.random(), 25.0));
 				players.get(pIndex).setInfection(true);
 				o1.kill();
@@ -516,16 +516,16 @@ public class ObjectManager {
 		
 		g.setColor(Color.WHITE);
 		
-		if(players.get(0).getIDart()) {
+		if(players.get(0).hasIDart()) {
 			
 		}
-		if(players.get(0).getPDart()) {
+		if(players.get(0).hasPDart()) {
+				
+		}
+		if(players.get(0).hasIDart()) {
 			
 		}
-		if(players.get(0).getIDart()) {
-			
-		}
-		if(players.get(0).getPDart()) {
+		if(players.get(0).hasPDart()) {
 			
 		}
 	}

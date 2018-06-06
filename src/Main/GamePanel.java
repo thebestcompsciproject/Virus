@@ -353,23 +353,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		for(int i = 0; i<8; i++) {//checks keys for movement
 			j = i/4;
 			sign = (2*((i/2)%2)-1);
-			if(!manager.getPlayers().get(j).getParalyzed()&&isDown[i]&&manager.getPlayers().get(j).getVelocity()[(i+1)%2]*sign<6.0) {
+			if(!manager.getPlayers().get(j).isParalyzed()&&isDown[i]&&manager.getPlayers().get(j).getVelocity()[(i+1)%2]*sign<6.0) {
 				manager.getPlayers().get(j).updateVelocity(0.1*(i%2)*sign,0.1*((i+1)%2)*sign);
 			}
 		}
 	
 		if(isDown[8]) {
-			if(!manager.getPlayers().get(0).getParalyzed())
+			if(!manager.getPlayers().get(0).isParalyzed())
 				manager.getPlayers().get(0).updateDirection(3.0);
 		}
 		
 		if(isDown[9]) {
-			if(!manager.getPlayers().get(0).getParalyzed())
+			if(!manager.getPlayers().get(0).isParalyzed())
 				manager.getPlayers().get(0).updateDirection(-3.0);
 		}
 		
 		if(isDown[10]) {
-			if(!manager.getPlayers().get(0).getParalyzed()) {
+			if(!manager.getPlayers().get(0).isParalyzed()) {
 				if(manager.getPlayers().get(0).getMG()) {
 					if(System.currentTimeMillis()-2*reloadTime/3>timeSave1) {
 						manager.shootBullet(0, 20);
@@ -383,11 +383,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			}
 		}
 		if(isDown[11]){
-			if(!manager.getPlayers().get(0).getParalyzed()) {
-				if(manager.getPlayers().get(0).getIDart()){
+			if(!manager.getPlayers().get(0).isParalyzed()) {
+				if(manager.getPlayers().get(0).hasIDart()){
 					manager.shootInfectedBullet(0);
 				}
-				if(manager.getPlayers().get(0).getPDart()){
+				if(manager.getPlayers().get(0).hasPDart()){
 					manager.shootParalyzedBullet(0);
 				}
 			}
@@ -442,7 +442,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		
 		if(mouseClicked) {
-			if(!manager.getPlayers().get(1).getParalyzed()) {
+			if(!manager.getPlayers().get(1).isParalyzed()) {
 				if(manager.getPlayers().get(1).getMG()) {
 					if(System.currentTimeMillis()-reloadTime*2/3>timeSave2) {
 						manager.shootBullet(1, 20);
@@ -555,11 +555,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		mouseClicked = true;
 		if(currentState == playState) {
 			if(SwingUtilities.isRightMouseButton(e)) {
-				if(!manager.getPlayers().get(1).getParalyzed()) {
-					if(manager.getPlayers().get(1).getIDart()) {
+				if(!manager.getPlayers().get(1).isParalyzed()) {
+					if(manager.getPlayers().get(1).hasIDart()) {
 						manager.shootInfectedBullet(1);
 					}
-					if(manager.getPlayers().get(1).getPDart()) {
+					if(manager.getPlayers().get(1).hasPDart()) {
 						manager.shootParalyzedBullet(1);
 					}
 				}

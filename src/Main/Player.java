@@ -16,12 +16,19 @@ public class Player extends GameObject{
 	private double[] velocity;
 	private int pIndex;
 	
+	private long infectionStartTime = -1;
 	private long infectionTimer = -1;
 	private int infectionBuffer = 500;
+	
+	private long MGStartTime = -1;
 	private long MGTimer = -1;
 	private int MGBuffer = 5000;
+	
+	private long replenishStartTime = -1;
 	private long replenishTimer = -1;
 	private int replenishBuffer = 100;
+	
+	private long pStartTime = -1;
 	private long pTimer = -1;
 	private int pBuffer = 80;
 	private int pLayer = 1;
@@ -323,24 +330,24 @@ public class Player extends GameObject{
 		return false;
 	}
 	
-	public boolean getInfection() {
+	public boolean hasInfection() {
 		return infection;
 	}
 	
-	public boolean getParalyzed() {
+	public boolean isParalyzed() {
 		return paralyzed;
 	}
 	
-	public boolean getIDart(){
+	public boolean hasIDart(){
 		return powerUps[0];
+	}
+	
+	public boolean hasPDart() {
+		return powerUps[3];
 	}
 	
 	public boolean getMG() {
 		return powerUps[1];
-	}
-	
-	public boolean getPDart() {
-		return powerUps[3];
 	}
 	
 	public void setInfection(boolean b) {
