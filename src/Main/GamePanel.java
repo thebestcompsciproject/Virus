@@ -428,6 +428,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			checkButton(backCredits, xM, yM);
 			checkButton(backPA, xM, yM);
 			checkButton(PA, xM, yM);
+			checkButton(PULScreen, xM, yM);
 		}
 	}
 	
