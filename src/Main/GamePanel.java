@@ -95,7 +95,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Button backCredits;
 	private Button PA;
 	private Button backPA;
-	private Button PULScreen;
+	private Button toPUList;
+	private Button backPUList;
 	
 	private final int menuState = 0;
 	private final int playState = 1;
@@ -103,6 +104,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private final int creditsState = 3;
 	private final int winState = 4;
 	private final int loadingState = 5;
+	private final int PUListState = 6;
 	
 	private int currentState = loadingState;
 	private int futureState = menuState;
@@ -174,6 +176,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		URL hoverBackURL = this.getClass().getResource("BackB.png");
 		URL defaultPA_URL = this.getClass().getResource("PlayAgainA.png");
 		URL hoverPA_URL = this.getClass().getResource("PlayAgainB.png");
+		URL defaultPUL_URL = this.getClass().getResource("PUListdefault.PNG");
+		URL hoverPUL_URL = this.getClass().getResource("PUListHover.PNG");
+
 		
 		URL logoURL = this.getClass().getResource("Logo1.png");
 		URL credits_URL = this.getClass().getResource("Credits.png");
@@ -199,6 +204,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			hoverBack = ImageIO.read(hoverBackURL);
 			defaultPA = ImageIO.read(defaultPA_URL);
 			hoverPA = ImageIO.read(hoverPA_URL);
+			puListDefault = ImageIO.read(defaultPUL_URL);
+			puListHover = ImageIO.read(hoverPUL_URL);
 			
 			Logo  = ImageIO.read(logoURL);
 			creditsScreen = ImageIO.read(credits_URL);
@@ -229,7 +236,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		backCredits = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 		PA = new Button(width*665/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultPA, hoverPA);
 		backPA =  new Button(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultBack, hoverBack);
-		PULScreen  = new Button(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultBack, hoverBack); //change later
+		toPUList  = new Button(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, puListDefault, puListHover); //CHANGE COORDINATES
+		backPUList = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 	}
 	
 	//GRAPHICS
@@ -305,12 +313,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void drawHTP(Graphics g) {
 		g.drawImage(HTPScreen, 0, 0, width, height, null);
 		backHTP.draw(g);
-		
+		toPUList.draw(g);
 	}
 	
 	public void drawCredits(Graphics g) {
 		g.drawImage(creditsScreen, 0, 0, width, height, null);
 		backCredits.draw(g);
+		
 	}
 	
 	public void drawWin(Graphics g) {
@@ -428,7 +437,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			checkButton(backCredits, xM, yM);
 			checkButton(backPA, xM, yM);
 			checkButton(PA, xM, yM);
-			checkButton(PULScreen, xM, yM);
+			checkButton(toPUList, xM, yM);
+			checkButton(backPUList, xM, yM);
 		}
 	}
 	
@@ -521,6 +531,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void updateHTP() {
 		backHTP.updateLocation(width*10/1280, height*600/725, width*200/1280, height*100/725);
+		toPUList.updateLocation(width*10/1280, height*600/725, width*200/1280, height*100/725); //CHANGE COORDINATES
+	}
+	
+	private void updatePUList()
+	{
+		backPUList.updateLocation(width*10/1280, height*600/725, width*200/1280, height*100/725); //CHANGE COORDINATES
 	}
 	
 	private void updateCredits() {
@@ -530,6 +546,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private void updateWin() {
 		PA.updateLocation(width*665/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
 		backPA.updateLocation(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
+		
 	}
 	
 	private void updateLoading() {
@@ -638,6 +655,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void buttonChecksHTP() {
 		if(backHTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			futureState = menuState;
+			runTransition = true;
+		}
+		
+		if(toPUList.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			futureState = menuState;
+			runTransition = true;
+		}
+	}
+	
+	private void buttonChecksPUList()
+	{
+		if(toPUList.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			futureState = menuState;
 			runTransition = true;
 		}
