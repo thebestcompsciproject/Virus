@@ -27,8 +27,7 @@ public class ObjectManager {
 	private int spawnTimeMap = 1000;
 	
 	private long timeInf = 0;
-	private double probInf1 = 0.04;
-	double probInf = 0.5;
+	private double probInf = 0.04;
 	private long timeRepl = 0;
 	private double probRepl = 0.07;
 	private long timeMG = 0;
@@ -534,21 +533,50 @@ public class ObjectManager {
 			g.drawImage(GamePanel.arcReactDefault, width-(2*width/100+height/15), height-height/10, height/15, height/15, null);
 		}
 		
+		int y1 = height-height/15;
+		
 		if(players.get(0).hasInfection()) {
 			g.setColor(new Color(106, 168, 79));
-			g.fillRect(2*width/100+ 2*(height/15+width/50), height-height/11, (int) (200*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/10000), height/20);
+			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/(10000*6)), height/30);
+			y1-=height/20;
 		}
 		if(players.get(0).isParalyzed()) {
 			g.setColor(Color.YELLOW);
-			g.fillRect(2*width/100+ 2*(height/15+width/50), height-height/11, (int) (200*(3200-(System.currentTimeMillis()-players.get(0).getPStartTime()))/3200), height/20);
+			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(3200-(System.currentTimeMillis()-players.get(0).getPStartTime()))/(3200*6)), height/30);
+			y1-=height/20;
 		}
 		if(players.get(0).getMG()) {
 			g.setColor(new Color(69, 69, 69));
-			g.fillRect(2*width/100+ 2*(height/15+width/50), height-height/11, (int) (200*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/10000), height/20);
+			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(5000-(System.currentTimeMillis()-players.get(0).getMGStartTime()))/(5000*6)), height/30);
+			y1-=height/20;
 		}
 		if(players.get(0).getReplenish()) {
 			g.setColor(players.get(0).getColor());
-			g.fillRect(2*width/100+ 2*(height/15+width/50), height-height/11, (int) (200*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/10000), height/20);
+			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(1000-(System.currentTimeMillis()-players.get(0).getReplenishStartTime()))/(1000*6)), height/30);
+			y1-=height/20;
+		}
+		
+		int y2 = height-height/15;
+		
+		if(players.get(1).hasInfection()) {
+			g.setColor(new Color(106, 168, 79));
+			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(10000-(System.currentTimeMillis()-players.get(1).getInfectionStartTime()))/(10000*6)), height/30);
+			y2-=height/20;
+		}
+		if(players.get(1).isParalyzed()) {
+			g.setColor(Color.YELLOW);
+			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(3200-(System.currentTimeMillis()-players.get(1).getPStartTime()))/(3200*6)), height/30);
+			y2-=height/20;
+		}
+		if(players.get(1).getMG()) {
+			g.setColor(new Color(69, 69, 69));
+			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(5000-(System.currentTimeMillis()-players.get(1).getMGStartTime()))/(5000*6)), height/30);
+			y2-=height/20;
+		}
+		if(players.get(1).getReplenish()) {
+			g.setColor(players.get(0).getColor());
+			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(1000-(System.currentTimeMillis()-players.get(1).getReplenishStartTime()))/(1000*6)), height/30);
+			y2-=height/20;
 		}
 	}
 	

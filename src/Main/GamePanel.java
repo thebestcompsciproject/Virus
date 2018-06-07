@@ -68,17 +68,17 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage defaultPA;
 	public BufferedImage hoverPA;
 	
+	public BufferedImage puListDefault;
+	public BufferedImage puListHover;
+	
 	public BufferedImage Logo;
 	public BufferedImage creditsScreen;
 	public BufferedImage HTPScreen;
+	public BufferedImage puListScreen;
 	public BufferedImage winScreen1;
 	public BufferedImage winScreen2;
 	public BufferedImage loading;
-	
-	public BufferedImage puListDefault;
-	public BufferedImage puListHover;
-	public BufferedImage puListScreen;
-	
+		
 	public static BufferedImage arcReactDefault;
 	public static BufferedImage arcReactVirus;
 	public static BufferedImage arcReactParalyze;
@@ -104,7 +104,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private final int creditsState = 3;
 	private final int winState = 4;
 	private final int loadingState = 5;
-	private final int PUListState = 6;
+	private final int PUState = 6;
 	
 	private int currentState = loadingState;
 	private int futureState = menuState;
@@ -236,7 +236,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		backCredits = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 		PA = new Button(width*665/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultPA, hoverPA);
 		backPA =  new Button(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultBack, hoverBack);
-		toPUList  = new Button(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, puListDefault, puListHover); //CHANGE COORDINATES
+		toPUList  = new Button(width*10/1280 + width*200/1280 + width/100, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, puListDefault, puListHover); //CHANGE COORDINATES
 		backPUList = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 	}
 	
@@ -262,6 +262,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		else if(currentState == loadingState) {
 			drawLoading(g);
+		}
+		else if(currentState == PUState) {
+			drawPUState(g);
 		}
 		
 		if(runTransition) {
@@ -339,6 +342,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void drawLoading(Graphics g) {
 		g.drawImage(loading, 0, 0, width, height, null);
+	}
+	
+	public void drawPUState(Graphics g) {
+		g.drawImage(puListScreen, 0, 0, width, height, null);
+		backPUList.draw(g);
 	}
 	
 	private void drawTransition(Graphics g) {
@@ -531,7 +539,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void updateHTP() {
 		backHTP.updateLocation(width*10/1280, height*600/725, width*200/1280, height*100/725);
-		toPUList.updateLocation(width*10/1280, height*600/725, width*200/1280, height*100/725); //CHANGE COORDINATES
+		toPUList.updateLocation(width/2-width*100/1280, height*600/725, width*200/1280, width*100/1280); //CHANGE COORDINATES
 	}
 	
 	private void updatePUList()
@@ -615,6 +623,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(currentState == creditsState) {
 			buttonChecksCredits();
 		}
+		if(currentState == PUState) {
+			buttonChecksPUList();
+		}
 		if(currentState == winState) {
 			buttonChecksWin();
 		}
@@ -660,15 +671,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		
 		if(toPUList.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			futureState = menuState;
+			futureState = PUState;
 			runTransition = true;
 		}
 	}
 	
 	private void buttonChecksPUList()
 	{
-		if(toPUList.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			futureState = menuState;
+		if(backPUList.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			futureState = HTPState;
 			runTransition = true;
 		}
 	}
@@ -735,7 +746,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 			isDown[10] = state;
 		}
-		if(e.getKeyCode() == KeyEvent.VK_U){
+		if(e.getKeyCode() == KeyEvent.VK_L){
 			isDown[11] = state;
 		}
 	}
