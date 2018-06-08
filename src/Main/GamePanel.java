@@ -125,6 +125,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		initiateFps();
 		readLoading();
 		makeButtons();
+		PlayMusic test = new PlayMusic();
+		test.loadInDaMusic();
+		test.changeMusic(1);
+		test.checkDaMusic();
+		test.playDaMusic();
 	}
 	
 	public void start() {
