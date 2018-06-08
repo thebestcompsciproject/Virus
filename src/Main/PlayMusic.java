@@ -10,7 +10,6 @@ import javax.sound.sampled.*;
 public class PlayMusic 
 {
 	private int currentMusic;
-	private int currentSoundEffect;
 	
 	private final int mainMusic = 1;
 	private final int clickButtonSound = 10;
@@ -22,7 +21,8 @@ public class PlayMusic
 	private AudioPlayer soundEffectsPlayer = AudioPlayer.player;
 	
 	private AudioStream currentMusicStream;
-	private AudioStream currentEffectStream;
+	
+	private File clickSound_File;
 	
 	private InputStream iMMStream;
 	private InputStream iButtonStream;
@@ -30,7 +30,6 @@ public class PlayMusic
 	public PlayMusic()
 	{
 		currentMusic = 0;
-		currentSoundEffect = 0;
 	}
 	
 	public void loadInDaMusic()
@@ -38,7 +37,7 @@ public class PlayMusic
         try
         {
         	File mainMusic_File = new File("Music/mainMusic.wav");
-        	File clickSound_File = new File("Music/click.wav");
+        	clickSound_File = new File("Music/click.wav");
         	
             iMMStream = new FileInputStream(mainMusic_File);
             iButtonStream = new FileInputStream(clickSound_File);
@@ -65,7 +64,6 @@ public class PlayMusic
 	    mainMusicPlayer.start(loop);
 	    
 		mainMusicPlayer.start(currentMusicStream);
-		soundEffectsPlayer.start(currentEffectStream);
 		
 	}
 	
@@ -74,16 +72,26 @@ public class PlayMusic
 		currentMusic = num;
 	}
 	
+	public void playButtonSound() throws UnsupportedAudioFileException, IOException
+	{
+		try {
+			Clip clip = AudioSystem.getClip();
+			AudioInputStream test = AudioSystem.getAudioInputStream(clickSound_File);
+			clip.open(test);
+			clip.start();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void checkDaMusic()
 	{
 		if(currentMusic == 1)
 		{
             currentMusicStream = MMStream;
 		}
-		if(currentSoundEffect == 10)
-		{
-			currentEffectStream = ButtonStream;
-		}
-	}
+	}	
+
 }
 	
