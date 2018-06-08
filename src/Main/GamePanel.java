@@ -232,11 +232,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		play = new Button(width*525/1280, height*275/725, width*200/1280, height*100/725, defaultPlay, hoverPlay);
 		HTP = new Button(width*525/1280, height*400/725, width*200/1280, height*100/725, defaultHTP, hoverHTP);
 		credits = new Button(width*525/1280, height*525/725, width*200/1280, height*100/725, defaultCredits, hoverCredits);
-		backHTP = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
+		backHTP = new Button(width*300/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 		backCredits = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 		PA = new Button(width*665/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultPA, hoverPA);
 		backPA =  new Button(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultBack, hoverBack);
-		toPUList  = new Button(width*10/1280 + width*200/1280 + width/100, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, puListDefault, puListHover); //CHANGE COORDINATES
+		toPUList  = new Button(width*10/1280 + width*200/1280 + width/100, (height-width*100/1280)/2 + width/15, width*200/1280, height*100/725, puListDefault, puListHover); //CHANGE COORDINATES
 		backPUList = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 	}
 	
@@ -529,6 +529,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		updateHTP();
 		updateCredits();
 		updateWin();
+		updatePUList();
 	}
 	
 	private void updateMenu() {
@@ -538,8 +539,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void updateHTP() {
-		backHTP.updateLocation(width*10/1280, height*600/725, width*200/1280, height*100/725);
-		toPUList.updateLocation(width/2-width*100/1280, height*600/725, width*200/1280, width*100/1280); //CHANGE COORDINATES
+		backHTP.updateLocation(width*175/1280, height*7/10, width*200/1280, height*100/725);
+		toPUList.updateLocation(width*375/1280+width/50, height*7/10, width*200/1280, height*100/725); //CHANGE COORDINATES
 	}
 	
 	private void updatePUList()
