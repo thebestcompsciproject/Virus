@@ -348,59 +348,59 @@ public class ObjectManager {
 			}
 		}
 		else if(o1 instanceof DartPowerUp){
-			if(players.get(o2.getPlayer().getPIndex()).setIDart(true))
+			if(players.get(o2.getPlayer().getPIndex()).setIDart(true)) {
 				o1.kill();
-			
-			try {
-				musicUI.playCollectPU();
-			} catch (UnsupportedAudioFileException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					musicUI.playCollectPU();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		else if(o1 instanceof MGPowerUp){	
-			if(players.get(o2.getPlayer().getPIndex()).setMG(true))
+			if(players.get(o2.getPlayer().getPIndex()).setMG(true)) {
 				o1.kill();
-			
-			try {
-				musicUI.playCollectPU();
-			} catch (UnsupportedAudioFileException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					musicUI.playCollectPU();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		else if(o1 instanceof ReplenishPowerUp){		
-			if(players.get(o2.getPlayer().getPIndex()).setReplenish(true))
+			if(players.get(o2.getPlayer().getPIndex()).setReplenish(true)) {
 				o1.kill();
-			
-			try {
-				musicUI.playReplenishPU();
-			} catch (UnsupportedAudioFileException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					musicUI.playReplenishPU();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		else if(o1 instanceof ParalyzePowerUp){		
-			if(players.get(o2.getPlayer().getPIndex()).setPDart(true))
+			if(players.get(o2.getPlayer().getPIndex()).setPDart(true)) {
 				o1.kill();
-			
-			try {
-				musicUI.playParalyzePU();
-			} catch (UnsupportedAudioFileException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					musicUI.playParalyzePU();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		else {
