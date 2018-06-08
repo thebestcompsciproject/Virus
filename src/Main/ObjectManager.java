@@ -296,7 +296,7 @@ public class ObjectManager {
 		checkBullets();
 	}
 	
-	private void bulletCollision(MapTriangle o1, MapTriangle o2) {
+	private void bulletCollision(MapTriangle o1, MapTriangle o2) { 
 		if(((Bullet)o1).getPIndex() != ((Bullet)o2).getPIndex()) {
 			o1.kill();
 			o2.kill();
@@ -596,16 +596,9 @@ public class ObjectManager {
 		
 		if(players.get(0).hasInfection()) {
 			g.setColor(new Color(106, 168, 79));
-			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/(10000*6)), height/30);
-			y1-=height/20;
-		}
-		if(players.get(0).isParalyzed()) {
-			g.setColor(Color.YELLOW);
-			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(3200-(System.currentTimeMillis()-players.get(0).getPStartTime()))/(3200*6)), height/30);
-			y1-=height/20;
 			
 			try {
-				musicUI.playBeingParalyzed();
+				musicUI.infectedSound();
 			} catch (UnsupportedAudioFileException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -613,6 +606,13 @@ public class ObjectManager {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/(10000*6)), height/30);
+			y1-=height/20;
+		}
+		if(players.get(0).isParalyzed()) {
+			g.setColor(Color.YELLOW);
+			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(3200-(System.currentTimeMillis()-players.get(0).getPStartTime()))/(3200*6)), height/30);
+			y1-=height/20;
 		}
 		if(players.get(0).getMG()) {
 			g.setColor(new Color(69, 69, 69));

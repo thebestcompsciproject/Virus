@@ -26,6 +26,8 @@ public class PlayMusic
 	private File collectParalyze_File;
 	private File beingParalyzed_File;
 	private File shootingbullets_File;
+	private File isInfectedSound_File;
+	private File pickUpTriangles_File;
 	
 	private InputStream iMMStream;
 	
@@ -34,6 +36,7 @@ public class PlayMusic
     private FloatControl musicController;
     
     private boolean shocked = false;
+    private boolean infected = false;
     
     private Clip mainMusicClip;
     
@@ -56,6 +59,8 @@ public class PlayMusic
         	collectParalyze_File = new File("Music/collectParalyze.wav");
         	beingParalyzed_File = new File("Music/paralyzeSound.wav");
         	shootingbullets_File = new File("Music/shootingSound.wav");
+        	isInfectedSound_File =  new File("Music/infectedSound.wav");
+        	pickUpTriangles_File = new File("Music/pickingUpBulleta.wav");
         	
             iMMStream = new FileInputStream(mainMusic_File);           
             MMStream = new AudioStream(iMMStream);
@@ -208,5 +213,36 @@ public class PlayMusic
 		}
 	}
 
+	public void infectedSound() throws UnsupportedAudioFileException, IOException
+	{
+		if(!infected)
+		{
+		try 
+			{
+			Clip clip = AudioSystem.getClip();
+			AudioInputStream audio2 = AudioSystem.getAudioInputStream(isInfectedSound_File);
+			clip.open(audio2);
+			clip.loop(1);
+			clip.start();
+			} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		infected = true;
+	}
+	
+	public void pickingUpTriangles() throws UnsupportedAudioFileException, IOException
+	{
+		try {
+			Clip clip = AudioSystem.getClip();
+			AudioInputStream audio2 = AudioSystem.getAudioInputStream(pickUpTriangles_File);
+			clip.open(audio2);
+			clip.start();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
 	

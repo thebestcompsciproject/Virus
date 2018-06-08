@@ -65,7 +65,6 @@ public class Player extends GameObject{
 		
 		musicUI = new PlayMusic();
 		musicUI.loadInDaMusic();
-		musicUI.changeMusic(1);
 		musicUI.checkDaMusic();
 		
 		
@@ -178,6 +177,15 @@ public class Player extends GameObject{
 	public void addTriangle() {
 		for(int i = 0; i<210; i++) {
 			if(!drawn.get(i)) {
+				try {
+					musicUI.pickingUpTriangles();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				drawn.set(i, true);
 				break;
 			}
