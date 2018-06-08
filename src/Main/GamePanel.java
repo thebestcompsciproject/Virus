@@ -262,6 +262,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 		if(currentState == menuState) {
 			drawMainMenu(g);
+
 		}
 		if(currentState == playState) {
 			drawGameState(g);
@@ -317,6 +318,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		g.setColor(Color.WHITE);
 		g.setFont(testFont);
 		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);
+		
 	}
 	
 	public void drawMainMenu(Graphics g) {
@@ -357,6 +359,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	public void drawLoading(Graphics g) {
 		g.drawImage(loading, 0, 0, width, height, null);
+	}
+	
+	public void drawLoadingToGame(Graphics g)
+	{
+		g.drawImage(loading, 0, 0, width, height, null);
+		musicUI.inGameChange(true);
 	}
 	
 	public void drawPUState(Graphics g) {
@@ -660,7 +668,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		mouseClicked = true;
-		if(currentState == playState) {
+		if(currentState == playState) 
+		{
+			musicUI.inGameChange(true);
 			if(SwingUtilities.isRightMouseButton(e)) {
 				if(!manager.getPlayers().get(1).isParalyzed()) {
 					if(manager.getPlayers().get(1).hasIDart()) {

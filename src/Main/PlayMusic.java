@@ -39,8 +39,6 @@ public class PlayMusic
     private boolean infected = false;
     
     private Clip mainMusicClip;
-    
-    private boolean switchMMVolume = true; //true: in game	false: NOT in game
 	
 	public PlayMusic()
 	{
@@ -53,7 +51,7 @@ public class PlayMusic
         {
         	mainMusic_File = new File("Music/mainMusic.wav");
         	
-        	clickSound_File = new File("Music/click.wav");
+        	clickSound_File = new File("Music/buttonPress.wav");
         	collectPUSound_File = new File("Music/collectPU.wav");
         	collectReplenish_File = new File("Music/collectReplenish.aiff");
         	collectParalyze_File = new File("Music/collectParalyze.wav");
@@ -94,20 +92,21 @@ public class PlayMusic
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		musicController= (FloatControl)mainMusicClip.getControl(FloatControl.Type.MASTER_GAIN);
 	}
 	
-	public void inGameChange()
+	public void inGameChange(boolean state)
 	{
-		switchMMVolume = !switchMMVolume;
-		FloatControl gainController = (FloatControl)mainMusicClip.getControl(FloatControl.Type.MASTER_GAIN);
+		musicController= (FloatControl)mainMusicClip.getControl(FloatControl.Type.MASTER_GAIN);
 		
-		if(switchMMVolume == false)
+		if(state == false) //Main Menu
 		{
-			gainController.setValue(-20.0f);
+			musicController.setValue(10.0f);
 		}
-		else if(switchMMVolume == true)
+		else if(state == true) //In Game
 		{
-			gainController.setValue(20.0f);
+			musicController.setValue(5.0f);
 		}
 		
 	}
@@ -183,8 +182,6 @@ public class PlayMusic
 	
 	public void playBeingParalyzed() throws UnsupportedAudioFileException, IOException
 	{
-		if(!shocked)
-		{
 		try {
 			Clip clip = AudioSystem.getClip();
 			AudioInputStream audio2 = AudioSystem.getAudioInputStream(beingParalyzed_File);
@@ -196,8 +193,6 @@ public class PlayMusic
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}
-		shocked = true;
 	}
 	
 	public void shootBulletAudio() throws UnsupportedAudioFileException, IOException
@@ -215,8 +210,6 @@ public class PlayMusic
 
 	public void infectedSound() throws UnsupportedAudioFileException, IOException
 	{
-		if(!infected)
-		{
 		try 
 			{
 			Clip clip = AudioSystem.getClip();
@@ -228,8 +221,6 @@ public class PlayMusic
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}
-		infected = true;
 	}
 	
 	public void pickingUpTriangles() throws UnsupportedAudioFileException, IOException
