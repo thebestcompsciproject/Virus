@@ -4,8 +4,11 @@ package Main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Player extends GameObject{
 
@@ -43,6 +46,8 @@ public class Player extends GameObject{
 	int colorChangeStall = 0;
 	boolean paralyzed;
 	
+	private PlayMusic musicUI;
+	
 	public Player(double x, double y, double direction, Color color, int pIndex) {
 		super();
 		reserve = new ArrayList<PlayerTriangle>();
@@ -57,6 +62,14 @@ public class Player extends GameObject{
 		constructTriangles();
 		constructDrawn();
 		initiatePowerUps();
+		
+		musicUI = new PlayMusic();
+		musicUI.loadInDaMusic();
+		musicUI.changeMusic(1);
+		musicUI.checkDaMusic();
+		musicUI.playDaMusic();
+		
+		
 	}
 	
 	private void initiatePowerUps(){
@@ -384,6 +397,7 @@ public class Player extends GameObject{
 	
 	public boolean setReplenish(boolean b) {
 		if(!hasPowerUp()||!b) { 
+
 			powerUps[2] = b;
 			return true;
 		}

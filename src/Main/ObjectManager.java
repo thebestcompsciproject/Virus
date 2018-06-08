@@ -3,8 +3,11 @@ package Main;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Main.PowerUps.AntidotePowerUp;
 import Main.PowerUps.DartPowerUp;
@@ -35,6 +38,9 @@ public class ObjectManager {
 	private long timeP = 0;
 	private double probP = 0.03;
 	
+	private PlayMusic musicUI;
+
+	
 	//CONSTRUCTOR
 	
 	public ObjectManager(int width, int height) {
@@ -50,6 +56,9 @@ public class ObjectManager {
 		for(int i = 0; i <(width*height)/40000; i++) {
 			map.add(new MapTriangle(Math.random()*width, Math.random()*height, Math.random()*360, 40, Color.gray));
 		}
+		
+		musicUI = new PlayMusic();
+		musicUI.loadInDaMusic();
 	}
 	
 	public void updateInfo(int w, int h, int x, int y) {
@@ -327,22 +336,72 @@ public class ObjectManager {
 			players.get(o2.getPlayer().getPIndex()).setInfection(false);
 			players.get(o2.getPlayer().getPIndex()).setColor(players.get(o2.getPlayer().getPIndex()).getColor());
 			o1.kill();
+			
+			try {
+				musicUI.playCollectPU();
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(o1 instanceof DartPowerUp){
 			if(players.get(o2.getPlayer().getPIndex()).setIDart(true))
 				o1.kill();
+			
+			try {
+				musicUI.playCollectPU();
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(o1 instanceof MGPowerUp){	
 			if(players.get(o2.getPlayer().getPIndex()).setMG(true))
 				o1.kill();
+			
+			try {
+				musicUI.playCollectPU();
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(o1 instanceof ReplenishPowerUp){		
 			if(players.get(o2.getPlayer().getPIndex()).setReplenish(true))
 				o1.kill();
+			
+			try {
+				musicUI.playReplenishPU();
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(o1 instanceof ParalyzePowerUp){		
 			if(players.get(o2.getPlayer().getPIndex()).setPDart(true))
 				o1.kill();
+			
+			try {
+				musicUI.playParalyzePU();
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else {
 			o1.kill();
