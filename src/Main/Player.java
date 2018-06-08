@@ -67,7 +67,6 @@ public class Player extends GameObject{
 		musicUI.loadInDaMusic();
 		musicUI.changeMusic(1);
 		musicUI.checkDaMusic();
-		musicUI.playDaMusic();
 		
 		
 	}

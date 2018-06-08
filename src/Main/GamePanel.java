@@ -130,9 +130,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		makeButtons();
 		musicUI = new PlayMusic();
 		musicUI.loadInDaMusic();
-		musicUI.changeMusic(1);
-		musicUI.checkDaMusic();
-		musicUI.playDaMusic();
+		
+		try {
+			musicUI.playBGMusic();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void start() {
@@ -420,11 +427,32 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				if(manager.getPlayers().get(0).getMG()) {
 					if(System.currentTimeMillis()-2*reloadTime/3>timeSave1) {
 						manager.shootBullet(0, 20);
+						
+						try {
+							musicUI.shootBulletAudio();
+						} catch (UnsupportedAudioFileException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 						timeSave1 = System.currentTimeMillis();
 					}
 				}
 				else if(System.currentTimeMillis()-reloadTime>timeSave1) {
 					manager.shootBullet(0, 40);
+					
+					try {
+						musicUI.shootBulletAudio();
+					} catch (UnsupportedAudioFileException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					timeSave1 = System.currentTimeMillis();
 				}
 			}
@@ -495,11 +523,33 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				if(manager.getPlayers().get(1).getMG()) {
 					if(System.currentTimeMillis()-reloadTime*2/3>timeSave2) {
 						manager.shootBullet(1, 20);
+						
+						try {
+							musicUI.shootBulletAudio();
+						} catch (UnsupportedAudioFileException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 						timeSave2 = System.currentTimeMillis();
 					}
 				}
 				else if(System.currentTimeMillis()-reloadTime>timeSave2) {
 					manager.shootBullet(1, 40);
+					
+					try {
+						musicUI.shootBulletAudio();
+					} catch (UnsupportedAudioFileException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 					timeSave2 = System.currentTimeMillis();
 				}
 			}

@@ -603,6 +603,16 @@ public class ObjectManager {
 			g.setColor(Color.YELLOW);
 			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(3200-(System.currentTimeMillis()-players.get(0).getPStartTime()))/(3200*6)), height/30);
 			y1-=height/20;
+			
+			try {
+				musicUI.playBeingParalyzed();
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if(players.get(0).getMG()) {
 			g.setColor(new Color(69, 69, 69));
