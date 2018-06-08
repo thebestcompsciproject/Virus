@@ -596,7 +596,6 @@ public class ObjectManager {
 		
 		if(players.get(0).hasInfection()) {
 			g.setColor(new Color(106, 168, 79));
-			
 			try {
 				musicUI.infectedSound();
 			} catch (UnsupportedAudioFileException e) {
