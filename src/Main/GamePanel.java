@@ -298,9 +298,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		toPUList  = new Button(width*10/1280 + width*200/1280 + width/100, (height-width*100/1280)/2 + width/15, width*200/1280, height*100/725, puListDefault, puListHover); //CHANGE COORDINATES
 		backPUList = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 		pause = new Button(width-width/25, height/100, height/30, height/30, pauseDefault, pauseHover);
-		pauseResume = new Button(3*width/5, width/3, width*200/1280, width*100/1280, null, null);
-		pauseHTP = new Button();
-		pauseExit = new Button();
+		//pauseResume = new Button(3*width/5, width/3, width*200/1280, width*100/1280, null, null);
+		//pauseHTP = new Button();
+		//pauseExit = new Button();
 	}
 	
 	//GRAPHICS
