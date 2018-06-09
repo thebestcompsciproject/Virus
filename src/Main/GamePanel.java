@@ -75,6 +75,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage pauseDefault;
 	public BufferedImage pauseHover;
 	
+	public BufferedImage resumeDefault;
+	public BufferedImage resumeHover;
+	
+	public BufferedImage exitDefault;
+	public BufferedImage exitHover;
+	
 	public BufferedImage Logo;
 	public BufferedImage creditsScreen;
 	public BufferedImage HTPScreen;
@@ -103,6 +109,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Button toPUList;
 	private Button backPUList;
 	private Button pause;
+	private Button pauseResume;
+	private Button pauseHTP;
+	private Button pauseExit;
 	
 	private final int menuState = 0;
 	private final int playState = 1;
@@ -208,6 +217,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		URL defaultPause_URL = this.getClass().getResource("PauseA.png");
 		URL hoverPause_URL = this.getClass().getResource("PauseB.png");
 		
+		URL defaultResume_URL = this.getClass().getResource("ResumeA.png");
+		URL hoverResume_URL = this.getClass().getResource("ResumeB.png");
+		
+		URL defaultExit_URL = this.getClass().getResource("ExitA.png");
+		URL hoverExit_URL = this.getClass().getResource("ExitB.png");
+		
 		URL logoURL = this.getClass().getResource("Logo1.png");
 		URL credits_URL = this.getClass().getResource("Credits.png");
 		URL HTP_URL = this.getClass().getResource("HTP.png");
@@ -244,6 +259,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			pauseDefault = ImageIO.read(defaultPause_URL);
 			pauseHover = ImageIO.read(hoverPause_URL);
 			
+			resumeDefault = ImageIO.read(defaultResume_URL);
+			resumeHover = ImageIO.read(hoverResume_URL);
+			
+			exitDefault = ImageIO.read(defaultExit_URL);
+			exitHover = ImageIO.read(hoverExit_URL);
+			
 			Logo  = ImageIO.read(logoURL);
 			creditsScreen = ImageIO.read(credits_URL);
 			HTPScreen = ImageIO.read(HTP_URL);
@@ -277,6 +298,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		toPUList  = new Button(width*10/1280 + width*200/1280 + width/100, (height-width*100/1280)/2 + width/15, width*200/1280, height*100/725, puListDefault, puListHover); //CHANGE COORDINATES
 		backPUList = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
 		pause = new Button(width-width/25, height/100, height/30, height/30, pauseDefault, pauseHover);
+		pauseResume = new Button(3*width/5, width/3, width*200/1280, width*100/1280, null, null);
+		pauseHTP = new Button();
+		pauseExit = new Button();
 	}
 	
 	//GRAPHICS
@@ -287,7 +311,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(currentState == menuState) {
 			drawMainMenu(g);
 		}
-		if(currentState == playState) {
+		else if(currentState == playState) {
 			drawGameState(g);
 		}
 		else if(currentState == HTPState) {
@@ -304,6 +328,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		else if(currentState == PUState) {
 			drawPUState(g);
+		}
+		else if(currentState == pauseState) {
+			drawPauseState(g);
 		}
 		
 		if(runTransition) {
@@ -343,6 +370,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);
 		pause.draw(g);
 		
+	}
+	
+	private void drawPauseState(Graphics g) {
+		drawGameState(g);
+		Color opaqueWhite = new Color(255, 255, 255, 50);
+		g.setColor(opaqueWhite);
+		g.fillRect(0, 0, width, height);
+		g.drawImage(pauseScreen, width*1/3, (height-width*4/15)/2, width*1/3, width*4/15, null);
 	}
 	
 	public void drawMainMenu(Graphics g) {
@@ -527,6 +562,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			checkButton(PA, xM, yM);
 			checkButton(toPUList, xM, yM);
 			checkButton(backPUList, xM, yM);
+			checkButton(pause, xM, yM);
 		}
 	}
 	
