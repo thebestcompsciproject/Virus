@@ -72,12 +72,22 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public BufferedImage puListDefault;
 	public BufferedImage puListHover;
 	
+	public BufferedImage pauseDefault;
+	public BufferedImage pauseHover;
+	
+	public BufferedImage resumeDefault;
+	public BufferedImage resumeHover;
+	
+	public BufferedImage exitDefault;
+	public BufferedImage exitHover;
+	
 	public BufferedImage Logo;
 	public BufferedImage creditsScreen;
 	public BufferedImage HTPScreen;
 	public BufferedImage puListScreen;
 	public BufferedImage winScreen1;
 	public BufferedImage winScreen2;
+	public BufferedImage pauseScreen;
 	public BufferedImage loading;
 		
 	public static BufferedImage arcReactDefault;
@@ -98,6 +108,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private Button backPA;
 	private Button toPUList;
 	private Button backPUList;
+	private Button pause;
+	private Button pauseResume;
+	private Button pauseHTP;
+	private Button pauseExit;
 	
 	private final int menuState = 0;
 	private final int playState = 1;
@@ -106,6 +120,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private final int winState = 4;
 	private final int loadingState = 5;
 	private final int PUState = 6;
+	private final int pauseState = 7;
 	
 	private int currentState = loadingState;
 	private int futureState = menuState;
@@ -183,17 +198,30 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private void readLateImages() {
 		URL defaultPlay_URL = this.getClass().getResource("PlayA.png");
 		URL hoverPlay_URL = this.getClass().getResource("PlayB.png");
+		
 		URL defaultHTP_URL = this.getClass().getResource("HTPA.png");
 		URL hoverHTP_URL = this.getClass().getResource("HTPB.png");
+		
 		URL defaultCredits_URL = this.getClass().getResource("CreditsA.png");
 		URL hoverCredits_URL = this.getClass().getResource("CreditsB.png");
+		
 		URL defaultBack_URL = this.getClass().getResource("BackA.png");
 		URL hoverBackURL = this.getClass().getResource("BackB.png");
+		
 		URL defaultPA_URL = this.getClass().getResource("PlayAgainA.png");
 		URL hoverPA_URL = this.getClass().getResource("PlayAgainB.png");
+		
 		URL defaultPUL_URL = this.getClass().getResource("PUListdefault.PNG");
 		URL hoverPUL_URL = this.getClass().getResource("PUListHover.PNG");
-
+		
+		URL defaultPause_URL = this.getClass().getResource("PauseA.png");
+		URL hoverPause_URL = this.getClass().getResource("PauseB.png");
+		
+		URL defaultResume_URL = this.getClass().getResource("ResumeA.png");
+		URL hoverResume_URL = this.getClass().getResource("ResumeB.png");
+		
+		URL defaultExit_URL = this.getClass().getResource("ExitA.png");
+		URL hoverExit_URL = this.getClass().getResource("ExitB.png");
 		
 		URL logoURL = this.getClass().getResource("Logo1.png");
 		URL credits_URL = this.getClass().getResource("Credits.png");
@@ -203,6 +231,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		URL anti_URL = this.getClass().getResource("Anti.png");
 		URL infection_URL = this.getClass().getResource("virus_v2.jpg");
 		URL PUListS_URL = this.getClass().getResource("PUListScreen.PNG");
+		URL pauseDisplay_URL = this.getClass().getResource("PauseDisplay.png");
 		
 		URL arcReactorDefault_URL = this.getClass().getResource("ArcReactorDefault.jpg");
 		URL arcReactorVirus_URL = this.getClass().getResource("ArcReactorVirus.jpg");
@@ -211,16 +240,30 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		try {
 			defaultPlay = ImageIO.read(defaultPlay_URL);
 			hoverPlay = ImageIO.read(hoverPlay_URL);
+			
 			defaultHTP = ImageIO.read(defaultHTP_URL);
 			hoverHTP = ImageIO.read(hoverHTP_URL);
+			
 			defaultCredits = ImageIO.read(defaultCredits_URL);
 			hoverCredits = ImageIO.read(hoverCredits_URL);
+			
 			defaultBack = ImageIO.read(defaultBack_URL);
 			hoverBack = ImageIO.read(hoverBackURL);
+			
 			defaultPA = ImageIO.read(defaultPA_URL);
 			hoverPA = ImageIO.read(hoverPA_URL);
+			
 			puListDefault = ImageIO.read(defaultPUL_URL);
 			puListHover = ImageIO.read(hoverPUL_URL);
+			
+			pauseDefault = ImageIO.read(defaultPause_URL);
+			pauseHover = ImageIO.read(hoverPause_URL);
+			
+			resumeDefault = ImageIO.read(defaultResume_URL);
+			resumeHover = ImageIO.read(hoverResume_URL);
+			
+			exitDefault = ImageIO.read(defaultExit_URL);
+			exitHover = ImageIO.read(hoverExit_URL);
 			
 			Logo  = ImageIO.read(logoURL);
 			creditsScreen = ImageIO.read(credits_URL);
@@ -228,6 +271,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			winScreen1 = ImageIO.read(win1_URL);
 			winScreen2 = ImageIO.read(win2_URL);
 			puListScreen = ImageIO.read(PUListS_URL);
+			pauseScreen = ImageIO.read(pauseDisplay_URL);
 			
 			arcReactDefault = ImageIO.read(arcReactorDefault_URL);
 			arcReactVirus = ImageIO.read(arcReactorVirus_URL);
@@ -253,6 +297,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		backPA =  new Button(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280, defaultBack, hoverBack);
 		toPUList  = new Button(width*10/1280 + width*200/1280 + width/100, (height-width*100/1280)/2 + width/15, width*200/1280, height*100/725, puListDefault, puListHover); //CHANGE COORDINATES
 		backPUList = new Button(width*10/1280, height*600/725, width*200/1280, height*100/725, defaultBack, hoverBack);
+		pause = new Button(width-width/25, height/100, height/30, height/30, pauseDefault, pauseHover);
+		//pauseResume = new Button(3*width/5, width/3, width*200/1280, width*100/1280, null, null);
+		//pauseHTP = new Button();
+		//pauseExit = new Button();
 	}
 	
 	//GRAPHICS
@@ -262,9 +310,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 		if(currentState == menuState) {
 			drawMainMenu(g);
-
 		}
-		if(currentState == playState) {
+		else if(currentState == playState) {
 			drawGameState(g);
 		}
 		else if(currentState == HTPState) {
@@ -281,6 +328,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		else if(currentState == PUState) {
 			drawPUState(g);
+		}
+		else if(currentState == pauseState) {
+			drawPauseState(g);
 		}
 		
 		if(runTransition) {
@@ -318,7 +368,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		g.setColor(Color.WHITE);
 		g.setFont(testFont);
 		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);
+		pause.draw(g);
 		
+	}
+	
+	private void drawPauseState(Graphics g) {
+		drawGameState(g);
+		Color opaqueWhite = new Color(255, 255, 255, 50);
+		g.setColor(opaqueWhite);
+		g.fillRect(0, 0, width, height);
+		g.drawImage(pauseScreen, width*1/3, (height-width*4/15)/2, width*1/3, width*4/15, null);
 	}
 	
 	public void drawMainMenu(Graphics g) {
@@ -339,7 +398,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void drawCredits(Graphics g) {
 		g.drawImage(creditsScreen, 0, 0, width, height, null);
 		backCredits.draw(g);
-		
 	}
 	
 	public void drawWin(Graphics g) {
@@ -353,6 +411,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		else {
 			g.drawImage(winScreen2, width*5/18, (height-width*4/15)/2, width*4/9, width*4/15, null);
 		}
+		
 		backPA.draw(g);
 		PA.draw(g);
 	}
@@ -361,10 +420,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		g.drawImage(loading, 0, 0, width, height, null);
 	}
 	
-	public void drawLoadingToGame(Graphics g)
-	{
+	public void drawLoadingToGame(Graphics g) {
 		g.drawImage(loading, 0, 0, width, height, null);
-		musicUI.inGameChange(true);
 	}
 	
 	public void drawPUState(Graphics g) {
@@ -386,17 +443,31 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		updateAll();
 		if(runTransition) {
 			updateTransition();
+			musicUpdateOutOfGame();
 		}
 		else if(currentState == playState) {
 			gameUpdate();
 			fpsUpdate();
+			musicUpdateGame();
 		}
 		else if(currentState == loadingState) {
 			updateLoading();
+			musicUpdateOutOfGame();
+		}
+		else {
+			musicUpdateOutOfGame();
 		}
 		
 		MenuMouseUpdate();
 		images();
+	}
+	
+	private void musicUpdateGame() {
+		musicUI.inGameChange(true);
+	}
+	
+	private void musicUpdateOutOfGame() {
+		musicUI.inGameChange(false);
 	}
 	
 	private void images(){
@@ -491,6 +562,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			checkButton(PA, xM, yM);
 			checkButton(toPUList, xM, yM);
 			checkButton(backPUList, xM, yM);
+			checkButton(pause, xM, yM);
 		}
 	}
 	
@@ -596,6 +668,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		updateCredits();
 		updateWin();
 		updatePUList();
+		updatePause();
+	}
+	
+	private void updatePause() {
+		pause.updateLocation(width-width/25, height/100, height/30, height/30);
 	}
 	
 	private void updateMenu() {
@@ -621,7 +698,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private void updateWin() {
 		PA.updateLocation(width*665/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
 		backPA.updateLocation(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
-		
 	}
 	
 	private void updateLoading() {
@@ -682,6 +758,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				}
 				mouseClicked = false;
 			}
+			buttonChecksGame();
 		}
 		if(currentState == menuState) {
 			buttonChecksMain();
@@ -795,8 +872,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	private void buttonChecksPUList()
-	{
+	private void buttonChecksPUList() {
 		if(backPUList.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			try {
 				musicUI.playButtonSound();
@@ -826,6 +902,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			}
 			
 			futureState = menuState;
+			runTransition = true;
+		}
+	}
+	
+	private void buttonChecksGame() {
+		if(pause.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
+			try {
+				musicUI.playButtonSound();
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			futureState = pauseState;
 			runTransition = true;
 		}
 	}

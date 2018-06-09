@@ -100,13 +100,18 @@ public class PlayMusic
 	{
 		musicController= (FloatControl)mainMusicClip.getControl(FloatControl.Type.MASTER_GAIN);
 		
-		if(state == false) //Main Menu
+		float range = musicController.getMaximum() - musicController.getMinimum();
+		
+		
+		if(!state) //Main Menu
 		{
-			musicController.setValue(10.0f);
+			float gain = (range * 1) + musicController.getMinimum();
+			musicController.setValue(gain);
 		}
-		else if(state == true) //In Game
+		else if(state) //In Game
 		{
-			musicController.setValue(5.0f);
+			float gain = (range * 0.8f) + musicController.getMinimum();
+			musicController.setValue(gain);
 		}
 		
 	}
@@ -136,10 +141,6 @@ public class PlayMusic
 		}
 	}
 	
-	public void playButtonSound1() throws UnsupportedAudioFileException, IOException
-	{
-		
-	}
 	
 	public void playCollectPU() throws UnsupportedAudioFileException, IOException
 	{
@@ -171,7 +172,7 @@ public class PlayMusic
 	{
 		try {
 			Clip clip = AudioSystem.getClip();
-			AudioInputStream audio2 = AudioSystem.getAudioInputStream(collectParalyze_File);
+			AudioInputStream audio2 = AudioSystem.getAudioInputStream(collectPUSound_File);
 			clip.open(audio2);
 			clip.start();
 		} catch (LineUnavailableException e) {
@@ -213,8 +214,8 @@ public class PlayMusic
 		try 
 			{
 			Clip clip = AudioSystem.getClip();
-			AudioInputStream audio2 = AudioSystem.getAudioInputStream(isInfectedSound_File);
-			clip.open(audio2);
+			AudioInputStream audio = AudioSystem.getAudioInputStream(isInfectedSound_File);
+			clip.open(audio);
 			clip.loop(1);
 			clip.start();
 			} catch (LineUnavailableException e) {
