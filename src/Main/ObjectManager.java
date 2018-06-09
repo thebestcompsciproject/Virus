@@ -39,7 +39,10 @@ public class ObjectManager {
 	private double probP = 0.03;
 	
 	private PlayMusic musicUI;
-
+	boolean infSound0 = false;
+	boolean pSound0 = false;
+	boolean infSound1 = false;
+	boolean pSound1 = false;
 	
 	//CONSTRUCTOR
 	
@@ -79,11 +82,6 @@ public class ObjectManager {
 	}
 	
 	public void shootBullet(int index, int size) {
-		/*PlayerTriangle t = players.get(index).removeLastTriangle();
-		if(t!=null) {
-			bullets.add(new Bullet(t.getX(), t.getY(), t.getDirection(), t.getSide(), players.get(index).getColor(), players.get(index).getDirection(), index, false));
-		}*/
-		
 		if(size<40) {
 			players.get(index).addTCount();
 			if(players.get(index).removeLastTriangleRestricted()!=null) {
@@ -492,6 +490,7 @@ public class ObjectManager {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	
@@ -519,6 +518,7 @@ public class ObjectManager {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	
@@ -573,18 +573,21 @@ public class ObjectManager {
 		else {
 			g.drawImage(GamePanel.arcReactDefault, 2*width/100, height-height/10, height/15, height/15, null);
 		}
+		
 		if(players.get(0).hasPDart()) {
 			g.drawImage(GamePanel.arcReactParalyze, 2*width/100+ height/15+width/50, height-height/10, height/15, height/15, null);
 		}
 		else {
 			g.drawImage(GamePanel.arcReactDefault, 2*width/100+ height/15+width/50, height-height/10, height/15, height/15, null);
 		}
+		
 		if(players.get(1).hasIDart()) {
 			g.drawImage(GamePanel.arcReactVirus, width-(2*width/100+ 2*height/15+width/50), height-height/10, height/15, height/15, null);
 		}
 		else{
 			g.drawImage(GamePanel.arcReactDefault, width-(2*width/100+ 2*height/15+width/50), height-height/10, height/15, height/15, null);
 		}
+		
 		if(players.get(1).hasPDart()) {
 			g.drawImage(GamePanel.arcReactParalyze, width-(2*width/100+height/15), height-height/10, height/15, height/15, null);
 		}
@@ -596,28 +599,53 @@ public class ObjectManager {
 		
 		if(players.get(0).hasInfection()) {
 			g.setColor(new Color(106, 168, 79));
-			try {
-				musicUI.infectedSound();
-			} catch (UnsupportedAudioFileException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(!infSound0) {
+				try {
+					musicUI.infectedSound();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				infSound0 = true;
 			}
 			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/(10000*6)), height/30);
 			y1-=height/20;
 		}
+		else {
+			infSound0 = false;
+		}
+		
 		if(players.get(0).isParalyzed()) {
 			g.setColor(Color.YELLOW);
+			if(!pSound0) {
+				try {
+					musicUI.playBeingParalyzed();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				pSound0 = true;
+			}
+			
 			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(3200-(System.currentTimeMillis()-players.get(0).getPStartTime()))/(3200*6)), height/30);
 			y1-=height/20;
 		}
+		else {
+			pSound0 = false;
+		}
+		
 		if(players.get(0).getMG()) {
 			g.setColor(new Color(69, 69, 69));
 			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(5000-(System.currentTimeMillis()-players.get(0).getMGStartTime()))/(5000*6)), height/30);
 			y1-=height/20;
 		}
+		
 		if(players.get(0).getReplenish()) {
 			g.setColor(players.get(0).getColor());
 			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(1000-(System.currentTimeMillis()-players.get(0).getReplenishStartTime()))/(1000*6)), height/30);
@@ -628,19 +656,52 @@ public class ObjectManager {
 		
 		if(players.get(1).hasInfection()) {
 			g.setColor(new Color(106, 168, 79));
+			if(!infSound1) {
+				try {
+					musicUI.infectedSound();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				infSound1 = true;
+			}
 			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(10000-(System.currentTimeMillis()-players.get(1).getInfectionStartTime()))/(10000*6)), height/30);
 			y2-=height/20;
 		}
+		else {
+			infSound1 = false;
+		}
+		
 		if(players.get(1).isParalyzed()) {
 			g.setColor(Color.YELLOW);
+			if(!pSound1) {
+				try {
+					musicUI.playBeingParalyzed();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				pSound1 = true;
+			}
 			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(3200-(System.currentTimeMillis()-players.get(1).getPStartTime()))/(3200*6)), height/30);
 			y2-=height/20;
 		}
+		else {
+			pSound1 = true;
+		}
+		
 		if(players.get(1).getMG()) {
 			g.setColor(new Color(69, 69, 69));
 			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(5000-(System.currentTimeMillis()-players.get(1).getMGStartTime()))/(5000*6)), height/30);
 			y2-=height/20;
 		}
+		
 		if(players.get(1).getReplenish()) {
 			g.setColor(players.get(0).getColor());
 			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(1000-(System.currentTimeMillis()-players.get(1).getReplenishStartTime()))/(1000*6)), height/30);

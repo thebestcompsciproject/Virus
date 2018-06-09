@@ -11,7 +11,7 @@ public class Bullet extends MapTriangle{
 	private double velY = 0;
 	private int pIndex;
 	private int type;
-	int hits = 0;
+	private int hits = 0;
 	
 	public Bullet(double x, double y, double direction, double side, Color color, double finalD, int pIndex, int type) {
 		super(x, y, direction, side, color);

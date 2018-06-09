@@ -189,16 +189,22 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private void readLateImages() {
 		URL defaultPlay_URL = this.getClass().getResource("PlayA.png");
 		URL hoverPlay_URL = this.getClass().getResource("PlayB.png");
+		
 		URL defaultHTP_URL = this.getClass().getResource("HTPA.png");
 		URL hoverHTP_URL = this.getClass().getResource("HTPB.png");
+		
 		URL defaultCredits_URL = this.getClass().getResource("CreditsA.png");
 		URL hoverCredits_URL = this.getClass().getResource("CreditsB.png");
+		
 		URL defaultBack_URL = this.getClass().getResource("BackA.png");
 		URL hoverBackURL = this.getClass().getResource("BackB.png");
+		
 		URL defaultPA_URL = this.getClass().getResource("PlayAgainA.png");
 		URL hoverPA_URL = this.getClass().getResource("PlayAgainB.png");
+		
 		URL defaultPUL_URL = this.getClass().getResource("PUListdefault.PNG");
 		URL hoverPUL_URL = this.getClass().getResource("PUListHover.PNG");
+		
 		URL defaultPause_URL = this.getClass().getResource("PauseA.png");
 		URL hoverPause_URL = this.getClass().getResource("PauseB.png");
 		
@@ -219,16 +225,22 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		try {
 			defaultPlay = ImageIO.read(defaultPlay_URL);
 			hoverPlay = ImageIO.read(hoverPlay_URL);
+			
 			defaultHTP = ImageIO.read(defaultHTP_URL);
 			hoverHTP = ImageIO.read(hoverHTP_URL);
+			
 			defaultCredits = ImageIO.read(defaultCredits_URL);
 			hoverCredits = ImageIO.read(hoverCredits_URL);
+			
 			defaultBack = ImageIO.read(defaultBack_URL);
 			hoverBack = ImageIO.read(hoverBackURL);
+			
 			defaultPA = ImageIO.read(defaultPA_URL);
 			hoverPA = ImageIO.read(hoverPA_URL);
+			
 			puListDefault = ImageIO.read(defaultPUL_URL);
 			puListHover = ImageIO.read(hoverPUL_URL);
+			
 			pauseDefault = ImageIO.read(defaultPause_URL);
 			pauseHover = ImageIO.read(hoverPause_URL);
 			
@@ -274,7 +286,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		
 		if(currentState == menuState) {
 			drawMainMenu(g);
-
 		}
 		if(currentState == playState) {
 			drawGameState(g);
@@ -352,7 +363,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void drawCredits(Graphics g) {
 		g.drawImage(creditsScreen, 0, 0, width, height, null);
 		backCredits.draw(g);
-		
 	}
 	
 	public void drawWin(Graphics g) {
@@ -366,6 +376,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		else {
 			g.drawImage(winScreen2, width*5/18, (height-width*4/15)/2, width*4/9, width*4/15, null);
 		}
+		
 		backPA.draw(g);
 		PA.draw(g);
 	}
@@ -374,10 +385,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		g.drawImage(loading, 0, 0, width, height, null);
 	}
 	
-	public void drawLoadingToGame(Graphics g)
-	{
+	public void drawLoadingToGame(Graphics g) {
 		g.drawImage(loading, 0, 0, width, height, null);
-		musicUI.inGameChange(true);
 	}
 	
 	public void drawPUState(Graphics g) {
@@ -413,6 +422,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		else {
 			musicUpdateOutOfGame();
 		}
+		
 		MenuMouseUpdate();
 		images();
 	}
@@ -652,7 +662,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private void updateWin() {
 		PA.updateLocation(width*665/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
 		backPA.updateLocation(width*425/1280, (height-width*100/1280)/2 + width/15, width*200/1280, width*100/1280);
-		
 	}
 	
 	private void updateLoading() {
@@ -827,8 +836,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	private void buttonChecksPUList()
-	{
+	private void buttonChecksPUList() {
 		if(backPUList.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
 			try {
 				musicUI.playButtonSound();
