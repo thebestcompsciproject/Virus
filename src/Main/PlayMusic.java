@@ -86,8 +86,8 @@ public class PlayMusic
 			mainMusicClip = AudioSystem.getClip();
 			AudioInputStream audio = AudioSystem.getAudioInputStream(mainMusic_File);
 			mainMusicClip.open(audio);
-			mainMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
-			mainMusicClip.start();
+			//mainMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+			//mainMusicClip.start();
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -237,4 +237,3 @@ public class PlayMusic
 		}
 	}
 }
-	

@@ -20,12 +20,12 @@ public class Button {
 	private BufferedImage hoverButton;
 	private BufferedImage drawButton;
 	
-	Button(double x, double y, double width, double height, BufferedImage img1, BufferedImage img2) 
+	Button(BufferedImage img1, BufferedImage img2) 
 	{
-		this.width = width;
-		this.height = height;
-		this.x = x;
-		this.y = y;
+		this.width = 0;
+		this.height = 0;
+		this.x = 0;
+		this.y = 0;
 		
 		defaultButton = img1;
 		hoverButton = img2;
