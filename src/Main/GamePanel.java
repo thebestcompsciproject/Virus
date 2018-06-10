@@ -56,6 +56,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	int introIndex;
 	int introLayer;
 	boolean introRan;
+	boolean musicStarted;
 	double h;
 	double s;
 	
@@ -176,6 +177,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private void initiateIntroScreen() {
 		introReserve = new ArrayList<MapTriangle>();
 		introRan = false;
+		musicStarted = false;
 		introLayer = 0;
 		introIndex = 0;
 		double dir = 180;
@@ -391,8 +393,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(runTransition) {
 			drawTransition(g);
 		}
-		
-		muteM.draw(g);
+		if(!(currentState== loadingState&&futureState == introState)||currentState != introState)
+			muteM.draw(g);
 		drawMouse(g);
 	}
 	
@@ -432,12 +434,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			g.drawLine(0, i, width, i);
 		
 		manager.draw(g);
-				
+			
 		g.setColor(Color.WHITE);
 		g.setFont(testFont);
-		g.drawString("FPS: " + Integer.toString(fpsDraw), width/15, width/50);
+		g.drawString("FPS: " + Integer.toString(fpsDraw), width/15, width/40);
 		pause.draw(g);
-		
 	}
 	
 	private void drawPauseState(Graphics g) {
@@ -510,7 +511,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		// TODO Auto-generated method stub
 		repaint();
 		updateButtons();
-		soundControl();
+		
+		if(!((currentState== loadingState&&futureState == introState)||currentState==introState)) {
+			soundControl();
+		}
+		
 		if(runTransition) {
 			updateTransition();
 		}
@@ -721,6 +726,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	}
 	
 	private void updateIntro() {
+		if(!musicStarted) {
+			playMusic();
+			musicStarted = true;
+		}
 		if(introIndex<introReserve.size()) {
 			introLayer++;
 			introIndex = introIndex + 6 + introLayer*12;
@@ -747,7 +756,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		if(introReserve.size()<1) {
 			currentState = menuState;
-			playMusic();
 		}
 	}
 	
