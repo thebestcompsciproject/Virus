@@ -52,6 +52,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private long timeSave1 = 0;
 	private long timeSave2 = 0;
 	
+	private ArrayList<MapTriangle> introReserve;
+	int introIndex;
+	int introLayer;
+	boolean introRan;
+	double h;
+	double s;
+	
 	private int lateImages = -5;
 	
 	public BufferedImage defaultPlay;
@@ -118,6 +125,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private SwitchButton muteM;
 	
+	private final int introState = -1;
 	private final int menuState = 0;
 	private final int playState = 1;
 	private final int HTPState = 2;
@@ -128,8 +136,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private final int pauseState = 7;
 	
 	private int currentState = loadingState;
-	private int futureState = menuState;
-	private int nextState = menuState;
+	private int futureState = introState;
+	private int nextState = introState;
 	
 	public PlayMusic musicUI;
 	
@@ -150,7 +158,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		makeButtons();
 		musicUI = new PlayMusic();
 		musicUI.loadInDaMusic();
-		
+		initiateIntroScreen();
+	}
+	
+	private void playMusic() {
 		try {
 			musicUI.playBGMusic();
 		} catch (UnsupportedAudioFileException e) {
@@ -159,6 +170,34 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	private void initiateIntroScreen() {
+		introReserve = new ArrayList<MapTriangle>();
+		introRan = false;
+		introLayer = 0;
+		introIndex = 0;
+		double dir = 180;
+		s = 1920/40;
+		h = s*Math.sqrt(3)/2;
+		Color color1 = new Color(171, 60, 60);
+		
+		for(int i = -1; i<60; i++) {
+			for(int j = 0; j<6; j++) {
+				double xref = Math.sin(Math.toRadians(j*60-30))*(s/2+s*(i+1));
+				double yref = Math.cos(Math.toRadians(j*60-30))*(s/2+s*(i+1));
+				double x = xref + Math.sin(Math.toRadians(j*60+60))*(h/3);
+				double y = yref + Math.cos(Math.toRadians(j*60+60))*(h/3);
+				for(int k = 0 ; k<(i+1)*2; k++) {
+					introReserve.add(new MapTriangle(x, y, dir, s, color1));
+					x += Math.sin(Math.toRadians(j*60+120-60*(k%2)))*(2*h/3);
+					y += Math.cos(Math.toRadians(j*60+120-60*(k%2)))*(2*h/3);
+					dir = (dir+180)%360;
+				}
+				introReserve.add(new MapTriangle(x, y, dir, s, color1));
+				dir = (dir+180)%360;
+			}
 		}
 	}
 	
@@ -321,6 +360,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	public void paint(Graphics g) {
 		super.paint(g);
 		
+		if(currentState == introState) {
+			drawIntroState(g);
+		}
 		if(currentState == menuState) {
 			drawMainMenu(g);
 		}
@@ -354,6 +396,18 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		drawMouse(g);
 	}
 	
+	private void drawIntroState(Graphics g) {
+		if(introIndex<introReserve.size()) {
+			drawLoading(g);
+		}
+		else {
+			drawMainMenu(g);
+		}
+		for(int i = 0; i<Math.min(introIndex, introReserve.size()); i++) {
+			introReserve.get(i).draw(g);
+		}
+	}
+	
 	public void drawMouse(Graphics g) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 	    Point hotSpot = new Point(0,0);
@@ -381,7 +435,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				
 		g.setColor(Color.WHITE);
 		g.setFont(testFont);
-		g.drawString("FPS: " + Integer.toString(fpsDraw), 50, 50);
+		g.drawString("FPS: " + Integer.toString(fpsDraw), width/15, width/50);
 		pause.draw(g);
 		
 	}
@@ -439,10 +493,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		g.fillRect(0, 0, width/3, height/5);
 	}
 	
-	public void drawLoadingToGame(Graphics g) {
-		g.drawImage(loading, 0, 0, width, height, null);
-	}
-	
 	public void drawPUState(Graphics g) {
 		g.drawImage(puListScreen, 0, 0, width, height, null);
 		backPUList.draw(g);
@@ -470,6 +520,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 		else if(currentState == loadingState) {
 			updateLoading();
+		}
+		else if(currentState == introState) {
+			updateIntro();
 		}
 		
 		MenuMouseUpdate();
@@ -667,6 +720,37 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		return thetaR*360/(2*Math.PI);
 	}
 	
+	private void updateIntro() {
+		if(introIndex<introReserve.size()) {
+			introLayer++;
+			introIndex = introIndex + 6 + introLayer*12;
+		}
+		else {
+			for(int i = 0; i<introReserve.size(); i++) {
+				if(introReserve.get(i).getX()+s/2<0||introReserve.get(i).getX()-s/2>width){
+					introReserve.remove(i);
+					i--;
+				}
+				else if(introReserve.get(i).getY()+2*h/3<0||introReserve.get(i).getY()-2*h/3>height) {
+					introReserve.remove(i);
+					i--;
+				}
+			}
+			for(int i = 0; i<introReserve.size(); i++) {
+				if(introReserve.get(i).getX()>width/2) {
+					introReserve.get(i).setX(introReserve.get(i).getX()+width/200);
+				}
+				else {
+					introReserve.get(i).setX(introReserve.get(i).getX()-width/200);
+				}
+			}
+		}
+		if(introReserve.size()<1) {
+			currentState = menuState;
+			playMusic();
+		}
+	}
+	
 	private void gameUpdate() {
 		if(manager.getPlayers().size()<2) {
 			currentState = winState;
@@ -716,7 +800,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			manager = new ObjectManager(width, height);
 			futureState = nextState;
 			nextState = playState;
-			runTransition = true;
+			if(futureState != introState) {
+				runTransition = true;
+			}
+			else {
+				currentState = introState;
+			}
 		}
 	}
 	
