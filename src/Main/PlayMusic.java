@@ -55,15 +55,15 @@ public class PlayMusic
 	
 	public void loadInDaMusic() {        
         try {
-        		mainMusic_File = new File("Music/mainMusic.wav");
-        	
-        		clickSound_File = new File("Music/buttonPress.wav");
-        		collectPUSound_File = new File("Music/collectPU.wav");
-        		collectReplenish_File = new File("Music/collectReplenish.aiff");
-        		beingParalyzed_File = new File("Music/paralyzeSound.wav");
-        		shootingbullets_File = new File("Music/shootingSound.wav");
-        		isInfectedSound_File =  new File("Music/infectedSound.wav");
-        		pickUpTriangles_File = new File("Music/pickingUpBulleta.wav");
+        		mainMusic_File = new File("src/Main/Music/mainMusic.wav");
+        		
+        		clickSound_File = new File("src/Main/Music/buttonPress.wav");
+        		collectPUSound_File = new File("src/Main/Music/collectPU.wav");
+        		collectReplenish_File = new File("src/Main/Music/collectReplenish.aiff");
+        		beingParalyzed_File = new File("src/Main/Music/paralyzeSound.wav");
+        		shootingbullets_File = new File("src/Main/Music/shootingSound.wav");
+        		isInfectedSound_File =  new File("src/Main/Music/infectedSound.wav");
+        		pickUpTriangles_File = new File("src/Main/Music/pickingUpBulleta.wav");
         		
         		iMMStream = new FileInputStream(mainMusic_File);           
         		MMStream = new AudioStream(iMMStream);
