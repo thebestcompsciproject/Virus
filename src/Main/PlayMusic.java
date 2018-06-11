@@ -54,10 +54,9 @@ public class PlayMusic
 	}
 	
 	public void loadInDaMusic() {        
-        try {
-        		mainMusic_File = new File("src/Main/Music/mainMusic.wav");
-        		
-        		clickSound_File = new File("src/Main/Music/buttonPress.wav");
+		try {
+			mainMusic_File = new File("src/Main/Music/mainMusic.wav");
+			clickSound_File = new File("src/Main/Music/buttonPress.wav");
         		collectPUSound_File = new File("src/Main/Music/collectPU.wav");
         		collectReplenish_File = new File("src/Main/Music/collectReplenish.aiff");
         		beingParalyzed_File = new File("src/Main/Music/paralyzeSound.wav");
@@ -67,12 +66,12 @@ public class PlayMusic
         		
         		iMMStream = new FileInputStream(mainMusic_File);           
         		MMStream = new AudioStream(iMMStream);
-        }
-        catch(FileNotFoundException e){
-            System.out.print(e.toString());
-        }
-        catch(IOException error) {
-            System.out.print(error.toString());
+		}
+		catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
         }
     }
 	
