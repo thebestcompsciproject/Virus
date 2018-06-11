@@ -20,7 +20,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -569,7 +568,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		if(isDown[10]) {
 			if(!manager.getPlayers().get(0).isParalyzed()) {
 				if(manager.getPlayers().get(0).getMG()) {
-					if(System.currentTimeMillis()-2*reloadTime/3>timeSave1) {
+					if(System.currentTimeMillis()-2*reloadTime/5>timeSave1) {
 						manager.shootBullet(0, 20);
 						timeSave1 = System.currentTimeMillis();
 					}

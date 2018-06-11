@@ -37,52 +37,6 @@ public class PlayMusic{
 		}
 	}
 	
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	public void loadInDaMusic() {        
-		try {
-			mainMusic_File = new File("src/package1/music/mainMusic.wav");
-			clickSound_File = new File("src/package1/music/buttonPress.wav");
-        		collectPUSound_File = new File("src/package1/music/collectPU.wav");
-        		collectReplenish_File = new File("src/package1/music/collectReplenish.aiff");
-        		beingParalyzed_File = new File("src/package1/music/paralyzeSound.wav");
-        		shootingbullets_File = new File("src/package1/music/shootingSound.wav");
-        		isInfectedSound_File =  new File("src/package1/music/infectedSound.wav");
-        		pickUpTriangles_File = new File("src/package1/music/pickingUpBulleta.wav");
-        		
-        		iMMStream = new FileInputStream(mainMusic_File);           
-        		MMStream = new AudioStream(iMMStream);
-		}
-		catch(FileNotFoundException e){
-			e.printStackTrace();
-		}
-		catch(IOException e) {
-			e.printStackTrace();
-        }
-    }
-	
-	public void playBGMusic() throws UnsupportedAudioFileException, IOException{
-		//ContinuousAudioDataStream loop = null;
-		
-		//mainMusicPlayer.start(currentMusicStream);
-	   // mainMusicPlayer.start(loop);
-		try {
-			mainMusicClip = AudioSystem.getClip();
-			AudioInputStream audio = AudioSystem.getAudioInputStream(mainMusic_File);
-			mainMusicClip.open(audio);
-			mainMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
-			mainMusicClip.start();
-		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		musicController= (FloatControl)mainMusicClip.getControl(FloatControl.Type.MASTER_GAIN);
-	}
->>>>>>> 9d43c5202c75dd55752738b1a7c0d300f4380190
-	
 	public void inGameChange(boolean state)
 	{
 		musicController= (FloatControl)mainClip.getControl(FloatControl.Type.MASTER_GAIN);

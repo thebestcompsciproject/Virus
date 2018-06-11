@@ -326,6 +326,9 @@ public class ObjectManager {
 					o1.kill();
 				}
 			}
+			if(o1.getSide()<40) {
+				o1.kill();
+			}
 		}
 	}
 	
@@ -565,7 +568,7 @@ public class ObjectManager {
 				musicUI.infectedSound();
 				infSound0 = true;
 			}
-			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/(10000*6)), height/30);
+			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, Math.min((int)(width*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/(10000*6)), width/6), height/30);
 			y1-=height/20;
 		}
 		else {
@@ -579,7 +582,7 @@ public class ObjectManager {
 				pSound0 = true;
 			}
 			
-			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(3200-(System.currentTimeMillis()-players.get(0).getPStartTime()))/(3200*6)), height/30);
+			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, Math.min((int)(width*(3200-(System.currentTimeMillis()-players.get(0).getPStartTime()))/(3200*6)), width/6), height/30);
 			y1-=height/20;
 		}
 		else {
@@ -588,13 +591,13 @@ public class ObjectManager {
 		
 		if(players.get(0).getMG()) {
 			g.setColor(new Color(69, 69, 69));
-			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(5000-(System.currentTimeMillis()-players.get(0).getMGStartTime()))/(5000*6)), height/30);
+			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, Math.min((int)(width*(5000-(System.currentTimeMillis()-players.get(0).getMGStartTime()))/(5000*6)), width/6), height/30);
 			y1-=height/20;
 		}
 		
 		if(players.get(0).getReplenish()) {
 			g.setColor(players.get(0).getColor());
-			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(1000-(System.currentTimeMillis()-players.get(0).getReplenishStartTime()))/(1000*6)), height/30);
+			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, Math.min((int)(width*(1000-(System.currentTimeMillis()-players.get(0).getReplenishStartTime()))/(1000*6)), width/6), height/30);
 			y1-=height/20;
 		}
 		
@@ -606,7 +609,7 @@ public class ObjectManager {
 				musicUI.infectedSound();
 				infSound1 = true;
 			}
-			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(10000-(System.currentTimeMillis()-players.get(1).getInfectionStartTime()))/(10000*6)), height/30);
+			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, Math.min((int)(width*(10000-(System.currentTimeMillis()-players.get(1).getInfectionStartTime()))/(10000*6)), width/6), height/30);
 			y2-=height/20;
 		}
 		else {
@@ -619,7 +622,7 @@ public class ObjectManager {
 				musicUI.playBeingParalyzed();
 				pSound1 = true;
 			}
-			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(3200-(System.currentTimeMillis()-players.get(1).getPStartTime()))/(3200*6)), height/30);
+			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, Math.min((int)(width*(3200-(System.currentTimeMillis()-players.get(1).getPStartTime()))/(3200*6)), width/6), height/30);
 			y2-=height/20;
 		}
 		else {
@@ -628,13 +631,13 @@ public class ObjectManager {
 		
 		if(players.get(1).getMG()) {
 			g.setColor(new Color(69, 69, 69));
-			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(5000-(System.currentTimeMillis()-players.get(1).getMGStartTime()))/(5000*6)), height/30);
+			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, Math.min((int)(width*(5000-(System.currentTimeMillis()-players.get(1).getMGStartTime()))/(5000*6)), width/6), height/30);
 			y2-=height/20;
 		}
 		
 		if(players.get(1).getReplenish()) {
 			g.setColor(players.get(0).getColor());
-			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(1000-(System.currentTimeMillis()-players.get(1).getReplenishStartTime()))/(1000*6)), height/30);
+			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, Math.min((int)(width*(1000-(System.currentTimeMillis()-players.get(1).getReplenishStartTime()))/(1000*6)), width/6), height/30);
 			y2-=height/20;
 		}
 	}

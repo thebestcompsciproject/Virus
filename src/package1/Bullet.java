@@ -60,4 +60,8 @@ public class Bullet extends MapTriangle{
 	public int getHits() {
 		return hits;
 	}
+	
+	public double getSide() {
+		return side;
+	}
 }
