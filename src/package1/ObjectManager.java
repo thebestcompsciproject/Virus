@@ -600,15 +600,7 @@ public class ObjectManager {
 		if(players.get(0).hasInfection()) {
 			g.setColor(new Color(106, 168, 79));
 			if(!infSound0) {
-				try {
-					musicUI.infectedSound();
-				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				musicUI.infectedSound();
 				infSound0 = true;
 			}
 			g.fillRect(2*width/100+ 2*(height/15+width/50), y1, (int) (width*(10000-(System.currentTimeMillis()-players.get(0).getInfectionStartTime()))/(10000*6)), height/30);
@@ -621,15 +613,7 @@ public class ObjectManager {
 		if(players.get(0).isParalyzed()) {
 			g.setColor(Color.YELLOW);
 			if(!pSound0) {
-				try {
-					musicUI.playBeingParalyzed();
-				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				musicUI.playBeingParalyzed();
 				pSound0 = true;
 			}
 			
@@ -657,15 +641,7 @@ public class ObjectManager {
 		if(players.get(1).hasInfection()) {
 			g.setColor(new Color(106, 168, 79));
 			if(!infSound1) {
-				try {
-					musicUI.infectedSound();
-				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				musicUI.infectedSound();
 				infSound1 = true;
 			}
 			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(10000-(System.currentTimeMillis()-players.get(1).getInfectionStartTime()))/(10000*6)), height/30);
@@ -678,15 +654,7 @@ public class ObjectManager {
 		if(players.get(1).isParalyzed()) {
 			g.setColor(Color.YELLOW);
 			if(!pSound1) {
-				try {
-					musicUI.playBeingParalyzed();
-				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				musicUI.playBeingParalyzed();
 				pSound1 = true;
 			}
 			g.fillRect(width-(2*width/100+ 2*(height/15+width/50) + width/6), y2, (int) (width*(3200-(System.currentTimeMillis()-players.get(1).getPStartTime()))/(3200*6)), height/30);

@@ -46,7 +46,7 @@ public class Player extends GameObject{
 	int colorChangeStall = 0;
 	boolean paralyzed;
 	
-	private PlayMusic musicUI;
+	private PlayMusic1 musicUI;
 	
 	public Player(double x, double y, double direction, Color color, int pIndex) {
 		super();
@@ -63,7 +63,7 @@ public class Player extends GameObject{
 		constructDrawn();
 		initiatePowerUps();
 		
-		musicUI = new PlayMusic();
+		musicUI = new PlayMusic1();
 		musicUI.loadInDaMusic();
 		musicUI.checkDaMusic();
 		
