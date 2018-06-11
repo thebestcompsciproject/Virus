@@ -158,20 +158,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		readLoading();
 		makeButtons();
 		musicUI = new PlayMusic();
-		musicUI.loadInDaMusic();
 		initiateIntroScreen();
-	}
-	
-	private void playMusic() {
-		try {
-			musicUI.playBGMusic();
-		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	private void initiateIntroScreen() {
@@ -584,32 +571,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				if(manager.getPlayers().get(0).getMG()) {
 					if(System.currentTimeMillis()-2*reloadTime/3>timeSave1) {
 						manager.shootBullet(0, 20);
-						
-						try {
-							musicUI.shootBulletAudio();
-						} catch (UnsupportedAudioFileException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
 						timeSave1 = System.currentTimeMillis();
 					}
 				}
 				else if(System.currentTimeMillis()-reloadTime>timeSave1) {
 					manager.shootBullet(0, 40);
-					
-					try {
-						musicUI.shootBulletAudio();
-					} catch (UnsupportedAudioFileException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 					timeSave1 = System.currentTimeMillis();
 				}
 			}
@@ -685,33 +651,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 				if(manager.getPlayers().get(1).getMG()) {
 					if(System.currentTimeMillis()-reloadTime*2/3>timeSave2) {
 						manager.shootBullet(1, 20);
-						
-						try {
-							musicUI.shootBulletAudio();
-						} catch (UnsupportedAudioFileException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
 						timeSave2 = System.currentTimeMillis();
 					}
 				}
 				else if(System.currentTimeMillis()-reloadTime>timeSave2) {
 					manager.shootBullet(1, 40);
-					
-					try {
-						musicUI.shootBulletAudio();
-					} catch (UnsupportedAudioFileException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
 					timeSave2 = System.currentTimeMillis();
 				}
 			}
@@ -727,7 +671,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void updateIntro() {
 		if(!musicStarted) {
-			playMusic();
+			musicUI.playBG();
 			musicStarted = true;
 		}
 		if(introIndex<introReserve.size()) {
@@ -747,10 +691,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			}
 			for(int i = 0; i<introReserve.size(); i++) {
 				if(introReserve.get(i).getX()>width/2) {
-					introReserve.get(i).setX(introReserve.get(i).getX()+width/140);
+					introReserve.get(i).setX(introReserve.get(i).getX()+width/200);
 				}
 				else {
-					introReserve.get(i).setX(introReserve.get(i).getX()-width/140);
+					introReserve.get(i).setX(introReserve.get(i).getX()-width/200);
 				}
 			}
 		}
@@ -898,18 +842,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 
 	}
 	
-	private void buttonSound() {
-		try {
-			musicUI.playButtonSound();
-		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	private void switchButtonChecks() {
 		if(muteM.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY))
 			muteM.switchState();
@@ -917,18 +849,18 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void buttonChecksMain() {
 		if(play.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = loadingState;
 			manager = new ObjectManager(width, height);
 			runTransition = true;
 		}
 		else if(HTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = HTPState;
 			runTransition = true;
 		}
 		else if(credits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = creditsState;
 			runTransition = true;
 		}
@@ -936,13 +868,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void buttonChecksHTP() {
 		if(backHTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = menuState;
 			runTransition = true;
 		}
 		
 		if(toPUList.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = PUState;
 			runTransition = true;
 		}
@@ -950,7 +882,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void buttonChecksPUList() {
 		if(backPUList.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = HTPState;
 			runTransition = true;
 		}
@@ -958,7 +890,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void buttonChecksCredits() {
 		if(backCredits.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = menuState;
 			runTransition = true;
 		}
@@ -966,23 +898,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void buttonChecksGame() {
 		if(pause.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			currentState = pauseState;
 		}
 	}
 	
 	private void buttonChecksPause() {
 		if(pauseResume.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			currentState = playState;
 		}
 		if(pauseHTP.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = HTPState;
 			runTransition = true;
 		}
 		if(pauseExit.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = menuState;
 			runTransition = true;
 		}
@@ -991,12 +923,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	
 	private void buttonChecksWin() {
 		if(PA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = loadingState;
 			runTransition = true;
 		}
 		if(exitPA.contains(MouseInfo.getPointerInfo().getLocation().getX()-frameX, MouseInfo.getPointerInfo().getLocation().getY()-frameY)) {
-			buttonSound();
+			musicUI.playButtonSound();
 			futureState = menuState;
 			runTransition = true;
 		}

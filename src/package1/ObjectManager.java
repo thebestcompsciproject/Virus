@@ -61,7 +61,6 @@ public class ObjectManager {
 		}
 		
 		musicUI = new PlayMusic();
-		musicUI.loadInDaMusic();
 	}
 	
 	public void updateInfo(int w, int h, int x, int y) {
@@ -85,11 +84,13 @@ public class ObjectManager {
 		if(size<40) {
 			players.get(index).addTCount();
 			if(players.get(index).removeLastTriangleRestricted()!=null) {
+				musicUI.shootBulletAudio();
 				bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), players.get(index).getDirection(), size, players.get(index).getColor(), players.get(index).getDirection(), index, 0));
 			}
 		}
 		else {
 			if(players.get(index).removeLastTriangle()!=null) {
+				musicUI.shootBulletAudio();
 				bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), players.get(index).getDirection(), size, players.get(index).getColor(), players.get(index).getDirection(), index, 0));
 			}
 		}
@@ -98,6 +99,7 @@ public class ObjectManager {
 	public void shootInfectedBullet(int index){
 		PlayerTriangle t = players.get(index).removeLastTriangle();
 		if(t!=null) {
+			musicUI.shootBulletAudio();
 			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), new Color(106, 168, 79), players.get(index).getDirection(), index, 1));
 			players.get(index).setIDart(false);
 		}
@@ -106,6 +108,7 @@ public class ObjectManager {
 	public void shootParalyzedBullet(int index){
 		PlayerTriangle t = players.get(index).removeLastTriangle();
 		if(t!=null) {
+			musicUI.shootBulletAudio();
 			bullets.add(new Bullet(players.get(index).getX(), players.get(index).getY(), t.getDirection(), t.getSide(), Color.YELLOW, players.get(index).getDirection(), index, 2));
 			players.get(index).setPDart(false);
 		}
@@ -334,71 +337,30 @@ public class ObjectManager {
 			players.get(o2.getPlayer().getPIndex()).setInfection(false);
 			players.get(o2.getPlayer().getPIndex()).setColor(players.get(o2.getPlayer().getPIndex()).getColor());
 			o1.kill();
-			
-			try {
-				musicUI.playCollectPU();
-			} catch (UnsupportedAudioFileException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			musicUI.playCollectPU();
 		}
 		else if(o1 instanceof DartPowerUp){
 			if(players.get(o2.getPlayer().getPIndex()).setIDart(true)) {
 				o1.kill();
-				try {
-					musicUI.playCollectPU();
-				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				musicUI.playCollectPU();
 			}
 		}
 		else if(o1 instanceof MGPowerUp){	
 			if(players.get(o2.getPlayer().getPIndex()).setMG(true)) {
 				o1.kill();
-				try {
-					musicUI.playCollectPU();
-				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				musicUI.playCollectPU();
 			}
 		}
 		else if(o1 instanceof ReplenishPowerUp){		
 			if(players.get(o2.getPlayer().getPIndex()).setReplenish(true)) {
 				o1.kill();
-				try {
-					musicUI.playReplenishPU();
-				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				musicUI.playReplenishPU();
 			}
 		}
 		else if(o1 instanceof ParalyzePowerUp){		
 			if(players.get(o2.getPlayer().getPIndex()).setPDart(true)) {
 				o1.kill();
-				try {
-					musicUI.playParalyzePU();
-				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				musicUI.playCollectPU();
 			}
 		}
 		else {

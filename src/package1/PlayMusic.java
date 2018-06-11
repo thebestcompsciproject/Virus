@@ -3,9 +3,6 @@ package package1;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -23,29 +20,12 @@ public class PlayMusic{
 	java.io.InputStream infected;
 	java.io.InputStream pickUp;
 	
-	AudioInputStream audioInputStream;
-	Clip clip;
-	Timer timer;
+	Clip mainClip;
+	
 	private FloatControl musicController;
 	
-	public PlayMusic() {
-		timer = new Timer();
-		loadInDaMusic();
-	}
-	
-	public void loadInDaMusic() {
-		MM = getClass().getResourceAsStream("Music/mainMusic.wav"); 
-		click = getClass().getResourceAsStream("Music/buttonPress.wav");
-		PU = getClass().getResourceAsStream("Music/collectPU.wav");
-		replenish = getClass().getResourceAsStream("Music/collectReplenish.wav");
-		paralyze = getClass().getResourceAsStream("Music/paralyzeSound.wav");
-		shoot = getClass().getResourceAsStream("Music/bulletAudio.wav");
-		infected = getClass().getResourceAsStream("Music/infectedSound.wav");
-		pickUp = getClass().getResourceAsStream("Music/pickingUpTri.wav");
-	}
-	
 	public void setMute(boolean b) {
-		musicController= (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+		musicController= (FloatControl)mainClip.getControl(FloatControl.Type.MASTER_GAIN);
 		float range = musicController.getMaximum() - musicController.getMinimum();
 		if(!b) {
 			float gain = (range * 1) + musicController.getMinimum();
@@ -59,6 +39,8 @@ public class PlayMusic{
 	
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
 	public void loadInDaMusic() {        
 		try {
 			mainMusic_File = new File("src/package1/music/mainMusic.wav");
@@ -66,7 +48,7 @@ public class PlayMusic{
         		collectPUSound_File = new File("src/package1/music/collectPU.wav");
         		collectReplenish_File = new File("src/package1/music/collectReplenish.aiff");
         		beingParalyzed_File = new File("src/package1/music/paralyzeSound.wav");
-        		shootingbullets_File = new File("src/package1/music/shootFinal.aiff");
+        		shootingbullets_File = new File("src/package1/music/shootingSound.wav");
         		isInfectedSound_File =  new File("src/package1/music/infectedSound.wav");
         		pickUpTriangles_File = new File("src/package1/music/pickingUpBulleta.wav");
         		
@@ -99,11 +81,11 @@ public class PlayMusic{
 		
 		musicController= (FloatControl)mainMusicClip.getControl(FloatControl.Type.MASTER_GAIN);
 	}
+>>>>>>> 9d43c5202c75dd55752738b1a7c0d300f4380190
 	
->>>>>>> 222888bb0a22d2823c3dc648f8fa4aebc66e84c3
 	public void inGameChange(boolean state)
 	{
-		musicController= (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+		musicController= (FloatControl)mainClip.getControl(FloatControl.Type.MASTER_GAIN);
 		float range = musicController.getMaximum() - musicController.getMinimum();
 		
 		if(!state) { //Main Menu 
@@ -118,102 +100,106 @@ public class PlayMusic{
 	
 	public void playBG() {
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(MM));
-			clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
+			MM = getClass().getResourceAsStream("Music/mainMusic.wav"); 
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(MM));
+			mainClip = AudioSystem.getClip();
+			mainClip.open(audioInputStream);
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clip.loop(clip.LOOP_CONTINUOUSLY);
+		mainClip.loop(mainClip.LOOP_CONTINUOUSLY);
+		mainClip.start();
 	}
 	
 	public void playButtonSound() {
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(click));
-			clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
+			click = getClass().getResourceAsStream("Music/buttonPress.wav");
+			AudioInputStream audio = AudioSystem.getAudioInputStream(new BufferedInputStream(click));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audio);
+			clip.start();
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clip.start();
 	}
 	
 	public void playCollectPU() {
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(PU));
-			clip = AudioSystem.getClip();
+			PU = getClass().getResourceAsStream("Music/collectPU.wav");
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(PU));
+			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
+			clip.start();
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clip.start();
 	}
 	
 	public void playReplenishPU() {
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(replenish));
-			clip = AudioSystem.getClip();
+			replenish = getClass().getResourceAsStream("Music/collectReplenish.aiff");
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(replenish));
+			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
+			clip.start();
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clip.start();
 	}
 	
 	public void playBeingParalyzed() {
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(paralyze));
-			clip = AudioSystem.getClip();
+			paralyze = getClass().getResourceAsStream("Music/paralyzeSound.wav");
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(paralyze));
+			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
+			clip.start();
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clip.start();
 	}
 	
 	public void shootBulletAudio() {
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(replenish));
-			clip = AudioSystem.getClip();
+			shoot = getClass().getResourceAsStream("Music/shootFinal.aiff");
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(shoot));
+			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
+			clip.start();
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clip.start();
 	}
 	
 	public void infectedSound() {
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(infected));
-			clip = AudioSystem.getClip();
+			infected = getClass().getResourceAsStream("Music/infectedSound.wav");
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(infected));
+			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
+			clip.start();
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clip.start();
 	}
 	
 	public void pickingUpTriangles() {
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(pickUp));
-			clip = AudioSystem.getClip();
+			pickUp = getClass().getResourceAsStream("Music/pickingUpBulleta.wav");
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(pickUp));
+			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
+			clip.start();
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clip.start();
 	}
-	
-	/*public static void main(String[] args) {
-		AudioTest audio = new AudioTest();
-		audio.playBG();
-	}*/
 }

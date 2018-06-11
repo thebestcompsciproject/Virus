@@ -46,7 +46,7 @@ public class Player extends GameObject{
 	int colorChangeStall = 0;
 	boolean paralyzed;
 	
-	private PlayMusic1 musicUI;
+	private PlayMusic musicUI;
 	
 	public Player(double x, double y, double direction, Color color, int pIndex) {
 		super();
@@ -62,12 +62,7 @@ public class Player extends GameObject{
 		constructTriangles();
 		constructDrawn();
 		initiatePowerUps();
-		
-		musicUI = new PlayMusic1();
-		musicUI.loadInDaMusic();
-		musicUI.checkDaMusic();
-		
-		
+		musicUI = new PlayMusic();
 	}
 	
 	private void initiatePowerUps(){
@@ -177,16 +172,8 @@ public class Player extends GameObject{
 	public void addTriangle() {
 		for(int i = 0; i<210; i++) {
 			if(!drawn.get(i)) {
-				try {
-					musicUI.pickingUpTriangles();
-				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				drawn.set(i, true);
+				musicUI.pickingUpTriangles();
 				break;
 			}
 		}
