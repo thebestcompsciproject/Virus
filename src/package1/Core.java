@@ -1,5 +1,5 @@
 //Fok-Muruhathasan-Tomar
-package Main;
+package package1;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,46 +1,49 @@
-//Muruhathasan
-package Main.PowerUps;
+//Gurram-Muruhathasan
+package package1.PowerUps;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Polygon;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
-import Main.GameObject;
-import Main.GamePanel;
+import javax.imageio.ImageIO;
 
-public class DartPowerUp extends GameObject {
+import package1.GameObject;
+import package1.GamePanel;
+
+public class AntidotePowerUp extends GameObject {
 	private long spawnTime;
 	private double dRadius;
 	private double radius;
 	private boolean grow = false;
-	private BufferedImage infection;
-	
-	public DartPowerUp(double x, double y, double radius) {
+	private BufferedImage antidote;
+		
+	public AntidotePowerUp(double x, double y, double radius) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
 		dRadius = radius;
 		spawnTime = System.currentTimeMillis();
-		infection = GamePanel.infection;
+		antidote = GamePanel.antidote;
 	}
 	
 	public void draw(Graphics g) {
 		g.setColor(Color.WHITE);
-		g.fillOval((int)x, (int)y, (int)(2*dRadius), (int) (2*dRadius));
+		g.fillOval((int) x, (int) y, (int)(2*dRadius), (int) (2*dRadius));
 		g.setColor(Color.BLACK);
-		g.drawOval((int)x, (int)y, (int)(2*dRadius), (int) (2*dRadius));
-		g.drawImage(infection, (int)(x+dRadius/3), (int)(y+dRadius/3), (int)(4*dRadius/3), (int)(4*dRadius/3), null);
+		g.drawOval((int) x, (int) y, (int)(2*dRadius), (int) (2*dRadius));
+		g.drawImage(antidote, (int)(x+dRadius/2), (int)(y+2*dRadius/5), (int)(dRadius), (int)(6*dRadius/5), null);
 	}
-	
+		
 	public void update() {
 		pulse();
-		if( (System.currentTimeMillis() - 9000) > spawnTime) {
+		if( (System.currentTimeMillis() - 7000) > spawnTime) {
 			this.kill();
 		}
 	}
-	
+		
 	private void pulse() {
 		if(dRadius>=radius)
 			grow = false;
@@ -58,10 +61,9 @@ public class DartPowerUp extends GameObject {
 			y+=.15;
 		}
 	}
-	
+		
 	public double getRadius() {
 		return dRadius;
 	}
 }
-	
-	
+

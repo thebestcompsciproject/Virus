@@ -1,4 +1,4 @@
-package Main;
+package package1;
 
 import sun.audio.*;
 import javax.swing.*;
@@ -55,7 +55,7 @@ public class PlayMusic
 	
 	public void loadInDaMusic() {        
 		try {
-			mainMusic_File = new File("src/Main/Music/mainMusic.wav");
+			mainMusic_File = new File("https://raw.githubusercontent.com/thebestcompsciproject/Virus/master/src/Main/Music/mainMusic.wav");
 			clickSound_File = new File("src/Main/Music/buttonPress.wav");
         		collectPUSound_File = new File("src/Main/Music/collectPU.wav");
         		collectReplenish_File = new File("src/Main/Music/collectReplenish.aiff");

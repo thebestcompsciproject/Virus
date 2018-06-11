@@ -1,10 +1,10 @@
 //Fok-Muruhathasan
-package Main.PowerUps;
+package package1.PowerUps;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-import Main.GameObject;
+import package1.GameObject;
 
 public class ReplenishPowerUp extends GameObject {
 	private long spawnTime;

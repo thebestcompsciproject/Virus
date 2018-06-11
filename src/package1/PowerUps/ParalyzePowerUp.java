@@ -1,11 +1,11 @@
 //Fok-Muruhathasan
-package Main.PowerUps;
+package package1.PowerUps;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 
-import Main.GameObject;
+import package1.GameObject;
 
 public class ParalyzePowerUp extends GameObject {
 	private long spawnTime;

@@ -1,5 +1,5 @@
 //Muruhathasan-Fok-Gurram
-package Main;
+package package1;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,11 +9,11 @@ import java.util.Arrays;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import Main.PowerUps.AntidotePowerUp;
-import Main.PowerUps.DartPowerUp;
-import Main.PowerUps.MGPowerUp;
-import Main.PowerUps.ParalyzePowerUp;
-import Main.PowerUps.ReplenishPowerUp;
+import package1.PowerUps.AntidotePowerUp;
+import package1.PowerUps.DartPowerUp;
+import package1.PowerUps.MGPowerUp;
+import package1.PowerUps.ParalyzePowerUp;
+import package1.PowerUps.ReplenishPowerUp;
 
 public class ObjectManager {
 

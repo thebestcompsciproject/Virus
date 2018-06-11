@@ -1,5 +1,5 @@
 //Muruhathasan
-package Main;
+package package1;
 
 public class TestCode {
 

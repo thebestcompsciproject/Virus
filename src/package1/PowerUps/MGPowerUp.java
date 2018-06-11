@@ -1,11 +1,11 @@
 //Tomar-Muruhathasan
-package Main.PowerUps;
+package package1.PowerUps;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import Main.GameObject;
+import package1.GameObject;
 
 public class MGPowerUp extends GameObject {
 	private long spawnTime;
