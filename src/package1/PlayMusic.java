@@ -55,14 +55,14 @@ public class PlayMusic
 	
 	public void loadInDaMusic() {        
 		try {
-			mainMusic_File = new File("https://raw.githubusercontent.com/thebestcompsciproject/Virus/master/src/Main/Music/mainMusic.wav");
-			clickSound_File = new File("src/Main/Music/buttonPress.wav");
-        		collectPUSound_File = new File("src/Main/Music/collectPU.wav");
-        		collectReplenish_File = new File("src/Main/Music/collectReplenish.aiff");
-        		beingParalyzed_File = new File("src/Main/Music/paralyzeSound.wav");
-        		shootingbullets_File = new File("src/Main/Music/shootingSound.wav");
-        		isInfectedSound_File =  new File("src/Main/Music/infectedSound.wav");
-        		pickUpTriangles_File = new File("src/Main/Music/pickingUpBulleta.wav");
+			mainMusic_File = new File("src/package1/music/mainMusic.wav");
+			clickSound_File = new File("src/package1/music/buttonPress.wav");
+        		collectPUSound_File = new File("src/package1/music/collectPU.wav");
+        		collectReplenish_File = new File("src/package1/music/collectReplenish.aiff");
+        		beingParalyzed_File = new File("src/package1/music/paralyzeSound.wav");
+        		shootingbullets_File = new File("src/package1/music/shootingSound.wav");
+        		isInfectedSound_File =  new File("src/package1/music/infectedSound.wav");
+        		pickUpTriangles_File = new File("src/package1/music/pickingUpBulleta.wav");
         		
         		iMMStream = new FileInputStream(mainMusic_File);           
         		MMStream = new AudioStream(iMMStream);
