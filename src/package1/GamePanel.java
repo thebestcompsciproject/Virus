@@ -747,10 +747,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 			}
 			for(int i = 0; i<introReserve.size(); i++) {
 				if(introReserve.get(i).getX()>width/2) {
-					introReserve.get(i).setX(introReserve.get(i).getX()+width/200);
+					introReserve.get(i).setX(introReserve.get(i).getX()+width/140);
 				}
 				else {
-					introReserve.get(i).setX(introReserve.get(i).getX()-width/200);
+					introReserve.get(i).setX(introReserve.get(i).getX()-width/140);
 				}
 			}
 		}

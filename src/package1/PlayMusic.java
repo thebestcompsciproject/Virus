@@ -60,7 +60,7 @@ public class PlayMusic
         		collectPUSound_File = new File("src/package1/music/collectPU.wav");
         		collectReplenish_File = new File("src/package1/music/collectReplenish.aiff");
         		beingParalyzed_File = new File("src/package1/music/paralyzeSound.wav");
-        		shootingbullets_File = new File("src/package1/music/shootingSound.wav");
+        		shootingbullets_File = new File("src/package1/music/shootFinal.aiff");
         		isInfectedSound_File =  new File("src/package1/music/infectedSound.wav");
         		pickUpTriangles_File = new File("src/package1/music/pickingUpBulleta.wav");
         		
