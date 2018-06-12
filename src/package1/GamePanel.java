@@ -52,12 +52,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 	private long timeSave2 = 0;
 	
 	private ArrayList<MapTriangle> introReserve;
-	int introIndex;
-	int introLayer;
-	boolean introRan;
-	boolean musicStarted;
-	double h;
-	double s;
+	private int introIndex;
+	private int introLayer;
+	private boolean introRan;
+	private boolean musicStarted;
+	private double h;
+	private double s;
 	
 	private int lateImages = -5;
 	
@@ -156,7 +156,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		initiateFps();
 		readLoading();
 		makeButtons();
-		musicUI = new PlayMusic();
 		initiateIntroScreen();
 	}
 	
@@ -226,102 +225,66 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		}
 	}
 	
-	
-	private void readLateImages() {
-		URL defaultPlay_URL = this.getClass().getResource("PlayA.png");
-		URL hoverPlay_URL = this.getClass().getResource("PlayB.png");
-		
-		URL defaultHTP_URL = this.getClass().getResource("HTPA.png");
-		URL hoverHTP_URL = this.getClass().getResource("HTPB.png");
-		
-		URL defaultCredits_URL = this.getClass().getResource("CreditsA.png");
-		URL hoverCredits_URL = this.getClass().getResource("CreditsB.png");
-		
-		URL defaultBack_URL = this.getClass().getResource("BackA.png");
-		URL hoverBackURL = this.getClass().getResource("BackB.png");
-		
-		URL defaultPA_URL = this.getClass().getResource("PlayAgainA.png");
-		URL hoverPA_URL = this.getClass().getResource("PlayAgainB.png");
-		
-		URL defaultPUL_URL = this.getClass().getResource("PUListdefault.PNG");
-		URL hoverPUL_URL = this.getClass().getResource("PUListHover.PNG");
-		
-		URL defaultPause_URL = this.getClass().getResource("PauseA.png");
-		URL hoverPause_URL = this.getClass().getResource("PauseB.png");
-		
-		URL defaultResume_URL = this.getClass().getResource("ResumeA.png");
-		URL hoverResume_URL = this.getClass().getResource("ResumeB.png");
-		
-		URL defaultExit_URL = this.getClass().getResource("ExitA.png");
-		URL hoverExit_URL = this.getClass().getResource("ExitB.png");
-		
-		URL muteMOff_URL = this.getClass().getResource("MuteM1.png");
-		URL muteMOn_URL = this.getClass().getResource("MuteM2.png");
-		
-		URL logoURL = this.getClass().getResource("Logo1.png");
-		URL credits_URL = this.getClass().getResource("Credits.png");
-		URL HTP_URL = this.getClass().getResource("HTP.png");
-		URL win1_URL = this.getClass().getResource("Win1.png");
-		URL win2_URL = this.getClass().getResource("Win2.png");
-		URL anti_URL = this.getClass().getResource("Anti.png");
-		URL infection_URL = this.getClass().getResource("virus_v2.jpg");
-		URL PUListS_URL = this.getClass().getResource("PUListScreen.PNG");
-		URL pauseDisplay_URL = this.getClass().getResource("PauseDisplay.png");
-		
-		URL arcReactorDefault_URL = this.getClass().getResource("ArcReactorDefault.jpg");
-		URL arcReactorVirus_URL = this.getClass().getResource("ArcReactorVirus.jpg");
-		URL arcReactorParalyze_URL = this.getClass().getResource("ArcReactorParalyze.jpg");
-		
+	public BufferedImage loadImage(String fileName){
+
+		BufferedImage readImg = null;
 		try {
-			defaultPlay = ImageIO.read(defaultPlay_URL);
-			hoverPlay = ImageIO.read(hoverPlay_URL);
-			
-			defaultHTP = ImageIO.read(defaultHTP_URL);
-			hoverHTP = ImageIO.read(hoverHTP_URL);
-			
-			defaultCredits = ImageIO.read(defaultCredits_URL);
-			hoverCredits = ImageIO.read(hoverCredits_URL);
-			
-			defaultBack = ImageIO.read(defaultBack_URL);
-			hoverBack = ImageIO.read(hoverBackURL);
-			
-			defaultPA = ImageIO.read(defaultPA_URL);
-			hoverPA = ImageIO.read(hoverPA_URL);
-			
-			puListDefault = ImageIO.read(defaultPUL_URL);
-			puListHover = ImageIO.read(hoverPUL_URL);
-			
-			pauseDefault = ImageIO.read(defaultPause_URL);
-			pauseHover = ImageIO.read(hoverPause_URL);
-			
-			resumeDefault = ImageIO.read(defaultResume_URL);
-			resumeHover = ImageIO.read(hoverResume_URL);
-			
-			exitDefault = ImageIO.read(defaultExit_URL);
-			exitHover = ImageIO.read(hoverExit_URL);
-			
-			muteMOff = ImageIO.read(muteMOff_URL);
-			muteMOn = ImageIO.read(muteMOn_URL);
-			
-			Logo  = ImageIO.read(logoURL);
-			creditsScreen = ImageIO.read(credits_URL);
-			HTPScreen = ImageIO.read(HTP_URL);
-			winScreen1 = ImageIO.read(win1_URL);
-			winScreen2 = ImageIO.read(win2_URL);
-			puListScreen = ImageIO.read(PUListS_URL);
-			pauseScreen = ImageIO.read(pauseDisplay_URL);
-			
-			arcReactDefault = ImageIO.read(arcReactorDefault_URL);
-			arcReactVirus = ImageIO.read(arcReactorVirus_URL);
-			arcReactParalyze = ImageIO.read(arcReactorParalyze_URL);
-			
-			antidote = ImageIO.read(anti_URL);
-			infection = ImageIO.read(infection_URL);
+			readImg = ImageIO.read(getClass().getResource(fileName));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return readImg;
+	}
+	
+	private void readLateImages() {
+		defaultPlay = loadImage("PlayA.png");
+		hoverPlay = loadImage("PlayB.png");
 		
+		defaultHTP = loadImage("HTPA.png");
+		hoverHTP = loadImage("HTPB.png");
+			
+		defaultCredits = loadImage("CreditsA.png");
+		hoverCredits = loadImage("CreditsB.png");
+			
+		defaultBack = loadImage("BackA.png");
+		hoverBack = loadImage("BackB.png");
+			
+		defaultPA = loadImage("PlayAgainA.png");
+		hoverPA = loadImage("PlayAgainA.png");
+			
+		puListDefault = loadImage("PUListdefault.PNG");
+		puListHover = loadImage("PUListHover.PNG");
+			
+		pauseDefault = loadImage("PauseA.png");
+		pauseHover = loadImage("PauseB.png");
+			
+		resumeDefault = loadImage("ResumeA.png");
+		resumeHover = loadImage("ResumeB.png");
+		
+		//
+		exitDefault = loadImage("ExitA.png");
+		exitHover = loadImage("ExitB.png");
+			
+		muteMOff = loadImage("MuteM1.png");
+		muteMOn = loadImage("MuteM2.png");
+			
+		Logo  = loadImage("Logo1.png");
+		creditsScreen = loadImage("Credits.png");
+		HTPScreen = loadImage("HTP.png");
+		winScreen1 = loadImage("Win1.png");
+		winScreen2 = loadImage("Win2.png");
+		puListScreen = loadImage("PUListScreen.PNG");
+		pauseScreen = loadImage("PauseDisplay.png");
+			
+		arcReactDefault = loadImage("ArcReactorDefault.jpg");
+		arcReactVirus = loadImage("ArcReactorParalyze.jpg");
+		arcReactParalyze = loadImage("ArcReactorVirus.jpg");
+			
+		antidote = loadImage("Anti.png");
+		infection = loadImage("virus_v2.jpg");
+		
+		musicUI = new PlayMusic();
 		makeButtons();
 	}
 	
