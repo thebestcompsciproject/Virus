@@ -251,7 +251,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		hoverBack = loadImage("BackB.png");
 			
 		defaultPA = loadImage("PlayAgainA.png");
-		hoverPA = loadImage("PlayAgainA.png");
+		hoverPA = loadImage("PlayAgainB.png");
 			
 		puListDefault = loadImage("PUListdefault.PNG");
 		puListHover = loadImage("PUListHover.PNG");
@@ -278,8 +278,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener, Mo
 		pauseScreen = loadImage("PauseDisplay.png");
 			
 		arcReactDefault = loadImage("ArcReactorDefault.jpg");
-		arcReactVirus = loadImage("ArcReactorParalyze.jpg");
-		arcReactParalyze = loadImage("ArcReactorVirus.jpg");
+		arcReactVirus = loadImage("ArcReactorVirus.jpg");
+		arcReactParalyze = loadImage("ArcReactorParalyze.jpg");
 			
 		antidote = loadImage("Anti.png");
 		infection = loadImage("virus_v2.jpg");

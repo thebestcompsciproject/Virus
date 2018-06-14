@@ -391,7 +391,6 @@ public class Player extends GameObject{
 	
 	public boolean setReplenish(boolean b) {
 		if(!hasPowerUp()||!b) { 
-
 			powerUps[2] = b;
 			return true;
 		}
