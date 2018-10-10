@@ -93,16 +93,19 @@ public class Player extends GameObject{
 				double y = yref + Math.cos(Math.toRadians(j*60+60))*(height/3);
 				for(int k = 0 ; k<(i+1)*2; k++) {
 					reserve.add(new PlayerTriangle(x, y, dir, side, this, index, color));
+					System.out.println("(" + x + ", " + y + ")");
 					index++;
 					x += Math.sin(Math.toRadians(j*60+120-60*(k%2)))*(2*height/3);
 					y += Math.cos(Math.toRadians(j*60+120-60*(k%2)))*(2*height/3);
 					dir = (dir+180)%360;
 				}
 				reserve.add(new PlayerTriangle(x, y, dir, side, this, index, color));
+				System.out.println("(" + x + ", " + y + ")");
 				index++;
 				dir = (dir+180)%360;
 			}
 		}
+		System.out.println();
 	}
 	
 	private void constructDrawn() {
